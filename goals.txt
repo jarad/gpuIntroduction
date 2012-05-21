@@ -10,4 +10,13 @@ Details:
 
 Topics:
 - R package gpuTools
-- 
+- Statistical phylogenetics
+- Simulation of Ising model
+- Optimization 
+- Slice sampling
+- PyCUDA
+- SMC
+- Bayesian mixture models
+
+Bonus:
+- How to program in CUDA C
