@@ -1,0 +1,13 @@
+Will Landau
+Summer 2012
+GPU Introduction
+
+Objective: Prepare for short course and weekly seminars in Fall 2012 to introduce faculty and graduate students to available GPU tools.
+
+Details:
+- Prepare one 2+ hour short course for beginning of Fall 2012.
+- Prepare < 15 one-hour seminars for Fall 2012.
+
+Topics:
+- R package gpuTools
+- 
