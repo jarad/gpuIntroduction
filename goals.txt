@@ -8,6 +8,15 @@ Details:
 - Prepare one 2+ hour short course for beginning of Fall 2012.
 - Prepare < 15 one-hour seminars for Fall 2012.
 
-Topics:
-- R package gpuTools
-- 
+Topics (http://www.oxford-man.ox.ac.uk/gpuss/):
+- R package gpuTools (regression)
+- Statistical phylogenetics
+- Simulation of Ising model
+- Optimzation
+- Slice sampling
+- PyCUDA
+- SMC
+- Bayesian mixture models
+
+Bonus:
+- How to program in CUDA C.
