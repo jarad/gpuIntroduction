@@ -1,0 +1,289 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad \newline$ \newline \newline \newline \newline
+{\bf INTRODUCTION TO GPU COMPUTING FOR STATISTICIANS}
+\end{center} $\quad$ \newline
+
+\begin{center}
+\LARGE Will Landau, Matt Simpson, Prof. Jarad Niemi
+\end{center}
+
+\newpage
+
+
+
+\Huge
+\begin{center}
+{\bf WHY GPU COMPUTING?}
+\end{center} $\quad$ \newline
+
+The whole point is to use new hardware (the GPU) in order to make long, repetitive calculations run faster. \newline
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf COMPUTER PROCESSORS}
+\end{center} $\quad$ \newline
+The computer processor is the "brain" of a computer. It's a computer chip that is responsible for \emph{actually doing} calculations and performing executive functions. \newline
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf THE CPU}
+\end{center} $\quad$ \newline \huge
+{\bf CPU} = ``Central Processing Unit"
+
+\begin{itemize}
+\item The kind of processor you would find in a regular computer. 
+\item Designed for general purpose computing.
+\item Does parallel computing, but not very fast.
+\end{itemize}
+
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/1}
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/2}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf THE GPU}
+\end{center} $\quad$ \newline \LARGE
+{\bf GPU} = ``Graphics Processing Unit"
+
+\begin{itemize}
+\item The kind of processor that you would find in a graphics card or video card.
+\item Originally designed to speed up graphics throughput in video games, not to do general purpose computing.
+\item Performs massively parallel computing, able to run orders of magnitude more threads at a time than a CPU. 
+\item Higher memory bandwidth than the CPU.
+\end{itemize}
+
+\setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3}
+\setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/4}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf GPUS WITH CUDA: COMPUTE UNIFIED DEVICE ARCHITECTURE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item First released by NVIDIA in 2007
+\item Supports CUDA C, an extension of C for programs that can run on GPUs and CPUs simultaneously.
+\end{itemize} $\quad$ \newline
+
+CUDA systems have the data crunching power of the GPU and the versatility of the CPU. \newpage
+
+
+
+\Huge
+\begin{center}
+{\bf WE HAVE CUDA SYSTEMS!}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item impact1.stat.iastate.edu (up and running)
+\item impact2.stat.iastate.edu (coming soon)
+\item impact3.stat.iastate.edu (coming soon)
+\item impact4.stat.iastate.edu (coming soon)
+\end{itemize} \newpage
+
+\Huge
+\begin{center}
+{\bf SPECS OF IMPACT1}
+\end{center} \LARGE
+\begin{itemize}
+\item linux 
+\item no GUI or remote desktop capabilities yet (use the command line for now)
+\item Four CUDA-capable Tesla M2070 GPUs, each with:
+\begin{itemize}
+\item 448 cores.
+\item CUDA Driver and Runtime Version 4.1
+\end{itemize} 
+\end{itemize} $\quad \newline$
+
+Enter: \newline
+\begin{align*}
+&\text{\tt  \LARGE cd /usr/local/NVIDIA\_GPU\_Computing\_SDK/C/bin/linux/release} \\
+\intertext{and then:}
+&\text{\tt \LARGE ./deviceQuery}
+\end{align*} $\quad$ \newline
+in the command line while logged into impact1 for more details.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LOGGING INTO IMPACT1} 
+\end{center} \LARGE
+\begin{enumerate}[1. ]
+\item Connect to the internet and open your favorite command line utility: Terminal in Mac OS X, Command Prompt in Windows, etc.
+\item Type in: \newline
+
+\begin{center}
+{\LARGE \tt ssh -p 323 your\_ISU\_ID@impact1.stat.iastate.edu} \newline
+\end{center}
+
+and press enter.
+\end{enumerate}  $\quad$ \newline
+For me, a login looks like this: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/5} \newline
+
+{\color{red} \bf \Huge MAKE SURE TO USE PORT 323!} \newpage
+\Huge
+Contact me (at landau@iastate.edu or in person) if you'd like help with: \newline
+\begin{itemize}
+\item Command line tools for logging in.
+\item Easy ways to transfer files between impact1 and your local machine.
+\item SSH key setup: for logging in from your personal machine without having to type your password.
+\item Setting up a shortcut command for logging in so that you don't have to type in all of ``ssh -p 323 your\_ISU\_ID@impact1.stat.iastate.edu" every time you log in.
+\end{itemize} $\quad$ \newpage \LARGE
+
+For questions about using command line tools or the linux file system in general, contact me or see: \newline
+\begin{itemize}
+\item http://www.makeuseof.com/tag/an-introduction-to-the-linux-command-line/
+\item http://www.freesoftwaremagazine.com/articles/command\_line\_intro
+\item http://tldp.org/LDP/intro-linux/html/
+\item http://tldp.org/LDP/intro-linux/html/sect\_03\_01.html
+\item http://dhavalv.wordpress.com/2007/10/17/quick-introduction-to-linux-filesystem-fhs/
+\item http://linux.die.net/Intro-Linux/chap\_03.html
+\item http://linux.about.com/od/itl\_guide/a/gdeitl28t02.htm
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf IMPORTANT DIRECTORIES ON IMPACT1}
+\end{center} $\quad$ \newline
+\begin{itemize}
+\item {\bf \tt /home/your\_ISU\_ID} \newline
+
+Your private home folder on the department's linux repository (also connects with linux10 and linux11). Code and data in here are stored remotely on the linux repository but used locally with the hardware in impact1. \newpage
+\item {\bf \tt /Cyfiles/your\_ISU\_ID} \newline
+
+Your private Cyfiles folder. Code and data in here are stored remotely on the university's Cyfiles system but run locally on impact1. \newline
+\item {\tt \bf /tmp} \newline
+
+Everything in here is stored locally on impact1. To ensure fast computation, put your huge data set here. That way, your program doesn't have to stream lots of data through a network. {\color{red} WARNING: /tmp automatically empties periodically}. \newline
+ 
+ \item {\tt \bf /usr/local/NVIDIA\_GPU\_Computing\_SDK} \newline
+ 
+ Contains example code for those of you who want to learn CUDA C. 
+ 
+ 
+\end{itemize}
+
+
+
+\end{flushleft}
+\end{document}
