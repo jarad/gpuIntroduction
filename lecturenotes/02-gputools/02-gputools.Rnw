@@ -1,0 +1,191 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+
+$\quad$ \newline \newline \newline \newline \newline
+
+{\bf gputools: an R package for GPU computing}
+\end{center} $\quad$ \newline
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf GETTING UP AND RUNNING WITH gputools}
+\end{center}  \huge
+
+\begin{itemize}
+\item gputools is already installed on impact1.stat.iastate.edu, ready to load with {\tt library(gputools)} in R.
+\item For other GPU systems, download gputools from CRAN with a simple {\tt install.packages("gputools")} in R.
+\item Documentation:
+\begin{itemize}
+\item http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/
+\item http://cran.r-project.org/web/packages/gputools/index.html
+\item http://cran.r-project.org/web/packages/gputools/gputools.pdf
+\end{itemize}
+\item Requirements:
+\begin{itemize}
+\item R (>= version 2.8.0)
+\item Nvidia's CUDA toolkit (>= version 2.3)
+\end{itemize}
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf CONTENTS OF gputools}
+\end{center}  \LARGE
+
+gputools contains a few hand-picked R functions implemented with CUDA C for use on a GPU:
+
+\begin{itemize}
+\item Choosing your device:
+\begin{itemize}
+\item chooseGpu()
+\item getGpuId()
+\end{itemize}
+\item Linear algebra:
+\begin{itemize}
+\item gpuDist()
+\item gpuMatMult()
+\item gpuCrossprod()
+\item gpuTcrossprod()
+\item gpuQr()
+\item gpuSolve()
+\item gpuSvd()
+\end{itemize}
+\newpage
+
+\item Simple model fitting:
+\begin{itemize}
+\item gpuLm
+\item gpuLsfit
+\item gpuGlm()
+\end{itemize}
+\item Hypothesis testing:
+\begin{itemize}
+\item gpuTtest()
+\end{itemize}
+\item Other useful algorithms:
+\begin{itemize}
+\item gpuDistClust()
+\item gpuFastICA()
+\item gpuGranger()
+\item gpuHclust()
+\item gpuMi()
+\item gpuSvmPredict()
+\item gpuSvmTrain()
+\end{itemize}
+\end{itemize}
+
+
+\newpage
+
+
+
+
+\end{flushleft}
+\end{document}
