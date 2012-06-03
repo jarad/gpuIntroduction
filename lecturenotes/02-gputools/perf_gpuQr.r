@@ -5,9 +5,9 @@ cpu_function = qr
 gpu_function = gpuQr
 
 r = 2 # number of replicates for each size of matrix x
-c = 50 # 50000 # columns of matrix x
+c = 100000 # columns of matrix x
 n = 10 # number of sizes of matrix x to try
-m = 100 # 1000000 # each size matrix has n * m rows
+m = 1000000 # each size matrix has n * m rows
 params = rep(1:n,each=r)
 
 xs = (1:n) * m * c
@@ -88,7 +88,7 @@ for(time in c("user", "syst", "elap")){
 
   xbounds = c(min(xs), max(xs))
   ybounds = c(min(unlist(ys[[time]])),
-              max(unlist(ys[[time]])))
+              1.3 * max(unlist(ys[[time]])))
 
   plot(xbounds,
        ybounds,
@@ -105,7 +105,7 @@ for(time in c("user", "syst", "elap")){
     lines(xs, ys[[time]][[dev]]$upr, col = cols[[dev]], lty=1)
   }
 
-  legend("topright",
+  legend("topleft",
          legend = c("mean cpu runtime", 
                     "mean gpu runtime", 
                     "first gpu run (overhead, discarded)",
