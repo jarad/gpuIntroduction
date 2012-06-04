@@ -10,7 +10,7 @@
 # The script creates three plots, each 
 # comparing the runtimes of gpu_function 
 # to those of cpu_function based on either
-# user time, system time, or total scheduled time.
+# user time, system time, or their sum (total) time.
 
 
 library(multcomp)
@@ -21,20 +21,23 @@ library(gputools)
 ## GLOBALS ##
 #############
 
+# Set Device
+chooseGpu(2)
+
 # functions to compare
-cpu_function = qr
-gpu_function = gpuQr
+cpu_function = svd
+gpu_function = gpuSvd
 
 # global runtime parameters
 r = 2 # number of replicates for each size of matrix x
-c = 1000000 # columns of matrix x
+c = 100 # columns of matrix x
 n = 10 # number of sizes of matrix x to try
-m = 100000000 # each size matrix has n * m rows
+m = 1000 # each size matrix has n * m rows
 xs = (1:n) * m * c
 ys = list()
 xlab = "Number of Matrix Entries"
-title = "qr() vs gpuQr()"
-plot.name = "performance_gpuQr"
+title = "svd() vs gpuSvd()"
+plot.name = "performance_gpuSvd"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
 
 # parameter vector: each entry defines the computational
@@ -62,7 +65,7 @@ iter.time = function(param, type = "cpu"){
       ptm <- proc.time() - ptm
     }
 
-    return(list(user = ptm[1], syst = ptm[2], total = ptm[3]))
+    return(list(user = ptm[1], syst = ptm[2], total = ptm[1]+ ptm[2]))
 }
 
 # loop.time executes iter.time (i.e., calculates the run time 
@@ -158,8 +161,8 @@ for(time in c("user", "syst", "total")){
        pch= ".",
        col="white",
        xlab = xlab,
-       ylab = paste(c(time, "scheduled runtime", collapse = " ")),
-       main = paste(c(time, "scheduled runtime:", title, collapse = " ")))  
+       ylab = paste(c(time, "runtime", collapse = " ")),
+       main = paste(c(time, "runtime:", title, collapse = " ")))  
 
   for(dev in c("cpu", "gpu")){
     points(xs[1], ys[[time]]$outlier.gpu, col=cols$outlier.gpu)
@@ -171,7 +174,7 @@ for(time in c("user", "syst", "total")){
   legend("topleft",
          legend = c("mean cpu runtime", 
                     "mean gpu runtime", 
-                    "first gpu run (overhead, discarded from conf. region calculations)",
+                    "first gpu run (overhead, discarded)",
                     "95% CI bound"),
          col = c(cols$cpu,
                  cols$gpu,

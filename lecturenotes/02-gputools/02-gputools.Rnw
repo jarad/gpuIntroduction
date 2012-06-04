@@ -139,53 +139,225 @@ $\quad$ \newline \newline \newline \newline \newline
 {\bf CONTENTS OF gputools}
 \end{center}  \LARGE
 
-gputools contains a few hand-picked R functions implemented with CUDA C for use on a GPU:
+A handful of selected R functions implemented with CUDA C for use on a GPU: \newline
 
 \begin{itemize}
-\item Choosing your device:
-\begin{itemize}
-\item chooseGpu()
-\item getGpuId()
-\end{itemize}
-\item Linear algebra:
-\begin{itemize}
-\item gpuDist()
-\item gpuMatMult()
-\item gpuCrossprod()
-\item gpuTcrossprod()
-\item gpuQr()
-\item gpuSolve()
-\item gpuSvd()
-\end{itemize}
-\newpage
+\item Choose your device: \newline
 
-\item Simple model fitting:
-\begin{itemize}
-\item gpuLm
-\item gpuLsfit
-\item gpuGlm()
-\end{itemize}
-\item Hypothesis testing:
-\begin{itemize}
-\item gpuTtest()
-\end{itemize}
-\item Other useful algorithms:
-\begin{itemize}
-\item gpuDistClust()
-\item gpuFastICA()
-\item gpuGranger()
-\item gpuHclust()
-\item gpuMi()
-\item gpuSvmPredict()
-\item gpuSvmTrain()
-\end{itemize}
-\end{itemize}
+\begin{tabular}{r|l|c}
 
+ \bf gputools function & \bf CPU analog  & \bf Same usage? \\ \hline
+chooseGpu() & none & NA \\
+getGpuId() & none & NA
+\end{tabular} $\quad$ \newline
+
+
+\item Linear algebra: \newline
+\begin{center}
+\begin{tabular}{r|l|c}
+
+ \bf gputools function & \bf CPU analog  & \bf Same usage? \\ \hline
+gpuDist() & dist() & no \\ 
+gpuMatMult() & \%*\% operator & no \\ 
+gpuCrossprod() & crossprod() & yes \\ 
+gpuTcrossprod() & tcrossprod() & yes \\ 
+gpuQr() & qr() & almost \\ 
+gpuSolve() & solve() & no \\ 
+gpuSvd() & svd() & almost \\ 
+\end{tabular}
+\end{center}
 
 \newpage
 
+\item Simple model fitting: \newline
+\begin{center}
+\begin{tabular}{r|l|c}
+
+ \bf gputools function & \bf CPU analog  & \bf Same exact usage? \\ \hline
+gpuLm() & lm() & yes \\ 
+gpuLsfit() & lsfit() & yes \\ 
+gpuGlm() & glm() & yes \\
+gpuGlm.fit() & glm.fit() & yes \\ 
+\end{tabular} $\quad$ \newline
+\end{center}
+
+\item Hypothesis testing: \newline
+
+\begin{center}
+\begin{tabular}{r|l|c}
+ \bf gputools function & \bf CPU analog  & \bf Same exact usage? \\ \hline
+gpuTtest() & t.test() & no \\ 
+\end{tabular} $\quad$ \newline
+\end{center}
 
 
+\newpage
+\item Other useful algorithms: \newline
+
+\begin{center}
+\begin{tabular}{r|l|c}
+\bf gputools function & \bf CPU analog  & \bf Same exact usage? \\ \hline
+gpuHclust() & hclust() & no \\
+gpuDistClust() & hclust(dist()) & no \\ 
+gpuFastICA() & fastICA() (fastICA package) & yes \\
+gpuGranger() & grangertest() (lmtest package) & no \\
+gpuMi() & ??? & ??? \\
+gpuSvmPredict() & See www.jstatsoft.org/v15/i09/paper & no \\
+gpuSvmTrain() & See www.jstatsoft.org/v15/i09/paper & no \\
+\end{tabular}
+\end{center}
+\end{itemize}
+
+
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf MANAGING YOUR DEVICES: {\tt chooseGpu()} AND {\tt getGpuId()}}
+\end{center} $\quad$ \newline
+
+\color{red} Background: Impact1 has four GPUs, each with a unique index from 0 to 3. To see this for yourself, log into impact1 and run the following: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/0} \newline
+
+Here are some pieces of the (quite verbose) output of {\tt ./deviceQuery}: \newline \Huge
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/1} \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/2} \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3} \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/4} \newline
+
+
+Things to note: \newline
+
+\begin{itemize}
+\item Device 3 is a GPU
+\item "Tesla M2070" is the name of the model of the GPU. 
+\item Device 3 contains multiple cores, or "sub-processors". From the output, it has 448 CUDA-capable cores.
+\end{itemize}
+
+\newpage
+\color{black}
+\Huge
+\begin{center}
+{\bf EXAMPLE: MATRIX MULTIPLICATION}
+\end{center} $\quad$ \newline
+
+Now, suppose I want to do a giant matrix multiplication on Device 3. I'm automatically set to Device 0: \newline
+
+\setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/6} \newline
+
+So I change to Device 3: \newline
+
+\setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/7} \newline
+
+and then if I want, I can verify the change: \newline
+
+\setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/8} \newline
+
+
+
+Now, I define the matrices that I want to multiply on Device 3: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/5} \newline
+
+\newpage
+
+Then, I tell the device to multiply {\tt A} and {\tt B} using the GPU hardware:  \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/9} \newline
+
+Compare the run time to that of the analogous CPU run on impact1: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/10} \newpage
+
+\Huge
+\begin{center}
+{\bf A COMPARISON OF gpuQr() AND qr()}
+\end{center} $\quad$ \newline
+
+The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(x)} and {\tt qr(x)} for matrices {\tt x} of varying sizes. See the results on the next few slides.
+
+\newpage
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuQr_user} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuQr_syst} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuQr_total} \newpage
+
+
+\newpage
+
+%\Huge
+%\begin{center}
+%{\bf A COMPARISON OF gpuSvd() AND svd()}
+%\end{center} $\quad$ \newline
+
+%The R script, {\tt perf\_gpuSvd.r}, compares the performance of {\tt gpuSvd(x)} and {\tt svd(x)} for matrices {\tt x} of varying sizes. See the results on the next few slides.
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuSvd_user} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuSvd_syst} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuSvd_total} \newpage
+% \newpage
+
+
+%\Huge
+%\begin{center}
+%{\bf A COMPARISON OF gpuLm() AND lm()}
+%\end{center} $\quad$ \newline
+
+%The R script, {\tt perf\_gpuLm.r}, compares the performance of {\tt gpuLm(y ~ x)} and {\tt lm(y ~ x)} for matrices {\tt y} and {\tt x} of varying sizes. See the results on the next few slides.
+
+%\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuLm_user} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuLm_syst} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuLm_total} \newpage
+
+
+
+%\Huge
+%\begin{center}
+%{\bf A COMPARISON OF gpuGlm() AND glm()}
+%\end{center} $\quad$ \newline
+
+%The R script, {\tt perf\_gpuGlm.r}, compares the performance of {\tt gpuGlm(y ~ x)} and {\tt glm(y ~ x)} for matrices {\tt y} and {\tt x} of varying sizes. See the results on the next few slides.
+
+%\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuGlm_user} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuGlm_syst} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuGlm_total} \newpage
+
+
+\Huge
+\begin{center}
+{\bf CLAIMS FROM THE AUTHORS OF {\tt gputools}}
+\end{center} $\quad$ \newline
+
+(All of the following is from http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/.) \newline
+
+``Tested on a subset of GSE6306, non-GPU enabled fastICA took over four hours while gpuFastICA took just 80 seconds!"
+
+\newpage
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/11} 
+
+
+\newpage
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/12} 
+
+\newpage
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/13} 
+
+\newpage
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/14} 
 
 \end{flushleft}
 \end{document}

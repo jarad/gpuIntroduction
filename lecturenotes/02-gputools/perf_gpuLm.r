@@ -21,9 +21,11 @@ library(gputools)
 ## GLOBALS ##
 #############
 
+chooseGpu(2)
+
 # functions to compare
-cpu_function = qr
-gpu_function = gpuQr
+cpu_function = lm
+gpu_function = gpuLm
 
 # global runtime parameters
 r = 2 # number of replicates for each size of matrix x
@@ -33,8 +35,8 @@ m = 100000000 # each size matrix has n * m rows
 xs = (1:n) * m * c
 ys = list()
 xlab = "Number of Matrix Entries"
-title = "qr() vs gpuQr()"
-plot.name = "performance_gpuQr"
+title = "lm() vs gpuLm()"
+plot.name = "performance_gpuLm"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
 
 # parameter vector: each entry defines the computational
@@ -51,14 +53,15 @@ cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
 # parameter (entry param of params), and return the run time.
 iter.time = function(param, type = "cpu"){
     x <- matrix(rnorm(m * param), ncol = c)
+    y <- rnorm(dim(x)[1])
 
     if(type == "cpu"){
       ptm <- proc.time()
-      cpu_function(x)
+      cpu_function(y~x)
       ptm <- proc.time() - ptm
     } else{
       ptm <- proc.time()
-      gpu_function(x)
+      gpu_function(y~x)
       ptm <- proc.time() - ptm
     }
 

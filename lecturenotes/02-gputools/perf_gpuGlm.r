@@ -21,20 +21,22 @@ library(gputools)
 ## GLOBALS ##
 #############
 
+chooseGpu(1)
+
 # functions to compare
-cpu_function = qr
-gpu_function = gpuQr
+cpu_function = glm
+gpu_function = gpuGlm
 
 # global runtime parameters
 r = 2 # number of replicates for each size of matrix x
-c = 1000000 # columns of matrix x
+c = 100 # columns of matrix x
 n = 10 # number of sizes of matrix x to try
-m = 100000000 # each size matrix has n * m rows
+m = 10000 # each size matrix has n * m rows
 xs = (1:n) * m * c
 ys = list()
 xlab = "Number of Matrix Entries"
-title = "qr() vs gpuQr()"
-plot.name = "performance_gpuQr"
+title = "glm() vs gpuGlm()"
+plot.name = "performance_gpuGlm"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
 
 # parameter vector: each entry defines the computational
@@ -50,19 +52,20 @@ cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
 # is to create the input data, pass the appropriate
 # parameter (entry param of params), and return the run time.
 iter.time = function(param, type = "cpu"){
-    x <- matrix(rnorm(m * param), ncol = c)
-
-    if(type == "cpu"){
-      ptm <- proc.time()
-      cpu_function(x)
-      ptm <- proc.time() - ptm
-    } else{
-      ptm <- proc.time()
-      gpu_function(x)
-      ptm <- proc.time() - ptm
-    }
-
-    return(list(user = ptm[1], syst = ptm[2], total = ptm[3]))
+  x <- matrix(rnorm(m * param), ncol = c)
+  y <- rnorm(dim(x)[1])
+  
+  if(type == "cpu"){
+    ptm <- proc.time()
+    cpu_function(y~x)
+    ptm <- proc.time() - ptm
+  } else{
+    ptm <- proc.time()
+    gpu_function(y~x)
+    ptm <- proc.time() - ptm
+  }
+  
+  return(list(user = ptm[1], syst = ptm[2], total = ptm[3]))
 }
 
 # loop.time executes iter.time (i.e., calculates the run time 
@@ -71,19 +74,19 @@ iter.time = function(param, type = "cpu"){
 # the magnitude of the computational load on gpu_function or 
 # cpu_function).
 loop.time = function(params, type = "cpu"){
-
+  
   user = c()
   syst = c()
   total = c()
-
+  
   for(i in params){
     times = iter.time(param = i, type = type)    
-
+    
     user = c(user, times$user)
     syst = c(syst, times$syst)
     total = c(total, times$total)
   }
-
+  
   return(list(user = user, syst = syst, total = total))
 }
 
@@ -128,8 +131,8 @@ for(dev in c("cpu","gpu")){
     } else{
       zeroes = rep(0,length(glht.fit$coef))
       famint = list(confint = list(Estimate = zeroes,
-                                        lwr = zeroes,
-                                        upr = zeroes))
+                                   lwr = zeroes,
+                                   upr = zeroes))
     }
     
     ys[[time]][[dev]] = data.frame(famint$confint)
@@ -148,11 +151,11 @@ for(dev in c("cpu","gpu")){
 for(time in c("user", "syst", "total")){
   filename = paste(c(plot.name,"_",time,".pdf"), collapse = "")
   pdf(filename)
-
+  
   xbounds = c(min(xs), max(xs))
   ybounds = c(min(unlist(ys[[time]])),
               1.3 * max(unlist(ys[[time]])))
-
+  
   plot(xbounds,
        ybounds,
        pch= ".",
@@ -160,14 +163,14 @@ for(time in c("user", "syst", "total")){
        xlab = xlab,
        ylab = paste(c(time, "scheduled runtime", collapse = " ")),
        main = paste(c(time, "scheduled runtime:", title, collapse = " ")))  
-
+  
   for(dev in c("cpu", "gpu")){
     points(xs[1], ys[[time]]$outlier.gpu, col=cols$outlier.gpu)
     points(xs, ys[[time]][[dev]]$Estimate, col = cols[[dev]])
     lines(xs, ys[[time]][[dev]]$lwr, col = cols[[dev]], lty=1)
     lines(xs, ys[[time]][[dev]]$upr, col = cols[[dev]], lty=1)
   }
-
+  
   legend("topleft",
          legend = c("mean cpu runtime", 
                     "mean gpu runtime", 
@@ -178,6 +181,6 @@ for(time in c("user", "syst", "total")){
                  "black", "black"),
          pch = c("o", "o", "o", "."),
          lty = c(0,0,0,1))
-
+  
   dev.off()
 }
