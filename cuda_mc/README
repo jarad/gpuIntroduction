@@ -1,0 +1,57 @@
+Version
+
+This code packaged on 11.07.2009
+
+--------------------------------------------------------------------------------
+
+Instructions
+
+Due to the many possible hardware and software configurations users might have and the reliance on some external libraries, most people will have to edit the Makefile provided with this code. Only the first few lines of the Makefile will need to be edited.
+
+In addition, some users will need to download and compile the CUDA Data Parallel Primitives Library (CUDPP) for their system. The code for this library can be found here. If this is the case, put the compiled library (libcudpp*.a for Linux or cudpp*.lib for Windows) in the lib/ directory. On Windows, one will additionally have to put the cudpp*.dll file in the bin/ directory.
+
+--------------------------------------------------------------------------------
+
+Notes
+
+CUDA 2.2 doesn't currently support emulation mode on Windows. This should be corrected in 2.3.
+
+The code should work on Windows and Linux but has only been extensively tested on a 64-bit Ubuntu 8.04
+
+--------------------------------------------------------------------------------
+
+Detailed Instructions
+
+1. Download cuda_mc.zip and unzip it.
+
+2. Ensure that the unzipped folder contains the (empty) directories obj/, depend/ (these are sometimes skipped by extraction programs).
+
+3. Open the Makefile for editing (Makefile.win on Windows).
+
+4. Ensure that the CUDA variable is set to the location of your CUDA directory.
+
+5. Uncomment EMU = 1 if you want to run the code with device emulation.
+
+6. (Linux only) Choose either gcc or icc to be your compiler (icc is default).
+
+7. (Linux only) If you don't have icc, additionally comment out the ICCDIR definition. This line exists because one can link in the Intel Math Library even when using gcc to speed up code run on the host.
+
+8. Comment out the appropriate line if you don't want to use CUDPP. This means you will use a simpler version of parallel scan written by us instead.
+
+9. If you are using CUDPP, make sure CUDPP_TYPE is equal to the type of system you have (32 for 32-bit, 64 for 64-bit).
+
+10. Finally, choose the random number generator you wish to use.
+
+11. Close the Makefile and run make (or make -f Makefile.win on Windows). 
+
+--------------------------------------------------------------------------------
+
+Acknowledgements
+
+Thanks to Peter Trautman for letting us know about issues with getting the code to compile.
+
+--------------------------------------------------------------------------------
+
+Contact
+
+Please email lee@stats.ox.ac.uk if you have any problems with or comments about the code.

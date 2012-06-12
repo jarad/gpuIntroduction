@@ -1,0 +1,155 @@
+# USER DEFINITIONS
+
+# THIS IS THE LOCATION OF CUDA
+CUDA = C:\CUDA
+
+# THIS IS THE LOCATION OF THE VISUAL C/C++ COMPILER
+VC = C:\Program Files\Microsoft Visual Studio 9.0\VC
+
+# THIS IS THE LOCATION OF THE MICROSOFT SDKs for Windows
+WIN_SDK = C:\Program Files\Microsoft SDKs\Windows\v6.0A
+
+# EMULATION MODE OFF (0) OR ON (1)
+EMU = 0
+#EMU = 1
+
+DEFINES = 
+
+# COMMENT IF YOU DON'T WANT TO USE CUDPP
+USE_CUDPP = 1
+DEFINES += -DUSE_CUDPP
+
+# UNCOMMENT WHICHEVER VERSION YOU HAVE
+CUDPP_TYPE = 32
+#CUDPP_TYPE = 64
+
+# CHOOSE YOUR RNG
+DEFINES += -DRNG_XORSHIFT # PARALLEL XORSHIFT
+#DEFINES += -DRNG_XORSHIFT_REF # XORSHIFT RUN ON THE HOST
+#DEFINES += -DRNG_MRG # PARALLEL MRG
+
+# END OF USER DEFINITIONS
+
+NVCC = nvcc.exe
+
+NVCCFLAGS = -O3 --compiler-options /O2 --compiler-options /W3
+
+ifeq ($(EMU),1)
+NVCCFLAGS += -deviceemu
+endif
+
+CC = cl.exe
+
+LD = link.exe
+
+AR = lib.exe
+
+CFLAGS = /EHsc /O2
+
+SRC = src
+
+OBJ = obj
+
+BIN = bin
+
+DEPEND = depend
+
+UTIL = $(SRC)/util
+RNG = $(UTIL)/rng
+DIST = $(SRC)/dist
+MC = $(SRC)/mc
+MCMC = $(SRC)/mcmc
+SMC = $(SRC)/smc
+SMCS = $(SRC)/smc_sampler
+BASIC = $(SRC)/basic
+
+VPATH = $(SRC) $(UTIL) $(RNG) $(DIST) $(MC) $(MCMC) $(SMC) $(SMCS) $(BASIC)
+
+INCLUDES = -I"$(VC)\include" \
+           -I"$(WIN_SDK)\include" \
+           -I"$(CUDA)\include" -Iinclude -I$(UTIL) -I$(RNG) \
+           -I$(DIST) -I$(MC) -I$(MCMC) -I$(SMC) -I$(SMCS)
+           
+LIBRARIES = /LIBPATH:"$(VC)\lib" \
+            /LIBPATH:"$(WIN_SDK)\lib" \
+            /LIBPATH:"$(CUDA)\lib" cudart.lib /LIBPATH:"lib" cutil32.lib
+
+ifeq ($(USE_CUDPP),1)
+	ifeq ($(CUDPP_TYPE),32)
+		ifeq ($(EMU),1)
+			LIBRARIES += cudpp32_emu.lib
+		else
+			LIBRARIES += cudpp32.lib
+		endif
+	endif
+	
+	ifeq ($(CUDPP_TYPE),64)
+		ifeq ($(EMU),1)
+			LIBRARIES += cudpp64_emu.lib
+		else
+			LIBRARIES += cudpp64.lib
+		endif
+	endif
+endif
+           
+UTIL_OBJ = $(OBJ)/reduce.obj $(OBJ)/square.obj $(OBJ)/matrix.obj \
+           $(OBJ)/output.obj $(OBJ)/scan.obj $(OBJ)/scan_ref.obj $(OBJ)/order.obj \
+           $(OBJ)/test_functions.obj
+
+RNG_OBJ = $(OBJ)/xorshift.obj $(OBJ)/kiss.obj $(OBJ)/rng.obj $(OBJ)/rng_shared_ref.obj \
+          $(OBJ)/rng_shared.obj $(OBJ)/MRG.obj $(OBJ)/MRG_ref.obj $(OBJ)/xorshift_ref.obj
+
+MC_OBJ = $(OBJ)/mc_mix_gauss.obj $(OBJ)/mc_gauss.obj $(OBJ)/mc_gauss_mv.obj \
+         $(OBJ)/test_mc.obj $(OBJ)/mc_mix_gauss_mu.obj $(OBJ)/mc_mix_gauss_ref.obj \
+         $(OBJ)/mc_gauss_ref.obj $(OBJ)/mc_gauss_mv_ref.obj $(OBJ)/mc_mix_gauss_mu_ref.obj
+
+MCMC_OBJ = $(OBJ)/mcmc_gauss.obj $(OBJ)/mcmc_mix_gauss.obj $(OBJ)/mcmc_gauss_mv.obj \
+           $(OBJ)/test_mcmc.obj $(OBJ)/mcmc_mix_gauss_mu.obj $(OBJ)/mcmc_gauss_mv_ref.obj \
+           $(OBJ)/mcmc_mix_gauss_mu_ref.obj $(OBJ)/mcmc_gauss_ref.obj $(OBJ)/mcmc_mix_gauss_ref.obj
+
+SMC_OBJ = $(OBJ)/test_smc.obj $(OBJ)/kalman.obj $(OBJ)/smc_shared.obj $(OBJ)/smc_shared_ref.obj \
+          $(OBJ)/smc_fsv.obj $(OBJ)/smc_lg.obj $(OBJ)/smc_mvlg.obj $(OBJ)/smc_fsv_ref.obj \
+          $(OBJ)/smc_lg_ref.obj $(OBJ)/smc_mvlg_ref.obj $(OBJ)/smc_usv_ref.obj $(OBJ)/smc_usv.obj
+
+SMCS_OBJ = $(OBJ)/test_smcs.obj $(OBJ)/smcs_mix_gauss_mu.obj $(OBJ)/smc_shared.obj $(OBJ)/smcs_gauss_gauss.obj \
+           $(OBJ)/smcs_mix_gauss_mu_ref.obj $(OBJ)/smcs_gauss_gauss_ref.obj $(OBJ)/smc_shared_ref.obj
+
+ALL_OBJS = $(UTIL_OBJ) $(RNG_OBJ)
+
+all: $(BIN)/mc.exe $(BIN)/mcmc.exe $(BIN)/smc.exe $(BIN)/smcs.exe $(BIN)/is_example.exe $(BIN)/util.exe
+
+$(BIN)/mc.exe: $(ALL_OBJS) $(MC_OBJ)
+	$(LD) /OUT:$@ $^ $(LIBRARIES)
+
+$(BIN)/mcmc.exe: $(ALL_OBJS) $(MCMC_OBJ)
+	$(LD) /OUT:$@ $^ $(LIBRARIES)
+	
+$(BIN)/smc.exe: $(ALL_OBJS) $(SMC_OBJ)
+	$(LD) /OUT:$@ $^ $(LIBRARIES)
+
+$(BIN)/smcs.exe: $(ALL_OBJS) $(SMCS_OBJ)
+	$(LD) /OUT:$@ $^ $(LIBRARIES)
+
+$(BIN)/util.exe: $(ALL_OBJS) $(OBJ)/test_util.obj
+	$(LD) /OUT:$@ $^ $(LIBRARIES)
+
+$(BIN)/is_example.exe: $(ALL_OBJS) $(OBJ)/is_example.obj 
+	$(LD) /OUT:$@ $^ $(LIBRARIES)
+
+$(OBJ)/%.obj: %.cu
+	$(NVCC) $(INCLUDES) $(NVCCFLAGS) -odir $(OBJ) -dp /cygdrive/ -M $< > $(DEPEND)/$(<F).depend
+	$(NVCC) $(INCLUDES) $(NVCCFLAGS) -o $@ -c $<
+	
+$(OBJ)/%.obj: %.c
+	$(CC) $(DEFINES) $(INCLUDES) $(CFLAGS) /Fo$@ -c $<
+
+$(OBJ)/%.obj: %.cpp
+	$(CC) $(DEFINES) $(INCLUDES) $(CFLAGS) /Fo$@ -c $<
+	
+clean:
+	rm -f $(OBJ)/*.obj $(OBJ)/*.cubin $(BIN)/*.exe $(DEPEND)/*.depend
+	
+FORCE:
+
+-include $(DEPEND)/*.depend
+
