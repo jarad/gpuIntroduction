@@ -1,0 +1,25 @@
+The following is a list of topics for the fall lecture series in the order that I plan to give them. Next to each topic is the time I plan to spend working on it.
+
+
+Unit 1: using preexisting tools
+
+overview of GPU computing: done
+gputools: could be improved, but essentially done
+MCMC: June 12-18
+SMC: June 19-25
+slice sampling: June 26 - July 2
+optimization: July 3 - July 9
+bayesian mixture models: July 10 - July 16 
+Matt: would you fill in here to talk about your model selection algorithm and how to use your implementation?
+
+simulation of Ising model (maybe if I have extra time)
+stat phylogenetics (maybe if I have extra time)
+
+
+Unit 2: developing new tools
+
+parallel programming and CUDA C: July 17 - July 23
+programming in Python and with PyCUDA: July 24 - July 30
+
+
+I plan to spend July 31 to Aug 3 wrapping up: i.e., partitioning lecture notes into lectures (both for the long series and the crash course) and defining any patchwork I'll need to do in the fall.
