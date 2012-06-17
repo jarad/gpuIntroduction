@@ -280,13 +280,19 @@ Compare the run time to that of the analogous CPU run on impact1: \newline
 {\bf A COMPARISON OF gpuQr() AND qr()}
 \end{center} $\quad$ \newline
 
-The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(x)} and {\tt qr(x)} for matrices {\tt x} of varying sizes. See the results on the next few slides.
+The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(arg)} and {\tt qr(arg)} for square matrices {\tt arg} of varying sizes. See the results on the next few slides. {\color{red} NOTE: ALL TIMES ARE IN SECONDS.}
 
 \newpage
 
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuQr_user} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuQr_syst} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuQr_total} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_small} \newpage
+
+\newpage
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_large} \newpage
 
 
 \newpage

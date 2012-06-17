@@ -22,18 +22,23 @@ library(gputools)
 #############
 
 # functions to compare
-cpu_function = qr
-gpu_function = gpuQr
+cpu_function = function(arg){
+  lm(arg[,1] ~ arg[,2:ncol(arg)])
+} 
+
+gpu_function = function(arg){
+  gpuLm(arg[,1] ~ arg[,2:ncol(arg)])
+}
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor((seq(from = 2, by = 25, length.out = 5))^2) # nrows of each matrix arg
+nrows = floor((seq(from = 2, by = 10, length.out = 10))^2) # nrows of each matrix arg
 ncols = nrows # use square matrices here
 sizes = nrows * ncols
 xs = sizes # plotted on horizontal axis
 ys = list() # plotted on vertical axis
 xlab = "Number of Matrix Entries"
-title = "qr() vs gpuQr()"
-plot.name = "performance_gpuQr"
+title = "lm() vs gpuLm()"
+plot.name = "performance_gpuLm"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
 
 # list of arguments
