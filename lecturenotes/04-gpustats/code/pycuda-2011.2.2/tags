@@ -1,0 +1,799 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ADD_OPTION	src/wrapper/wrap_cudadrv.cpp	344;"	d	file:
+ADD_OPTION_PTR	src/wrapper/wrap_cudadrv.cpp	329;"	d	file:
+BOOL_ALIGN	src/wrapper/_pycuda_struct.cpp	121;"	d	file:
+BOOL_TYPE	src/wrapper/_pycuda_struct.cpp	119;"	d	file:
+BOOST_PYTHON_MODULE	src/wrapper/wrap_cudadrv.cpp	/^BOOST_PYTHON_MODULE(_driver)$/;"	f
+CUDAPP_CALL_GUARDED	src/cpp/cuda.hpp	133;"	d
+CUDAPP_CALL_GUARDED_CLEANUP	src/cpp/cuda.hpp	142;"	d
+CUDAPP_CALL_GUARDED_THREADED	src/cpp/cuda.hpp	121;"	d
+CUDAPP_CALL_GUARDED_THREADED_WITH_TRACE_INFO	src/cpp/cuda.hpp	100;"	d
+CUDAPP_CALL_GUARDED_WITH_TRACE_INFO	src/cpp/cuda.hpp	111;"	d
+CUDAPP_CATCH_CLEANUP_ON_DEAD_CONTEXT	src/cpp/cuda.hpp	155;"	d
+CUDAPP_CUDA_VERSION	src/cpp/cuda.hpp	15;"	d
+CUDAPP_CUDA_VERSION	src/cpp/cuda.hpp	17;"	d
+CUDAPP_CUDA_VERSION	src/cpp/cuda.hpp	56;"	d
+CUDAPP_CUDA_VERSION	src/cpp/cuda.hpp	58;"	d
+CUDAPP_POST_30_BETA	src/cpp/cuda.hpp	53;"	d
+CUDAPP_PRINT_CALL_TRACE	src/cpp/cuda.hpp	87;"	d
+CUDAPP_PRINT_CALL_TRACE	src/cpp/cuda.hpp	95;"	d
+CUDAPP_PRINT_CALL_TRACE_INFO	src/cpp/cuda.hpp	89;"	d
+CUDAPP_PRINT_CALL_TRACE_INFO	src/cpp/cuda.hpp	96;"	d
+CUDAPP_PRINT_ERROR_TRACE	src/cpp/cuda.hpp	91;"	d
+CUDAPP_PRINT_ERROR_TRACE	src/cpp/cuda.hpp	97;"	d
+CURAND_CALL_GUARDED	src/cpp/curand.hpp	16;"	d
+CURAND_CALL_GUARDED	src/cpp/curand.hpp	27;"	d
+CURAND_PRINT_ERROR_TRACE	src/cpp/curand.hpp	13;"	d
+CURAND_PRINT_ERROR_TRACE	src/cpp/curand.hpp	26;"	d
+CURAND_PRINT_ERROR_TRACE	src/cpp/curand.hpp	9;"	d
+CudaError	src/wrapper/wrap_cudadrv.cpp	/^    CudaError, $/;"	m	namespace:__anon2	file:
+CudaLaunchError	src/wrapper/wrap_cudadrv.cpp	/^    CudaLaunchError;$/;"	m	namespace:__anon2	file:
+CudaLogicError	src/wrapper/wrap_cudadrv.cpp	/^    CudaLogicError, $/;"	m	namespace:__anon2	file:
+CudaMemoryError	src/wrapper/wrap_cudadrv.cpp	/^    CudaMemoryError, $/;"	m	namespace:__anon2	file:
+CudaRuntimeError	src/wrapper/wrap_cudadrv.cpp	/^    CudaRuntimeError,$/;"	m	namespace:__anon2	file:
+DBL_MAX	src/cuda/pycuda-complex-impl.hpp	296;"	d
+DECLARE_EXC	src/wrapper/wrap_cudadrv.cpp	503;"	d	file:
+DEF_SIMPLE_FUNCTION	src/wrapper/wrap_helpers.hpp	29;"	d
+DEF_SIMPLE_FUNCTION_WITH_ARGS	src/wrapper/wrap_helpers.hpp	32;"	d
+DEF_SIMPLE_METHOD	src/wrapper/wrap_helpers.hpp	23;"	d
+DEF_SIMPLE_METHOD_WITH_ARGS	src/wrapper/wrap_helpers.hpp	26;"	d
+DEF_SIMPLE_RO_MEMBER	src/wrapper/wrap_helpers.hpp	35;"	d
+DEF_SIMPLE_RW_MEMBER	src/wrapper/wrap_helpers.hpp	38;"	d
+DOUBLE_ALIGN	src/wrapper/_pycuda_struct.cpp	109;"	d	file:
+ENUM_VALUE	src/wrapper/wrap_helpers.hpp	20;"	d
+FLOAT_ALIGN	src/wrapper/_pycuda_struct.cpp	108;"	d	file:
+FLOAT_COERCE	src/wrapper/_pycuda_struct.cpp	35;"	d	file:
+FLT_MAX	src/cuda/pycuda-complex-impl.hpp	292;"	d
+INT_ALIGN	src/wrapper/_pycuda_struct.cpp	106;"	d	file:
+LONG_ALIGN	src/wrapper/_pycuda_struct.cpp	107;"	d	file:
+LONG_LONG_ALIGN	src/wrapper/_pycuda_struct.cpp	116;"	d	file:
+MAXCACHE	src/wrapper/_pycuda_struct.cpp	1339;"	d	file:
+MEMCPY_SETTERS	src/cpp/cuda.hpp	/^    MEMCPY_SETTERS;$/;"	m	struct:pycuda::memcpy_2d
+MEMCPY_SETTERS	src/cpp/cuda.hpp	/^    MEMCPY_SETTERS;$/;"	m	struct:pycuda::memcpy_3d
+MEMCPY_SETTERS	src/cpp/cuda.hpp	/^    MEMCPY_SETTERS;$/;"	m	struct:pycuda::memcpy_3d_peer
+MEMCPY_SETTERS	src/cpp/cuda.hpp	1559;"	d
+MEMCPY_SETTERS_UNIFIED	src/cpp/cuda.hpp	/^    MEMCPY_SETTERS_UNIFIED;$/;"	m	struct:pycuda::memcpy_2d
+MEMCPY_SETTERS_UNIFIED	src/cpp/cuda.hpp	/^    MEMCPY_SETTERS_UNIFIED;$/;"	m	struct:pycuda::memcpy_3d
+MEMCPY_SETTERS_UNIFIED	src/cpp/cuda.hpp	/^    MEMCPY_SETTERS_UNIFIED;$/;"	m	struct:pycuda::memcpy_3d_peer
+MEMCPY_SETTERS_UNIFIED	src/cpp/cuda.hpp	1601;"	d
+MEMCPY_SETTERS_UNIFIED	src/cpp/cuda.hpp	1618;"	d
+OFF	src/wrapper/_pycuda_struct.cpp	184;"	d	file:
+PYCUDA_BUFFER_SIZE_T	src/cpp/cuda.hpp	/^  typedef Py_ssize_t PYCUDA_BUFFER_SIZE_T;$/;"	t
+PYCUDA_BUFFER_SIZE_T	src/cpp/cuda.hpp	/^  typedef int PYCUDA_BUFFER_SIZE_T;$/;"	t
+PYCUDA_COMPLEX_HPP_SEEN	src/cuda/pycuda-complex.hpp	20;"	d
+PYCUDA_COMPLEX_IMPL_HPP_SEEN	src/cuda/pycuda-complex-impl.hpp	20;"	d
+PYCUDA_GENERATE_FP_TEX_FUNCS	src/cuda/pycuda-helpers.hpp	32;"	d
+PYCUDA_PARSE_STREAM_PY	src/cpp/cuda.hpp	72;"	d
+PYCUDA_WRAP_HELPERS_HEADER_SEEN	src/wrapper/wrap_helpers.hpp	2;"	d
+PYGPU_PACKAGE	src/cpp/mempool.hpp	/^namespace PYGPU_PACKAGE$/;"	n
+PYTHON_ERROR	src/wrapper/wrap_helpers.hpp	14;"	d
+PYTHON_FOREACH	src/wrapper/wrap_helpers.hpp	41;"	d
+PY_SSIZE_T_CLEAN	src/wrapper/_pycuda_struct.cpp	10;"	d	file:
+PY_SSIZE_T_MAX	src/wrapper/_pycuda_struct.cpp	54;"	d	file:
+PY_STRUCT_FLOAT_COERCE	src/wrapper/_pycuda_struct.cpp	32;"	d	file:
+PyInt_AsSsize_t	src/wrapper/_pycuda_struct.cpp	25;"	d	file:
+PyInt_FromSsize_t	src/wrapper/_pycuda_struct.cpp	24;"	d	file:
+PyStructObject	src/wrapper/_pycuda_struct.cpp	/^} PyStructObject;$/;"	t	typeref:struct:__anon3	file:
+PyStructType	src/wrapper/_pycuda_struct.cpp	/^PyTypeObject PyStructType = {$/;"	v	file:
+PyStruct_Check	src/wrapper/_pycuda_struct.cpp	86;"	d	file:
+PyStruct_CheckExact	src/wrapper/_pycuda_struct.cpp	87;"	d	file:
+PyVarObject_HEAD_INIT	src/wrapper/_pycuda_struct.cpp	45;"	d	file:
+Py_TYPE	src/wrapper/_pycuda_struct.cpp	41;"	d	file:
+Py_ssize_t	src/wrapper/_pycuda_struct.cpp	/^typedef long int Py_ssize_t;$/;"	t	file:
+SHORT_ALIGN	src/wrapper/_pycuda_struct.cpp	105;"	d	file:
+SIZEOF_SIZE_T	src/wrapper/_pycuda_struct.cpp	50;"	d	file:
+STRINGIFY	src/wrapper/_pycuda_struct.cpp	123;"	d	file:
+StructError	src/wrapper/_pycuda_struct.cpp	/^static PyObject *StructError;$/;"	v	file:
+VOID_P_ALIGN	src/wrapper/_pycuda_struct.cpp	110;"	d	file:
+WRAP_MEMCPY_2D_PROPERTIES	src/wrapper/wrap_cudadrv.cpp	1185;"	d	file:
+WRAP_MEMCPY_2D_UNIFIED_SETTERS	src/wrapper/wrap_cudadrv.cpp	1178;"	d	file:
+WRAP_MEMCPY_3D_PROPERTIES	src/wrapper/wrap_cudadrv.cpp	1222;"	d	file:
+_AFJDFJSDFSD_PYCUDA_HEADER_SEEN_BITLOG_HPP	src/cpp/bitlog.hpp	7;"	d
+_AFJDFJSDFSD_PYCUDA_HEADER_SEEN_CUDA_GL_HPP	src/cpp/cuda_gl.hpp	2;"	d
+_AFJDFJSDFSD_PYCUDA_HEADER_SEEN_CUDA_HPP	src/cpp/cuda.hpp	7;"	d
+_AFJDFJSDFSD_PYCUDA_HEADER_SEEN_CURAND_HPP	src/cpp/curand.hpp	2;"	d
+_AFJDFJSDFSD_PYGPU_HEADER_SEEN_MEMPOOL_HPP	src/cpp/mempool.hpp	7;"	d
+_AFJKDASLFSADHF_HEADER_SEEN_PYCUDA_HELPERS_HPP	src/cuda/pycuda-helpers.hpp	2;"	d
+_ASDFDAFVVAFF_PYCUDA_HEADER_SEEN_TOOLS_HPP	src/wrapper/tools.hpp	2;"	d
+_M_im	src/cuda/pycuda-complex.hpp	/^  value_type _M_im;$/;"	m	struct:pycuda::complex
+_M_re	src/cuda/pycuda-complex.hpp	/^  value_type _M_re;$/;"	m	struct:pycuda::complex
+_STLP_CLASS_DECLSPEC	src/cuda/pycuda-complex.hpp	29;"	d
+_STLP_DECLSPEC	src/cuda/pycuda-complex.hpp	28;"	d
+_STLP_FUNCTION_TMPL_PARTIAL_ORDER	src/cuda/pycuda-complex.hpp	30;"	d
+_STLP_TEMPLATE_NULL	src/cuda/pycuda-complex.hpp	31;"	d
+_STLP_USE_NO_IOSTREAMS	src/cuda/pycuda-complex.hpp	27;"	d
+_Self	src/cuda/pycuda-complex.hpp	/^  typedef complex<_Tp> _Self;$/;"	t	struct:pycuda::complex
+_Self	src/cuda/pycuda-complex.hpp	/^  typedef complex<double> _Self;$/;"	t	struct:pycuda::complex
+_Self	src/cuda/pycuda-complex.hpp	/^  typedef complex<float> _Self;$/;"	t	struct:pycuda::complex
+_array_importer	src/wrapper/numpy_init.hpp	/^  } _array_importer;$/;"	m	namespace:__anon12	typeref:struct:__anon12::pyublas_array_importer
+_div	src/cuda/pycuda-complex-impl.hpp	/^complex<double>::_div(const double& __z1_r, const double& __z1_i,$/;"	f	class:pycuda::complex
+_div	src/cuda/pycuda-complex-impl.hpp	/^complex<double>::_div(const double& __z1_r,$/;"	f	class:pycuda::complex
+_div	src/cuda/pycuda-complex-impl.hpp	/^complex<float>::_div(const float& __z1_r, const float& __z1_i,$/;"	f	class:pycuda::complex
+_div	src/cuda/pycuda-complex-impl.hpp	/^complex<float>::_div(const float& __z1_r,$/;"	f	class:pycuda::complex
+_divT	src/cuda/pycuda-complex-impl.hpp	/^static void _divT(const _Tp& __z1_r, const _Tp& __z1_i,$/;"	f	namespace:pycuda
+_divT	src/cuda/pycuda-complex-impl.hpp	/^static void _divT(const _Tp& __z1_r,$/;"	f	namespace:pycuda
+_formatcode	src/wrapper/_pycuda_struct.cpp	/^typedef struct _formatcode {$/;"	s	file:
+_formatdef	src/wrapper/_pycuda_struct.cpp	/^typedef struct _formatdef {$/;"	s	file:
+_range_error	src/wrapper/_pycuda_struct.cpp	/^_range_error(const formatdef *f, int is_unsigned)$/;"	f	file:
+abs	src/cuda/pycuda-complex-impl.hpp	/^__device__ double abs(const complex<double>& __z)$/;"	f	namespace:pycuda
+abs	src/cuda/pycuda-complex-impl.hpp	/^__device__ float abs(const complex<float>& __z)$/;"	f	namespace:pycuda
+abs	src/cuda/pycuda-complex.hpp	/^_Tp abs(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+acquire_context	src/cpp/cuda.hpp	/^      void acquire_context()$/;"	f	class:pycuda::explicit_context_dependent
+active_blocks	src/cpp/mempool.hpp	/^      unsigned active_blocks()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+align	src/wrapper/_pycuda_struct.cpp	/^align(Py_ssize_t size, char c, const formatdef *e)$/;"	f	file:
+aligned_host_allocation	src/cpp/cuda.hpp	/^      aligned_host_allocation(size_t size, size_t alignment)$/;"	f	struct:pycuda::aligned_host_allocation
+aligned_host_allocation	src/cpp/cuda.hpp	/^  struct aligned_host_allocation : public host_pointer$/;"	s	namespace:pycuda
+aligned_malloc	src/cpp/cuda.hpp	/^  inline void *aligned_malloc(size_t size, size_t alignment)$/;"	f	namespace:pycuda
+alignment	src/wrapper/_pycuda_struct.cpp	/^	Py_ssize_t alignment;$/;"	m	struct:_formatdef	file:
+alloc_size	src/cpp/mempool.hpp	/^      static size_type alloc_size(bin_nr_t bin)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+allocate	src/cpp/mempool.hpp	/^      pointer_type allocate(size_type size)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+allocate	src/wrapper/mempool.cpp	/^      pointer_type allocate(size_type s)$/;"	f	class:__anon13::device_allocator
+allocate	src/wrapper/mempool.cpp	/^      pointer_type allocate(size_type s)$/;"	f	class:__anon13::host_allocator
+arg	src/cuda/pycuda-complex-impl.hpp	/^__device__ double arg(const complex<double>& __z)$/;"	f	namespace:pycuda
+arg	src/cuda/pycuda-complex-impl.hpp	/^__device__ float arg(const complex<float>& __z)$/;"	f	namespace:pycuda
+arg	src/cuda/pycuda-complex.hpp	/^_Tp arg(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+array	src/cpp/cuda.hpp	/^      array(CUarray ary, bool managed)$/;"	f	class:pycuda::array
+array	src/cpp/cuda.hpp	/^      array(const CUDA_ARRAY3D_DESCRIPTOR &descr)$/;"	f	class:pycuda::array
+array	src/cpp/cuda.hpp	/^      array(const CUDA_ARRAY_DESCRIPTOR &descr)$/;"	f	class:pycuda::array
+array	src/cpp/cuda.hpp	/^  class array : public boost::noncopyable, public context_dependent$/;"	c	namespace:pycuda
+array	src/cpp/cuda_gl.hpp	/^      pycuda::array *array(unsigned int index, unsigned int level) const$/;"	f	class:pycuda::gl::registered_mapping
+array3d_flags	src/wrapper/wrap_cudadrv.cpp	/^  class array3d_flags { };$/;"	c	namespace:__anon2	file:
+base	src/cpp/cuda.hpp	/^      py::object base() const$/;"	f	struct:pycuda::registered_host_memory
+bin_nr_t	src/cpp/mempool.hpp	/^      typedef boost::uint32_t bin_nr_t;$/;"	t	class:PYGPU_PACKAGE::memory_pool
+bin_number	src/cpp/mempool.hpp	/^      static bin_nr_t bin_number(size_type size)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+bin_pair_t	src/cpp/mempool.hpp	/^      typedef typename container_t::value_type bin_pair_t;$/;"	t	class:PYGPU_PACKAGE::memory_pool
+bin_t	src/cpp/mempool.hpp	/^      typedef std::vector<pointer_type> bin_t;$/;"	t	class:PYGPU_PACKAGE::memory_pool
+bitlog2	src/cpp/bitlog.hpp	/^  inline unsigned bitlog2(size_t v)$/;"	f	namespace:pycuda
+bitlog2_16	src/cpp/bitlog.hpp	/^  inline unsigned bitlog2_16(boost::uint16_t v)$/;"	f	namespace:pycuda
+bitlog2_32	src/cpp/bitlog.hpp	/^  inline unsigned bitlog2_32(boost::uint32_t v)$/;"	f	namespace:pycuda
+buffer_object	src/cpp/cuda_gl.hpp	/^      buffer_object(GLuint handle)$/;"	f	class:pycuda::gl::buffer_object
+buffer_object	src/cpp/cuda_gl.hpp	/^  class buffer_object : public context_dependent$/;"	c	namespace:pycuda::gl
+buffer_object_mapping	src/cpp/cuda_gl.hpp	/^      buffer_object_mapping($/;"	f	class:pycuda::gl::buffer_object_mapping
+buffer_object_mapping	src/cpp/cuda_gl.hpp	/^  class buffer_object_mapping : public context_dependent$/;"	c	namespace:pycuda::gl
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; PY_LONG_LONG x; } s_long_long;$/;"	m	struct:__anon10	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; bool x; } s_bool;$/;"	m	struct:__anon11	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; double x; } st_double;$/;"	m	struct:__anon8	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; float x; } st_float;$/;"	m	struct:__anon7	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; int x; } st_int;$/;"	m	struct:__anon5	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; long x; } st_long;$/;"	m	struct:__anon6	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; short x; } st_short;$/;"	m	struct:__anon4	file:
+c	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; void *x; } st_void_p;$/;"	m	struct:__anon9	file:
+cache	src/wrapper/_pycuda_struct.cpp	/^static PyObject *cache = NULL;$/;"	v	file:
+cache_struct	src/wrapper/_pycuda_struct.cpp	/^cache_struct(PyObject *fmt)$/;"	f	file:
+calcsize	src/wrapper/_pycuda_struct.cpp	/^calcsize(PyObject *self, PyObject *fmt)$/;"	f	file:
+can_access_peer	src/cpp/cuda.hpp	/^      bool can_access_peer(device const &other)$/;"	f	class:pycuda::device
+cannot_activate_dead_context	src/cpp/cuda.hpp	/^    cannot_activate_dead_context(std::string const &w)$/;"	f	struct:pycuda::cannot_activate_dead_context
+cannot_activate_dead_context	src/cpp/cuda.hpp	/^  struct cannot_activate_dead_context : public std::logic_error$/;"	s	namespace:pycuda
+cannot_activate_out_of_thread_context	src/cpp/cuda.hpp	/^    cannot_activate_out_of_thread_context(std::string const &w)$/;"	f	struct:pycuda::cannot_activate_out_of_thread_context
+cannot_activate_out_of_thread_context	src/cpp/cuda.hpp	/^  struct cannot_activate_out_of_thread_context : public std::logic_error$/;"	s	namespace:pycuda
+clearcache	src/wrapper/_pycuda_struct.cpp	/^clearcache(PyObject *self)$/;"	f	file:
+close	src/cpp/cuda.hpp	/^      void close()$/;"	f	class:pycuda::ipc_mem_handle
+code	src/cpp/cuda.hpp	/^      CUresult code() const$/;"	f	class:pycuda::error
+complex	src/cuda/pycuda-complex.hpp	/^  __device__ complex(const complex<float>& __z) $/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  __device__ complex(value_type __x = 0.0f, value_type __y = 0.0f)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  complex() : _M_re(0), _M_im(0) {}$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  complex(const _Self& __z)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  complex(const complex<double>& __z)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  complex(const value_type& __x)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  complex(const value_type& __x, const value_type& __y)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  complex(value_type __x = 0.0, value_type __y = 0.0)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^  explicit complex(const complex<_Tp2>& __z)$/;"	f	struct:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^inline complex<double>::complex(const complex<float>& __z)$/;"	f	class:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^inline complex<float>::complex(const complex<double>& __z)$/;"	f	class:pycuda::complex
+complex	src/cuda/pycuda-complex.hpp	/^struct _STLP_CLASS_DECLSPEC complex<double> {$/;"	s	namespace:pycuda
+complex	src/cuda/pycuda-complex.hpp	/^struct _STLP_CLASS_DECLSPEC complex<float> {$/;"	s	namespace:pycuda
+complex	src/cuda/pycuda-complex.hpp	/^struct complex {$/;"	s	namespace:pycuda
+compute_capability	src/cpp/cuda.hpp	/^      py::tuple compute_capability()$/;"	f	class:pycuda::device
+conj	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> conj(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+container_t	src/cpp/mempool.hpp	/^      typedef boost::ptr_map<bin_nr_t, bin_t > container_t;$/;"	t	class:PYGPU_PACKAGE::memory_pool
+context	src/cpp/cuda.hpp	/^      context(CUcontext ctx)$/;"	f	class:pycuda::context
+context	src/cpp/cuda.hpp	/^  class context : boost::noncopyable$/;"	c	namespace:pycuda
+context_dependent	src/cpp/cuda.hpp	/^      context_dependent()$/;"	f	class:pycuda::context_dependent
+context_dependent	src/cpp/cuda.hpp	/^  class context_dependent : public explicit_context_dependent$/;"	c	namespace:pycuda
+context_dependent_memory_pool	src/wrapper/mempool.cpp	/^  class context_dependent_memory_pool : $/;"	c	namespace:__anon13	file:
+context_push	src/cpp/cuda.hpp	/^  void context_push(boost::shared_ptr<context> ctx)$/;"	f	namespace:pycuda
+context_stack	src/cpp/cuda.hpp	/^  class context_stack$/;"	c	namespace:pycuda
+context_stack_ptr	src/cpp/cuda.cpp	/^boost::thread_specific_ptr<pycuda::context_stack> pycuda::context_stack_ptr;$/;"	m	class:pycuda	file:
+cos	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> cos(const complex<double>& z)$/;"	f	namespace:pycuda
+cos	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> cos(const complex<float>& z)$/;"	f	namespace:pycuda
+cosT	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<_Tp> cosT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+cosh	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> cosh(const complex<double>& z)$/;"	f	namespace:pycuda
+cosh	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> cosh(const complex<float>& z)$/;"	f	namespace:pycuda
+coshT	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<_Tp> coshT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+count	src/cpp/cuda.hpp	/^      static int count()$/;"	f	class:pycuda::device
+cuda_version	src/wrapper/wrap_cudadrv.cpp	/^  py::tuple cuda_version()$/;"	f	namespace:__anon2
+curandom	src/cpp/curand.hpp	/^namespace pycuda { namespace curandom {$/;"	n	namespace:pycuda
+curesult_to_str	src/cpp/cuda.hpp	/^      static const char *curesult_to_str(CUresult e)$/;"	f	class:pycuda::error
+current_context	src/cpp/cuda.hpp	/^      static boost::shared_ptr<context> current_context(context *except=0)$/;"	f	class:pycuda::context
+data	src/cpp/cuda.hpp	/^      void *data()$/;"	f	struct:pycuda::host_pointer
+dec_held_blocks	src/cpp/mempool.hpp	/^      void dec_held_blocks()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+detach	src/cpp/cuda.hpp	/^      void detach()$/;"	f	class:pycuda::context
+device	src/cpp/cuda.hpp	/^      device(CUdevice dev)$/;"	f	class:pycuda::device
+device	src/cpp/cuda.hpp	/^  class device$/;"	c	namespace:pycuda
+device_allocation	src/cpp/cuda.hpp	/^      device_allocation(CUdeviceptr devptr)$/;"	f	class:pycuda::device_allocation
+device_allocation	src/cpp/cuda.hpp	/^  class device_allocation : public boost::noncopyable, public context_dependent$/;"	c	namespace:pycuda
+device_allocator	src/wrapper/mempool.cpp	/^  class device_allocator : public pycuda::context_dependent$/;"	c	namespace:__anon13	file:
+device_get_attribute	src/wrapper/wrap_cudadrv.cpp	/^  py::object device_get_attribute(device const &dev, CUdevice_attribute attr)$/;"	f	namespace:__anon2
+device_pool_allocate	src/wrapper/mempool.cpp	/^  pooled_device_allocation *device_pool_allocate($/;"	f	namespace:__anon13
+device_ptr	src/cpp/cuda_gl.hpp	/^      CUdeviceptr device_ptr() const$/;"	f	class:pycuda::gl::buffer_object_mapping
+device_ptr_and_size	src/cpp/cuda_gl.hpp	/^      py::tuple device_ptr_and_size() const$/;"	f	class:pycuda::gl::registered_mapping
+disable_peer_access	src/cpp/cuda.hpp	/^      static void disable_peer_access(context const &peer)$/;"	f	class:pycuda::context
+do_import_array	src/wrapper/numpy_init.hpp	/^    static bool do_import_array()$/;"	f	struct:__anon12::pyublas_array_importer
+double_limit	src/cuda/pycuda-complex-impl.hpp	300;"	d
+empty	src/cpp/cuda.hpp	/^      bool empty() const$/;"	f	class:pycuda::context_stack
+enable_peer_access	src/cpp/cuda.hpp	/^      static void enable_peer_access(context const &peer, unsigned int flags)$/;"	f	class:pycuda::context
+error	src/cpp/cuda.hpp	/^      error(const char *rout, CUresult c, const char *msg=0)$/;"	f	class:pycuda::error
+error	src/cpp/cuda.hpp	/^  class error : public std::runtime_error$/;"	c	namespace:pycuda
+event	src/cpp/cuda.hpp	/^      event(CUevent evt)$/;"	f	class:pycuda::event
+event	src/cpp/cuda.hpp	/^      event(unsigned int flags=0)$/;"	f	class:pycuda::event
+event	src/cpp/cuda.hpp	/^  class event : public boost::noncopyable, public context_dependent$/;"	c	namespace:pycuda
+event_from_ipc_handle	src/cpp/cuda.hpp	/^  event *event_from_ipc_handle(py::object obj)$/;"	f	namespace:pycuda
+execute	src/cpp/cuda.hpp	/^    void execute() const$/;"	f	struct:pycuda::memcpy_3d
+execute	src/cpp/cuda.hpp	/^    void execute() const$/;"	f	struct:pycuda::memcpy_3d_peer
+execute	src/cpp/cuda.hpp	/^    void execute(bool aligned=false) const$/;"	f	struct:pycuda::memcpy_2d
+execute_async	src/cpp/cuda.hpp	/^    void execute_async(const stream &s) const$/;"	f	struct:pycuda::memcpy_2d
+execute_async	src/cpp/cuda.hpp	/^    void execute_async(const stream &s) const$/;"	f	struct:pycuda::memcpy_3d
+execute_async	src/cpp/cuda.hpp	/^    void execute_async(const stream &s) const$/;"	f	struct:pycuda::memcpy_3d_peer
+exp	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> exp(const complex<double>& z)$/;"	f	namespace:pycuda
+exp	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float>  exp(const complex<float>& z)$/;"	f	namespace:pycuda
+expT	src/cuda/pycuda-complex-impl.hpp	/^static complex<_Tp> expT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+explicit_context_dependent	src/cpp/cuda.hpp	/^  class explicit_context_dependent$/;"	c	namespace:pycuda
+expose_memory_pool	src/wrapper/mempool.cpp	/^  void expose_memory_pool(Wrapper &wrapper)$/;"	f	namespace:__anon13
+float_limit	src/cuda/pycuda-complex-impl.hpp	299;"	d
+fmtdef	src/wrapper/_pycuda_struct.cpp	/^	const struct _formatdef *fmtdef;$/;"	m	struct:_formatcode	typeref:struct:_formatcode::_formatdef	file:
+format	src/wrapper/_pycuda_struct.cpp	/^	char format;$/;"	m	struct:_formatdef	file:
+formatcode	src/wrapper/_pycuda_struct.cpp	/^} formatcode;$/;"	t	typeref:struct:_formatcode	file:
+formatdef	src/wrapper/_pycuda_struct.cpp	/^} formatdef;$/;"	t	typeref:struct:_formatdef	file:
+fp_tex1Dfetch	src/cuda/pycuda-helpers.hpp	/^  __device__ double fp_tex1Dfetch(texture<fp_tex_double, 1, read_mode> tex, int i)$/;"	f
+fp_tex2D	src/cuda/pycuda-helpers.hpp	/^  __device__ double fp_tex2D(texture<fp_tex_double, 2, read_mode> tex, int i, int j)$/;"	f
+fp_tex3D	src/cuda/pycuda-helpers.hpp	/^  __device__ double fp_tex3D(texture<fp_tex_double, 2, read_mode> tex, int i, int j, int k)$/;"	f
+fp_tex_double	src/cuda/pycuda-helpers.hpp	/^  typedef int2 fp_tex_double;$/;"	t
+fp_tex_float	src/cuda/pycuda-helpers.hpp	/^  typedef float fp_tex_float;$/;"	t
+free	src/cpp/cuda.hpp	/^      void free()$/;"	f	class:pycuda::array
+free	src/cpp/cuda.hpp	/^      void free()$/;"	f	class:pycuda::device_allocation
+free	src/cpp/cuda.hpp	/^      void free()$/;"	f	struct:pycuda::aligned_host_allocation
+free	src/cpp/cuda.hpp	/^      void free()$/;"	f	struct:pycuda::pagelocked_host_allocation
+free	src/cpp/cuda.hpp	/^      void free()$/;"	f	struct:pycuda::registered_host_memory
+free	src/cpp/mempool.hpp	/^      void free()$/;"	f	class:PYGPU_PACKAGE::pooled_allocation
+free	src/cpp/mempool.hpp	/^      void free(pointer_type p, size_type size)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+free	src/wrapper/mempool.cpp	/^      void free(pointer_type p)$/;"	f	class:__anon13::device_allocator
+free	src/wrapper/mempool.cpp	/^      void free(pointer_type p)$/;"	f	class:__anon13::host_allocator
+free_held	src/cpp/mempool.hpp	/^      void free_held()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+function	src/cpp/cuda.hpp	/^      function(CUfunction func, std::string const &sym)$/;"	f	class:pycuda::function
+function	src/cpp/cuda.hpp	/^  class function$/;"	c	namespace:pycuda
+function_param_setv	src/wrapper/wrap_cudadrv.cpp	/^  void function_param_setv(function &f, int offset, py::object buffer)$/;"	f	namespace:__anon2
+get	src/cpp/cuda.hpp	/^      static context_stack &get()$/;"	f	class:pycuda::context_stack
+get_address	src/cpp/cuda.hpp	/^      CUdeviceptr get_address()$/;"	f	class:pycuda::texture_reference
+get_address_mode	src/cpp/cuda.hpp	/^      CUaddress_mode get_address_mode(int dim)$/;"	f	class:pycuda::texture_reference
+get_api_version	src/cpp/cuda.hpp	/^      unsigned int get_api_version()$/;"	f	class:pycuda::context
+get_array	src/cpp/cuda.hpp	/^      array *get_array()$/;"	f	class:pycuda::surface_reference
+get_array	src/cpp/cuda.hpp	/^      array *get_array()$/;"	f	class:pycuda::texture_reference
+get_attribute	src/cpp/cuda.hpp	/^      int get_attribute(CUdevice_attribute attr) const$/;"	f	class:pycuda::device
+get_attribute	src/cpp/cuda.hpp	/^      int get_attribute(CUfunction_attribute attr) const$/;"	f	class:pycuda::function
+get_bin	src/cpp/mempool.hpp	/^      bin_t &get_bin(bin_nr_t bin_nr)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+get_cache_config	src/cpp/cuda.hpp	/^      static CUfunc_cache get_cache_config()$/;"	f	class:pycuda::context
+get_context	src/cpp/cuda.hpp	/^      boost::shared_ptr<context> get_context()$/;"	f	class:pycuda::explicit_context_dependent
+get_descriptor	src/cpp/cuda.hpp	/^      CUDA_ARRAY_DESCRIPTOR get_descriptor()$/;"	f	class:pycuda::array
+get_descriptor_3d	src/cpp/cuda.hpp	/^      CUDA_ARRAY3D_DESCRIPTOR get_descriptor_3d()$/;"	f	class:pycuda::array
+get_device	src/cpp/cuda.hpp	/^      static device get_device()$/;"	f	class:pycuda::context
+get_device_pointer	src/cpp/cuda.hpp	/^      CUdeviceptr get_device_pointer()$/;"	f	struct:pycuda::host_pointer
+get_driver_version	src/cpp/cuda.hpp	/^  inline int get_driver_version()$/;"	f	namespace:pycuda
+get_filter_mode	src/cpp/cuda.hpp	/^      CUfilter_mode get_filter_mode()$/;"	f	class:pycuda::texture_reference
+get_flags	src/cpp/cuda.hpp	/^      unsigned int get_flags()$/;"	f	class:pycuda::texture_reference
+get_flags	src/cpp/cuda.hpp	/^      unsigned int get_flags()$/;"	f	struct:pycuda::pagelocked_host_allocation
+get_format	src/cpp/cuda.hpp	/^      py::tuple get_format()$/;"	f	class:pycuda::texture_reference
+get_from_allocator	src/cpp/mempool.hpp	/^      pointer_type get_from_allocator(size_type alloc_sz)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+get_function	src/cpp/cuda.hpp	/^  function module::get_function(const char *name)$/;"	f	class:pycuda::module
+get_global	src/cpp/cuda.hpp	/^      py::tuple get_global(const char *name)$/;"	f	class:pycuda::module
+get_limit	src/cpp/cuda.hpp	/^      static size_t get_limit(CUlimit limit)$/;"	f	class:pycuda::context
+get_long	src/wrapper/_pycuda_struct.cpp	/^get_long(PyObject *v, long *p)$/;"	f	file:
+get_longlong	src/wrapper/_pycuda_struct.cpp	/^get_longlong(PyObject *v, PY_LONG_LONG *p)$/;"	f	file:
+get_pointer	src/wrapper/wrap_cudadrv.cpp	/^      CUdeviceptr get_pointer()$/;"	f	class:__anon2::pointer_holder_base_wrap
+get_pylong	src/wrapper/_pycuda_struct.cpp	/^get_pylong(PyObject *v)$/;"	f	file:
+get_ulong	src/wrapper/_pycuda_struct.cpp	/^get_ulong(PyObject *v, unsigned long *p)$/;"	f	file:
+get_ulonglong	src/wrapper/_pycuda_struct.cpp	/^get_ulonglong(PyObject *v, unsigned PY_LONG_LONG *p)$/;"	f	file:
+getentry	src/wrapper/_pycuda_struct.cpp	/^getentry(int c, const formatdef *f)$/;"	f	file:
+gl	src/cpp/cuda.hpp	/^  namespace gl {$/;"	n	namespace:pycuda
+gl	src/cpp/cuda_gl.hpp	/^namespace pycuda { namespace gl {$/;"	n	namespace:pycuda
+gl_handle	src/cpp/cuda_gl.hpp	/^      GLuint gl_handle()$/;"	f	class:pycuda::gl::registered_object
+gl_init	src/cpp/cuda_gl.hpp	/^  void gl_init()$/;"	f	namespace:pycuda::gl
+handle	src/cpp/cuda.hpp	/^      CUarray handle() const$/;"	f	class:pycuda::array
+handle	src/cpp/cuda.hpp	/^      CUcontext handle() const$/;"	f	class:pycuda::context
+handle	src/cpp/cuda.hpp	/^      CUdevice handle() const$/;"	f	class:pycuda::device
+handle	src/cpp/cuda.hpp	/^      CUevent handle() const$/;"	f	class:pycuda::event
+handle	src/cpp/cuda.hpp	/^      CUmodule handle() const$/;"	f	class:pycuda::module
+handle	src/cpp/cuda.hpp	/^      CUstream handle() const$/;"	f	class:pycuda::stream
+handle	src/cpp/cuda.hpp	/^      CUsurfref handle() const$/;"	f	class:pycuda::surface_reference
+handle	src/cpp/cuda.hpp	/^      CUtexref handle() const$/;"	f	class:pycuda::texture_reference
+handle	src/cpp/cuda_gl.hpp	/^      GLuint handle()$/;"	f	class:pycuda::gl::buffer_object
+handle_from_new_ptr	src/wrapper/wrap_helpers.hpp	/^  inline boost::python::handle<> handle_from_new_ptr(T *ptr)$/;"	f	namespace:__anon1
+handle_int	src/cpp/cuda.hpp	/^      intptr_t handle_int() const$/;"	f	class:pycuda::stream
+hash	src/cpp/cuda.hpp	/^      hash_type hash() const$/;"	f	class:pycuda::context
+hash	src/cpp/cuda.hpp	/^      hash_type hash() const$/;"	f	class:pycuda::device
+hash_type	src/cpp/cuda.hpp	/^    hash_type;$/;"	t	namespace:pycuda
+have_gl_ext	src/wrapper/wrap_cudadrv.cpp	/^  bool have_gl_ext()$/;"	f	namespace:__anon2
+held_blocks	src/cpp/mempool.hpp	/^      unsigned held_blocks()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+host_alloc_flags	src/wrapper/wrap_cudadrv.cpp	/^  class host_alloc_flags { };$/;"	c	namespace:__anon2	file:
+host_allocator	src/wrapper/mempool.cpp	/^      host_allocator(unsigned flags=0)$/;"	f	class:__anon13::host_allocator
+host_allocator	src/wrapper/mempool.cpp	/^  class host_allocator$/;"	c	namespace:__anon13	file:
+host_pointer	src/cpp/cuda.hpp	/^      host_pointer()$/;"	f	struct:pycuda::host_pointer
+host_pointer	src/cpp/cuda.hpp	/^      host_pointer(void *ptr)$/;"	f	struct:pycuda::host_pointer
+host_pointer	src/cpp/cuda.hpp	/^  struct host_pointer : public boost::noncopyable, public context_dependent$/;"	s	namespace:pycuda
+host_pool_allocate	src/wrapper/mempool.cpp	/^  py::handle<> host_pool_allocate($/;"	f	namespace:__anon13
+imag	src/cuda/pycuda-complex.hpp	/^  value_type __device__ imag() const { return _M_im; }$/;"	f	struct:pycuda::complex
+imag	src/cuda/pycuda-complex.hpp	/^  value_type imag() const { return _M_im; }$/;"	f	struct:pycuda::complex
+imag	src/cuda/pycuda-complex.hpp	/^inline _Tp imag(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+inc_held_blocks	src/cpp/mempool.hpp	/^      void inc_held_blocks()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+init	src/cpp/cuda.hpp	/^  void init(unsigned int flags)$/;"	f	namespace:pycuda
+init_pvt_struct	src/wrapper/_pycuda_struct.cpp	/^init_pvt_struct(void)$/;"	f
+initialize_profiler	src/cpp/cuda.hpp	/^  inline void initialize_profiler($/;"	f	namespace:pycuda
+integer_codes	src/wrapper/_pycuda_struct.cpp	/^static char *integer_codes = "bBhHiIlLqQ";$/;"	v	file:
+ipc_handle	src/cpp/cuda.hpp	/^      py::object ipc_handle()$/;"	f	class:pycuda::event
+ipc_mem_handle	src/cpp/cuda.hpp	/^      ipc_mem_handle(py::object obj, CUipcMem_flags flags=CU_IPC_MEM_LAZY_ENABLE_PEER_ACCESS)$/;"	f	class:pycuda::ipc_mem_handle
+ipc_mem_handle	src/cpp/cuda.hpp	/^  class ipc_mem_handle : public boost::noncopyable, public context_dependent$/;"	c	namespace:pycuda
+is_done	src/cpp/cuda.hpp	/^      bool is_done() const$/;"	f	class:pycuda::stream
+is_out_of_memory	src/cpp/cuda.hpp	/^      bool is_out_of_memory() const$/;"	f	class:pycuda::error
+is_valid	src/cpp/cuda.hpp	/^      bool is_valid() const$/;"	f	class:pycuda::context
+launch	src/cpp/cuda.hpp	/^      void launch()$/;"	f	class:pycuda::function
+launch_grid	src/cpp/cuda.hpp	/^      void launch_grid(int grid_width, int grid_height)$/;"	f	class:pycuda::function
+launch_grid_async	src/cpp/cuda.hpp	/^      void launch_grid_async(int grid_width, int grid_height, const stream &s)$/;"	f	class:pycuda::function
+launch_kernel	src/cpp/cuda.hpp	/^      void launch_kernel(py::tuple grid_dim_py, py::tuple block_dim_py,$/;"	f	class:pycuda::function
+log	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> log(const complex<double>& z)$/;"	f	namespace:pycuda
+log	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> log(const complex<float>& z)$/;"	f	namespace:pycuda
+logT	src/cuda/pycuda-complex-impl.hpp	/^static __device__ complex<_Tp> logT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+log_table_8	src/cpp/bitlog.cpp	/^const char pycuda::log_table_8[] =$/;"	m	class:pycuda	file:
+m_active_blocks	src/cpp/mempool.hpp	/^      unsigned m_active_blocks;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+m_allocator	src/cpp/mempool.hpp	/^      Allocator m_allocator;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+m_array	src/cpp/cuda.hpp	/^      CUarray m_array;$/;"	m	class:pycuda::array
+m_array	src/cpp/cuda.hpp	/^      boost::shared_ptr<array> m_array;$/;"	m	class:pycuda::surface_reference
+m_array	src/cpp/cuda.hpp	/^      boost::shared_ptr<array> m_array;$/;"	m	class:pycuda::texture_reference
+m_base	src/cpp/cuda.hpp	/^      py::object m_base;$/;"	m	struct:pycuda::registered_host_memory
+m_buffer_object	src/cpp/cuda_gl.hpp	/^      boost::shared_ptr<buffer_object> m_buffer_object;$/;"	m	class:pycuda::gl::buffer_object_mapping
+m_code	src/cpp/cuda.hpp	/^      CUresult m_code;$/;"	m	class:pycuda::error
+m_container	src/cpp/mempool.hpp	/^      container_t m_container;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+m_context	src/cpp/cuda.hpp	/^      CUcontext m_context;$/;"	m	class:pycuda::context
+m_context	src/cpp/cuda.hpp	/^      boost::shared_ptr<context> m_context;$/;"	m	class:pycuda::scoped_context_activation
+m_data	src/cpp/cuda.hpp	/^      void *m_data;$/;"	m	struct:pycuda::host_pointer
+m_device	src/cpp/cuda.hpp	/^      CUdevice m_device;$/;"	m	class:pycuda::device
+m_devptr	src/cpp/cuda.hpp	/^      CUdeviceptr m_devptr;$/;"	m	class:pycuda::device_allocation
+m_devptr	src/cpp/cuda.hpp	/^      CUdeviceptr m_devptr;$/;"	m	class:pycuda::ipc_mem_handle
+m_devptr	src/cpp/cuda_gl.hpp	/^      CUdeviceptr m_devptr;$/;"	m	class:pycuda::gl::buffer_object_mapping
+m_did_switch	src/cpp/cuda.hpp	/^      bool m_did_switch;$/;"	m	class:pycuda::scoped_context_activation
+m_event	src/cpp/cuda.hpp	/^      CUevent m_event;$/;"	m	class:pycuda::event
+m_flags	src/wrapper/mempool.cpp	/^      unsigned m_flags;$/;"	m	class:__anon13::host_allocator	file:
+m_function	src/cpp/cuda.hpp	/^      CUfunction m_function;$/;"	m	class:pycuda::function
+m_gl_handle	src/cpp/cuda_gl.hpp	/^      GLuint m_gl_handle;$/;"	m	class:pycuda::gl::registered_object
+m_handle	src/cpp/cuda_gl.hpp	/^      GLuint m_handle;$/;"	m	class:pycuda::gl::buffer_object
+m_held_blocks	src/cpp/mempool.hpp	/^      unsigned m_held_blocks;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+m_managed	src/cpp/cuda.hpp	/^      bool m_managed;$/;"	m	class:pycuda::array
+m_managed	src/cpp/cuda.hpp	/^      bool m_managed;$/;"	m	class:pycuda::texture_reference
+m_module	src/cpp/cuda.hpp	/^      CUmodule m_module;$/;"	m	class:pycuda::module
+m_module	src/cpp/cuda.hpp	/^      boost::shared_ptr<module> m_module;$/;"	m	class:pycuda::surface_reference
+m_module	src/cpp/cuda.hpp	/^      boost::shared_ptr<module> m_module;$/;"	m	class:pycuda::texture_reference
+m_object	src/cpp/cuda_gl.hpp	/^      boost::shared_ptr<registered_object> m_object;$/;"	m	class:pycuda::gl::registered_mapping
+m_pool	src/cpp/mempool.hpp	/^      boost::shared_ptr<pool_type> m_pool;$/;"	m	class:PYGPU_PACKAGE::pooled_allocation
+m_ptr	src/cpp/mempool.hpp	/^      pointer_type m_ptr;$/;"	m	class:PYGPU_PACKAGE::pooled_allocation
+m_resource	src/cpp/cuda_gl.hpp	/^      CUgraphicsResource m_resource;$/;"	m	class:pycuda::gl::registered_object
+m_routine	src/cpp/cuda.hpp	/^      const char *m_routine;$/;"	m	class:pycuda::error
+m_size	src/cpp/cuda_gl.hpp	/^      size_t m_size;$/;"	m	class:pycuda::gl::buffer_object_mapping
+m_size	src/cpp/mempool.hpp	/^      size_type m_size;$/;"	m	class:PYGPU_PACKAGE::pooled_allocation
+m_stack	src/cpp/cuda.hpp	/^      stack_t m_stack;$/;"	m	class:pycuda::context_stack
+m_stop_holding	src/cpp/mempool.hpp	/^      bool m_stop_holding;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+m_stream	src/cpp/cuda.hpp	/^      CUstream m_stream;$/;"	m	class:pycuda::stream
+m_stream	src/cpp/cuda_gl.hpp	/^      boost::shared_ptr<stream> m_stream;$/;"	m	class:pycuda::gl::registered_mapping
+m_surfref	src/cpp/cuda.hpp	/^      CUsurfref m_surfref;$/;"	m	class:pycuda::surface_reference
+m_symbol	src/cpp/cuda.hpp	/^      std::string m_symbol;$/;"	m	class:pycuda::function
+m_texref	src/cpp/cuda.hpp	/^      CUtexref m_texref;$/;"	m	class:pycuda::texture_reference
+m_thread	src/cpp/cuda.hpp	/^      boost::thread::id m_thread;$/;"	m	class:pycuda::context
+m_use_count	src/cpp/cuda.hpp	/^      unsigned m_use_count;$/;"	m	class:pycuda::context
+m_valid	src/cpp/cuda.hpp	/^      bool m_valid;$/;"	m	class:pycuda::context
+m_valid	src/cpp/cuda.hpp	/^      bool m_valid;$/;"	m	class:pycuda::device_allocation
+m_valid	src/cpp/cuda.hpp	/^      bool m_valid;$/;"	m	class:pycuda::ipc_mem_handle
+m_valid	src/cpp/cuda.hpp	/^      bool m_valid;$/;"	m	struct:pycuda::host_pointer
+m_valid	src/cpp/cuda_gl.hpp	/^      bool m_valid;$/;"	m	class:pycuda::gl::buffer_object
+m_valid	src/cpp/cuda_gl.hpp	/^      bool m_valid;$/;"	m	class:pycuda::gl::buffer_object_mapping
+m_valid	src/cpp/cuda_gl.hpp	/^      bool m_valid;$/;"	m	class:pycuda::gl::registered_mapping
+m_valid	src/cpp/cuda_gl.hpp	/^      bool m_valid;$/;"	m	class:pycuda::gl::registered_object
+m_valid	src/cpp/mempool.hpp	/^      bool m_valid;$/;"	m	class:PYGPU_PACKAGE::pooled_allocation
+m_ward_context	src/cpp/cuda.hpp	/^      boost::shared_ptr<context> m_ward_context;$/;"	m	class:pycuda::context_dependent
+m_ward_context	src/cpp/cuda.hpp	/^      boost::shared_ptr<context> m_ward_context;$/;"	m	class:pycuda::explicit_context_dependent
+make_context	src/cpp/cuda.hpp	/^  boost::shared_ptr<context> device::make_context(unsigned int flags)$/;"	f	class:pycuda::device
+make_device	src/cpp/cuda.hpp	/^  device *make_device(int ordinal)$/;"	f	namespace:pycuda
+make_device_from_pci_bus_id	src/cpp/cuda.hpp	/^  device *make_device_from_pci_bus_id(std::string const pci_bus_id)$/;"	f	namespace:pycuda
+make_gl_context	src/cpp/cuda_gl.hpp	/^  boost::shared_ptr<context> make_gl_context(device const &dev, unsigned int flags)$/;"	f	namespace:pycuda::gl
+make_message	src/cpp/cuda.hpp	/^      static std::string make_message(const char *rout, CUresult c, const char *msg=0)$/;"	f	class:pycuda::error
+mantissa_bits	src/cpp/mempool.hpp	/^      static const unsigned mantissa_bits = 2;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+mantissa_mask	src/cpp/mempool.hpp	/^      static const unsigned mantissa_mask = (1 << mantissa_bits) - 1;$/;"	m	class:PYGPU_PACKAGE::memory_pool
+map_buffer_object	src/cpp/cuda_gl.hpp	/^  inline buffer_object_mapping *map_buffer_object($/;"	f	namespace:pycuda::gl
+map_registered_object	src/cpp/cuda_gl.hpp	/^  inline registered_mapping *map_registered_object($/;"	f	namespace:pycuda::gl
+mem_alloc	src/cpp/cuda.hpp	/^  CUdeviceptr mem_alloc(size_t bytes)$/;"	f	namespace:pycuda
+mem_alloc_gc	src/wrapper/tools.hpp	/^  inline CUdeviceptr mem_alloc_gc(size_t bytes)$/;"	f	namespace:pycuda
+mem_alloc_pitch	src/cpp/cuda.hpp	/^  inline Py_ssize_t mem_alloc_pitch($/;"	f	namespace:pycuda
+mem_alloc_pitch_wrap	src/wrapper/wrap_cudadrv.cpp	/^  py::tuple mem_alloc_pitch_wrap($/;"	f	namespace:__anon2
+mem_alloc_wrap	src/wrapper/wrap_cudadrv.cpp	/^  device_allocation *mem_alloc_wrap(unsigned long bytes)$/;"	f	namespace:__anon2
+mem_free	src/cpp/cuda.hpp	/^  void mem_free(CUdeviceptr devptr)$/;"	f	namespace:pycuda
+mem_get_address_range	src/cpp/cuda.hpp	/^  py::tuple mem_get_address_range(CUdeviceptr ptr)$/;"	f	namespace:pycuda
+mem_get_info	src/cpp/cuda.hpp	/^  py::tuple mem_get_info()$/;"	f	namespace:pycuda
+mem_get_ipc_handle	src/cpp/cuda.hpp	/^  py::object mem_get_ipc_handle(CUdeviceptr devptr)$/;"	f	namespace:pycuda
+mem_host_alloc	src/cpp/cuda.hpp	/^  inline void *mem_host_alloc(size_t size, unsigned flags=0)$/;"	f	namespace:pycuda
+mem_host_free	src/cpp/cuda.hpp	/^  inline void mem_host_free(void *ptr)$/;"	f	namespace:pycuda
+mem_host_register	src/cpp/cuda.hpp	/^  inline void *mem_host_register(void *ptr, size_t bytes, unsigned int flags=0)$/;"	f	namespace:pycuda
+mem_host_register_flags	src/wrapper/wrap_cudadrv.cpp	/^  class mem_host_register_flags { };$/;"	c	namespace:__anon2	file:
+mem_host_unregister	src/cpp/cuda.hpp	/^  inline void mem_host_unregister(void *ptr)$/;"	f	namespace:pycuda
+mem_obj_to_long	src/wrapper/wrap_cudadrv.cpp	/^  PyObject *mem_obj_to_long(T const &mo)$/;"	f	namespace:__anon2
+mem_peer_register_flags	src/wrapper/wrap_cudadrv.cpp	/^  class mem_peer_register_flags { };$/;"	c	namespace:__anon2	file:
+memcpy_2d	src/cpp/cuda.hpp	/^    memcpy_2d()$/;"	f	struct:pycuda::memcpy_2d
+memcpy_2d	src/cpp/cuda.hpp	/^  struct memcpy_2d : public CUDA_MEMCPY2D$/;"	s	namespace:pycuda
+memcpy_3d	src/cpp/cuda.hpp	/^    memcpy_3d()$/;"	f	struct:pycuda::memcpy_3d
+memcpy_3d	src/cpp/cuda.hpp	/^  struct memcpy_3d : public CUDA_MEMCPY3D$/;"	s	namespace:pycuda
+memcpy_3d_peer	src/cpp/cuda.hpp	/^    memcpy_3d_peer()$/;"	f	struct:pycuda::memcpy_3d_peer
+memcpy_3d_peer	src/cpp/cuda.hpp	/^  struct memcpy_3d_peer : public CUDA_MEMCPY3D_PEER$/;"	s	namespace:pycuda
+memcpy_atoa	src/cpp/cuda.hpp	/^  void memcpy_atoa($/;"	f	namespace:pycuda
+memcpy_atod	src/cpp/cuda.hpp	/^  void memcpy_atod(CUdeviceptr dst, array const &ary, unsigned int index, unsigned int len)$/;"	f	namespace:pycuda
+memcpy_dtoa	src/cpp/cuda.hpp	/^  void memcpy_dtoa(array const &ary, unsigned int index, CUdeviceptr src, unsigned int len)$/;"	f	namespace:pycuda
+memory_pool	src/cpp/mempool.hpp	/^      memory_pool(Allocator const &alloc=Allocator())$/;"	f	class:PYGPU_PACKAGE::memory_pool
+memory_pool	src/cpp/mempool.hpp	/^  class memory_pool$/;"	c	namespace:PYGPU_PACKAGE
+module	src/cpp/cuda.hpp	/^      module(CUmodule mod)$/;"	f	class:pycuda::module
+module	src/cpp/cuda.hpp	/^  class module : public boost::noncopyable, public context_dependent$/;"	c	namespace:pycuda
+module_from_buffer	src/wrapper/wrap_cudadrv.cpp	/^  module *module_from_buffer(py::object buffer, py::object py_options, $/;"	f	namespace:__anon2
+module_from_file	src/cpp/cuda.hpp	/^  module *module_from_file(const char *filename)$/;"	f	namespace:pycuda
+module_functions	src/wrapper/_pycuda_struct.cpp	/^static struct PyMethodDef module_functions[] = {$/;"	v	typeref:struct:PyMethodDef	file:
+module_get_surfref	src/cpp/cuda.hpp	/^  surface_reference *module_get_surfref($/;"	f	namespace:pycuda
+module_get_texref	src/cpp/cuda.hpp	/^  texture_reference *module_get_texref($/;"	f	namespace:pycuda
+name	src/cpp/cuda.hpp	/^      std::string name()$/;"	f	class:pycuda::device
+native_table	src/wrapper/_pycuda_struct.cpp	/^static formatdef native_table[] = {$/;"	v	file:
+norm	src/cuda/pycuda-complex.hpp	/^inline _Tp norm(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+np_bool	src/wrapper/_pycuda_struct.cpp	/^np_bool(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_byte	src/wrapper/_pycuda_struct.cpp	/^np_byte(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_char	src/wrapper/_pycuda_struct.cpp	/^np_char(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_complex_double	src/wrapper/_pycuda_struct.cpp	/^np_complex_double(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_complex_float	src/wrapper/_pycuda_struct.cpp	/^np_complex_float(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_double	src/wrapper/_pycuda_struct.cpp	/^np_double(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_float	src/wrapper/_pycuda_struct.cpp	/^np_float(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_int	src/wrapper/_pycuda_struct.cpp	/^np_int(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_long	src/wrapper/_pycuda_struct.cpp	/^np_long(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_longlong	src/wrapper/_pycuda_struct.cpp	/^np_longlong(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_short	src/wrapper/_pycuda_struct.cpp	/^np_short(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_ubyte	src/wrapper/_pycuda_struct.cpp	/^np_ubyte(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_uint	src/wrapper/_pycuda_struct.cpp	/^np_uint(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_ulong	src/wrapper/_pycuda_struct.cpp	/^np_ulong(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_ulonglong	src/wrapper/_pycuda_struct.cpp	/^np_ulonglong(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_ushort	src/wrapper/_pycuda_struct.cpp	/^np_ushort(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+np_void_p	src/wrapper/_pycuda_struct.cpp	/^np_void_p(char *p, PyObject *v, const formatdef *f)$/;"	f	file:
+nu_bool	src/wrapper/_pycuda_struct.cpp	/^nu_bool(const char *p, const formatdef *f)$/;"	f	file:
+nu_byte	src/wrapper/_pycuda_struct.cpp	/^nu_byte(const char *p, const formatdef *f)$/;"	f	file:
+nu_char	src/wrapper/_pycuda_struct.cpp	/^nu_char(const char *p, const formatdef *f)$/;"	f	file:
+nu_complex_double	src/wrapper/_pycuda_struct.cpp	/^nu_complex_double(const char *p, const formatdef *f)$/;"	f	file:
+nu_complex_float	src/wrapper/_pycuda_struct.cpp	/^nu_complex_float(const char *p, const formatdef *f)$/;"	f	file:
+nu_double	src/wrapper/_pycuda_struct.cpp	/^nu_double(const char *p, const formatdef *f)$/;"	f	file:
+nu_float	src/wrapper/_pycuda_struct.cpp	/^nu_float(const char *p, const formatdef *f)$/;"	f	file:
+nu_int	src/wrapper/_pycuda_struct.cpp	/^nu_int(const char *p, const formatdef *f)$/;"	f	file:
+nu_long	src/wrapper/_pycuda_struct.cpp	/^nu_long(const char *p, const formatdef *f)$/;"	f	file:
+nu_longlong	src/wrapper/_pycuda_struct.cpp	/^nu_longlong(const char *p, const formatdef *f)$/;"	f	file:
+nu_short	src/wrapper/_pycuda_struct.cpp	/^nu_short(const char *p, const formatdef *f)$/;"	f	file:
+nu_ubyte	src/wrapper/_pycuda_struct.cpp	/^nu_ubyte(const char *p, const formatdef *f)$/;"	f	file:
+nu_uint	src/wrapper/_pycuda_struct.cpp	/^nu_uint(const char *p, const formatdef *f)$/;"	f	file:
+nu_ulong	src/wrapper/_pycuda_struct.cpp	/^nu_ulong(const char *p, const formatdef *f)$/;"	f	file:
+nu_ulonglong	src/wrapper/_pycuda_struct.cpp	/^nu_ulonglong(const char *p, const formatdef *f)$/;"	f	file:
+nu_ushort	src/wrapper/_pycuda_struct.cpp	/^nu_ushort(const char *p, const formatdef *f)$/;"	f	file:
+nu_void_p	src/wrapper/_pycuda_struct.cpp	/^nu_void_p(const char *p, const formatdef *f)$/;"	f	file:
+numpy_empty	src/wrapper/wrap_cudadrv.cpp	/^  py::handle<> numpy_empty(py::object shape, py::object dtype, $/;"	f	namespace:__anon2
+offset	src/wrapper/_pycuda_struct.cpp	/^	Py_ssize_t offset;$/;"	m	struct:_formatcode	file:
+operator !=	src/cpp/cuda.hpp	/^      bool operator!=(const context &other) const$/;"	f	class:pycuda::context
+operator !=	src/cpp/cuda.hpp	/^      bool operator!=(const device &other) const$/;"	f	class:pycuda::device
+operator !=	src/cuda/pycuda-complex.hpp	/^inline bool operator!=(const _Tp& __x, const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator !=	src/cuda/pycuda-complex.hpp	/^inline bool operator!=(const complex<_Tp>& __z, const _Tp& __x)$/;"	f	namespace:pycuda
+operator !=	src/cuda/pycuda-complex.hpp	/^inline bool operator!=(const complex<_Tp>& __z1, const complex<_Tp>& __z2)$/;"	f	namespace:pycuda
+operator *	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator*(const _Tp& __x, const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator *	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator*(const complex<_Tp>& __z, const _Tp& __x)$/;"	f	namespace:pycuda
+operator *	src/cuda/pycuda-complex.hpp	/^operator*(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {$/;"	f	namespace:pycuda
+operator *	src/cuda/pycuda-complex.hpp	/^operator*(const volatile complex<_Tp>& __z1, const volatile complex<_Tp>& __z2) {$/;"	f	namespace:pycuda
+operator *=	src/cuda/pycuda-complex.hpp	/^  _Self& operator*= (const _Self& __z) {$/;"	f	struct:pycuda::complex
+operator *=	src/cuda/pycuda-complex.hpp	/^  _Self& operator*= (const value_type& __x) {$/;"	f	struct:pycuda::complex
+operator *=	src/cuda/pycuda-complex.hpp	/^  _Self& operator*= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator *=	src/cuda/pycuda-complex.hpp	/^  __device__ _Self& operator*= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator *=	src/cuda/pycuda-complex.hpp	/^  complex<double>& operator*= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator *=	src/cuda/pycuda-complex.hpp	/^  complex<float>& operator*= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator *=	src/cuda/pycuda-complex.hpp	/^  template <class _Tp2> __device__ _Self& operator*= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator +	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> __device__ operator+(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator +	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator+(const _Tp& __x, const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator +	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator+(const complex<_Tp>& __z, const _Tp& __x)$/;"	f	namespace:pycuda
+operator +	src/cuda/pycuda-complex.hpp	/^operator+(const complex<_Tp>& __z1, const complex<_Tp>& __z2)$/;"	f	namespace:pycuda
+operator +	src/cuda/pycuda-complex.hpp	/^operator+(const volatile complex<_Tp>& __z1, const volatile complex<_Tp>& __z2)$/;"	f	namespace:pycuda
+operator +=	src/cuda/pycuda-complex.hpp	/^  _Self& operator+= (const _Self& __z) {$/;"	f	struct:pycuda::complex
+operator +=	src/cuda/pycuda-complex.hpp	/^  _Self& operator+= (const value_type& __x) {$/;"	f	struct:pycuda::complex
+operator +=	src/cuda/pycuda-complex.hpp	/^  _Self& operator+= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator +=	src/cuda/pycuda-complex.hpp	/^  __device__ _Self& operator+= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator +=	src/cuda/pycuda-complex.hpp	/^  complex<double>& operator+= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator +=	src/cuda/pycuda-complex.hpp	/^  complex<float>& operator+= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator +=	src/cuda/pycuda-complex.hpp	/^  template <class _Tp2> __device__ _Self& operator+= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator -	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> __device__  operator-(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator -	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator-(const _Tp& __x, const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator -	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator-(const complex<_Tp>& __z, const _Tp& __x)$/;"	f	namespace:pycuda
+operator -	src/cuda/pycuda-complex.hpp	/^operator-(const complex<_Tp>& __z1, const complex<_Tp>& __z2)$/;"	f	namespace:pycuda
+operator -=	src/cuda/pycuda-complex.hpp	/^  _Self& operator-= (const _Self& __z) {$/;"	f	struct:pycuda::complex
+operator -=	src/cuda/pycuda-complex.hpp	/^  _Self& operator-= (const value_type& __x) {$/;"	f	struct:pycuda::complex
+operator -=	src/cuda/pycuda-complex.hpp	/^  _Self& operator-= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator -=	src/cuda/pycuda-complex.hpp	/^  __device__ _Self& operator-= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator -=	src/cuda/pycuda-complex.hpp	/^  complex<double>& operator-= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator -=	src/cuda/pycuda-complex.hpp	/^  complex<float>& operator-= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator -=	src/cuda/pycuda-complex.hpp	/^  template <class _Tp2> __device__ _Self& operator-= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator /	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator\/(const _Tp& __x, const complex<_Tp>& __z) {$/;"	f	namespace:pycuda
+operator /	src/cuda/pycuda-complex.hpp	/^inline complex<_Tp> operator\/(const complex<_Tp>& __z, const _Tp& __x)$/;"	f	namespace:pycuda
+operator /	src/cuda/pycuda-complex.hpp	/^operator\/(const complex<_Tp>& __z1, const complex<_Tp>& __z2) {$/;"	f	namespace:pycuda
+operator /=	src/cuda/pycuda-complex.hpp	/^  _Self& operator\/= (const _Self& __z) {$/;"	f	struct:pycuda::complex
+operator /=	src/cuda/pycuda-complex.hpp	/^  _Self& operator\/= (const value_type& __x) {$/;"	f	struct:pycuda::complex
+operator /=	src/cuda/pycuda-complex.hpp	/^  _Self& operator\/= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator /=	src/cuda/pycuda-complex.hpp	/^  __device__ _Self& operator\/= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator /=	src/cuda/pycuda-complex.hpp	/^  complex<double>& operator\/= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator /=	src/cuda/pycuda-complex.hpp	/^  complex<float>& operator\/= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator /=	src/cuda/pycuda-complex.hpp	/^  template <class _Tp2> __device__ _Self& operator\/= (const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  _Self& operator= (const value_type& __x) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  _Self& operator= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  _Self& operator=(const _Self& __z) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  _Self& operator=(const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  __device__ _Self& operator= (value_type __x) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  complex<double>& operator=(const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  complex<float>& operator=(const complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile _Self& operator= (const value_type& __x) volatile {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile _Self& operator= (value_type __x) volatile {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile _Self& operator=(const _Self& __z) volatile {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile _Self& operator=(const complex<_Tp2>& __z) volatile {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile __device__ _Self& operator= (value_type __x) volatile {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile complex<double>& operator=(const volatile complex<_Tp2>& __z) {$/;"	f	struct:pycuda::complex
+operator =	src/cuda/pycuda-complex.hpp	/^  volatile complex<float>& operator=(const complex<_Tp2>& __z) volatile {$/;"	f	struct:pycuda::complex
+operator ==	src/cpp/cuda.hpp	/^      bool operator==(const context &other) const$/;"	f	class:pycuda::context
+operator ==	src/cpp/cuda.hpp	/^      bool operator==(const device &other) const$/;"	f	class:pycuda::device
+operator ==	src/cuda/pycuda-complex.hpp	/^inline bool operator==(const _Tp& __x, const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+operator ==	src/cuda/pycuda-complex.hpp	/^inline bool operator==(const complex<_Tp>& __z, const _Tp& __x)$/;"	f	namespace:pycuda
+operator ==	src/cuda/pycuda-complex.hpp	/^inline bool operator==(const complex<_Tp>& __z1, const complex<_Tp>& __z2)$/;"	f	namespace:pycuda
+operator CUdeviceptr	src/cpp/cuda.hpp	/^      operator CUdeviceptr() const$/;"	f	class:pycuda::device_allocation
+operator CUdeviceptr	src/cpp/cuda.hpp	/^      operator CUdeviceptr() const$/;"	f	class:pycuda::ipc_mem_handle
+operator CUdeviceptr	src/cpp/cuda.hpp	/^      operator CUdeviceptr()$/;"	f	class:pycuda::pointer_holder_base
+operator CUdeviceptr	src/wrapper/mempool.cpp	/^      operator CUdeviceptr()$/;"	f	class:__anon13::pooled_device_allocation
+pack	src/wrapper/_pycuda_struct.cpp	/^	int (*pack)(char *, PyObject *,$/;"	m	struct:_formatdef	file:
+pack	src/wrapper/_pycuda_struct.cpp	/^pack(PyObject *self, PyObject *args)$/;"	f	file:
+pack_into	src/wrapper/_pycuda_struct.cpp	/^pack_into(PyObject *self, PyObject *args)$/;"	f	file:
+pagelocked_host_allocation	src/cpp/cuda.hpp	/^      pagelocked_host_allocation(size_t bytesize, unsigned flags=0)$/;"	f	struct:pycuda::pagelocked_host_allocation
+pagelocked_host_allocation	src/cpp/cuda.hpp	/^  struct pagelocked_host_allocation : public host_pointer$/;"	s	namespace:pycuda
+param_set	src/cpp/cuda.hpp	/^      void param_set(int offset, float value)$/;"	f	class:pycuda::function
+param_set	src/cpp/cuda.hpp	/^      void param_set(int offset, unsigned int value)$/;"	f	class:pycuda::function
+param_set_size	src/cpp/cuda.hpp	/^      void param_set_size(unsigned int bytes)$/;"	f	class:pycuda::function
+param_set_texref	src/cpp/cuda.hpp	/^      void param_set_texref(const texture_reference &tr)$/;"	f	class:pycuda::function
+param_setv	src/cpp/cuda.hpp	/^      void param_setv(int offset, void *buf, size_t len)$/;"	f	class:pycuda::function
+pci_bus_id	src/cpp/cuda.hpp	/^      std::string pci_bus_id()$/;"	f	class:pycuda::device
+pointer_holder_base	src/cpp/cuda.hpp	/^  class pointer_holder_base$/;"	c	namespace:pycuda
+pointer_holder_base_wrap	src/wrapper/wrap_cudadrv.cpp	/^  class pointer_holder_base_wrap $/;"	c	namespace:__anon2	file:
+pointer_type	src/cpp/mempool.hpp	/^      typedef typename Allocator::pointer_type pointer_type;$/;"	t	class:PYGPU_PACKAGE::memory_pool
+pointer_type	src/cpp/mempool.hpp	/^      typedef typename Pool::pointer_type pointer_type;$/;"	t	class:PYGPU_PACKAGE::pooled_allocation
+pointer_type	src/wrapper/mempool.cpp	/^      typedef CUdeviceptr pointer_type;$/;"	t	class:__anon13::device_allocator	file:
+pointer_type	src/wrapper/mempool.cpp	/^      typedef void *pointer_type;$/;"	t	class:__anon13::host_allocator	file:
+polar	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> polar(const double& __rho, const double& __phi)$/;"	f	namespace:pycuda
+polar	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> polar(const float& __rho, const float& __phi)$/;"	f	namespace:pycuda
+polar	src/cuda/pycuda-complex.hpp	/^complex<_Tp> polar(const _Tp& __rho)$/;"	f	namespace:pycuda
+polar	src/cuda/pycuda-complex.hpp	/^complex<_Tp> polar(const _Tp& __rho, const _Tp& __phi) {$/;"	f	namespace:pycuda
+pool_type	src/cpp/mempool.hpp	/^      typedef Pool pool_type;$/;"	t	class:PYGPU_PACKAGE::pooled_allocation
+pooled_allocation	src/cpp/mempool.hpp	/^      pooled_allocation(boost::shared_ptr<pool_type> p, size_type size)$/;"	f	class:PYGPU_PACKAGE::pooled_allocation
+pooled_allocation	src/cpp/mempool.hpp	/^  class pooled_allocation : public boost::noncopyable$/;"	c	namespace:PYGPU_PACKAGE
+pooled_device_allocation	src/wrapper/mempool.cpp	/^      pooled_device_allocation($/;"	f	class:__anon13::pooled_device_allocation
+pooled_device_allocation	src/wrapper/mempool.cpp	/^  class pooled_device_allocation $/;"	c	namespace:__anon13	file:
+pooled_device_allocation_to_long	src/wrapper/mempool.cpp	/^  PyObject *pooled_device_allocation_to_long(pooled_device_allocation const &da)$/;"	f	namespace:__anon13
+pooled_host_allocation	src/wrapper/mempool.cpp	/^      pooled_host_allocation($/;"	f	class:__anon13::pooled_host_allocation
+pooled_host_allocation	src/wrapper/mempool.cpp	/^  class pooled_host_allocation $/;"	c	namespace:__anon13	file:
+pop	src/cpp/cuda.hpp	/^      static void pop()$/;"	f	class:pycuda::context
+pop	src/cpp/cuda.hpp	/^      void pop()$/;"	f	class:pycuda::context_stack
+pop_block_from_bin	src/cpp/mempool.hpp	/^      pointer_type pop_block_from_bin(bin_t &bin, size_type size)$/;"	f	class:PYGPU_PACKAGE::memory_pool
+pow	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> pow(const complex<double>& a, const complex<double>& b)$/;"	f	namespace:pycuda
+pow	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> pow(const complex<double>& a, const double& b)$/;"	f	namespace:pycuda
+pow	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> pow(const double& a, const complex<double>& b)$/;"	f	namespace:pycuda
+pow	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> pow(const complex<float>& a, const complex<float>& b)$/;"	f	namespace:pycuda
+pow	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> pow(const complex<float>& a, const float& b)$/;"	f	namespace:pycuda
+pow	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> pow(const float& a, const complex<float>& b)$/;"	f	namespace:pycuda
+powT	src/cuda/pycuda-complex-impl.hpp	/^static complex<_Tp> powT(const _Tp& a, const complex<_Tp>& b) {$/;"	f	namespace:pycuda
+powT	src/cuda/pycuda-complex-impl.hpp	/^static complex<_Tp> powT(const complex<_Tp>& a, const _Tp& b) {$/;"	f	namespace:pycuda
+powT	src/cuda/pycuda-complex-impl.hpp	/^static complex<_Tp> powT(const complex<_Tp>& a, const complex<_Tp>& b) {$/;"	f	namespace:pycuda
+prepare_context_switch	src/cpp/cuda.hpp	/^      static void prepare_context_switch() { }$/;"	f	class:pycuda::context
+prepare_context_switch	src/cpp/cuda.hpp	/^      static void prepare_context_switch()$/;"	f	class:pycuda::context
+prepare_s	src/wrapper/_pycuda_struct.cpp	/^prepare_s(PyStructObject *self)$/;"	f	file:
+ptr	src/cpp/mempool.hpp	/^      pointer_type ptr() const$/;"	f	class:PYGPU_PACKAGE::pooled_allocation
+push	src/cpp/cuda.hpp	/^      void push(value_type v)$/;"	f	class:pycuda::context_stack
+py_curand_get_direction_vectors	src/cpp/curand.hpp	/^  void py_curand_get_direction_vectors($/;"	f	namespace:pycuda::curandom
+py_curand_get_scramble_constants32	src/cpp/curand.hpp	/^  void py_curand_get_scramble_constants32(py::object dst, int count)$/;"	f	namespace:pycuda::curandom
+py_curand_get_scramble_constants64	src/cpp/curand.hpp	/^  void py_curand_get_scramble_constants64(py::object dst, int count)$/;"	f	namespace:pycuda::curandom
+py_curand_version	src/cpp/curand.hpp	/^  py::tuple py_curand_version()$/;"	f	namespace:pycuda::curandom
+py_memcpy_atoh	src/wrapper/wrap_cudadrv.cpp	/^  void py_memcpy_atoh(py::object dest, array const &ary, unsigned int index)$/;"	f	namespace:__anon2
+py_memcpy_dtod	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memcpy_dtod(CUdeviceptr dest, CUdeviceptr src, $/;"	f	namespace:__anon2
+py_memcpy_dtod_async	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memcpy_dtod_async(CUdeviceptr dest, CUdeviceptr src, $/;"	f	namespace:__anon2
+py_memcpy_dtoh	src/wrapper/wrap_cudadrv.cpp	/^  void py_memcpy_dtoh(py::object dest, CUdeviceptr src)$/;"	f	namespace:__anon2
+py_memcpy_dtoh_async	src/wrapper/wrap_cudadrv.cpp	/^  void py_memcpy_dtoh_async(py::object dest, CUdeviceptr src, py::object stream_py)$/;"	f	namespace:__anon2
+py_memcpy_htoa	src/wrapper/wrap_cudadrv.cpp	/^  void py_memcpy_htoa(array const &ary, unsigned int index, py::object src)$/;"	f	namespace:__anon2
+py_memcpy_htod	src/wrapper/wrap_cudadrv.cpp	/^  void py_memcpy_htod(CUdeviceptr dst, py::object src)$/;"	f	namespace:__anon2
+py_memcpy_htod_async	src/wrapper/wrap_cudadrv.cpp	/^  void py_memcpy_htod_async(CUdeviceptr dst, py::object src, py::object stream_py)$/;"	f	namespace:__anon2
+py_memcpy_peer	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memcpy_peer(CUdeviceptr dest, CUdeviceptr src, $/;"	f	namespace:__anon2
+py_memcpy_peer_async	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memcpy_peer_async(CUdeviceptr dest, CUdeviceptr src, $/;"	f	namespace:__anon2
+py_memset_d16	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memset_d16(CUdeviceptr dst, unsigned short us, unsigned int n ) $/;"	f	namespace:__anon2
+py_memset_d2d16	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memset_d2d16(CUdeviceptr dst, unsigned int dst_pitch, $/;"	f	namespace:__anon2
+py_memset_d2d32	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memset_d2d32(CUdeviceptr dst, unsigned int dst_pitch, $/;"	f	namespace:__anon2
+py_memset_d2d8	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memset_d2d8(CUdeviceptr dst, unsigned int dst_pitch, $/;"	f	namespace:__anon2
+py_memset_d32	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memset_d32(CUdeviceptr dst, unsigned int ui, unsigned int n ) $/;"	f	namespace:__anon2
+py_memset_d8	src/wrapper/wrap_cudadrv.cpp	/^  void  py_memset_d8(CUdeviceptr dst, unsigned char uc, unsigned int n ) $/;"	f	namespace:__anon2
+pycuda	src/cpp/bitlog.hpp	/^namespace pycuda $/;"	n
+pycuda	src/cpp/cuda.hpp	/^namespace pycuda$/;"	n
+pycuda	src/cpp/cuda_gl.hpp	/^namespace pycuda { namespace gl {$/;"	n
+pycuda	src/cpp/curand.hpp	/^namespace pycuda { namespace curandom {$/;"	n
+pycuda	src/cuda/pycuda-complex-impl.hpp	/^namespace pycuda {$/;"	n
+pycuda	src/cuda/pycuda-complex.hpp	/^namespace pycuda {$/;"	n
+pycuda	src/wrapper/tools.hpp	/^namespace pycuda$/;"	n
+pycuda_expose_curand	src/wrapper/wrap_curand.cpp	/^void pycuda_expose_curand()$/;"	f
+pycuda_expose_gl	src/wrapper/wrap_cudagl.cpp	/^void pycuda_expose_gl()$/;"	f
+pycuda_expose_tools	src/wrapper/mempool.cpp	/^void pycuda_expose_tools()$/;"	f
+pycuda_size_t	src/cpp/cuda.hpp	/^        pycuda_size_t;$/;"	t	namespace:pycuda
+pyublas_array_importer	src/wrapper/numpy_init.hpp	/^    pyublas_array_importer()$/;"	f	struct:__anon12::pyublas_array_importer
+pyublas_array_importer	src/wrapper/numpy_init.hpp	/^  static struct pyublas_array_importer$/;"	s	namespace:__anon12
+query	src/cpp/cuda.hpp	/^      bool query() const$/;"	f	class:pycuda::event
+real	src/cuda/pycuda-complex.hpp	/^  value_type __device__ real() const { return _M_re; }$/;"	f	struct:pycuda::complex
+real	src/cuda/pycuda-complex.hpp	/^  value_type real() const { return _M_re; }$/;"	f	struct:pycuda::complex
+real	src/cuda/pycuda-complex.hpp	/^inline _Tp real(const complex<_Tp>& __z)$/;"	f	namespace:pycuda
+record	src/cpp/cuda.hpp	/^      event *record(py::object stream_py)$/;"	f	class:pycuda::event
+register_host_memory	src/wrapper/wrap_cudadrv.cpp	/^  py::handle<> register_host_memory(py::object ary, unsigned flags)$/;"	f	namespace:__anon2
+registered_buffer	src/cpp/cuda_gl.hpp	/^      registered_buffer(GLuint gl_handle, $/;"	f	class:pycuda::gl::registered_buffer
+registered_buffer	src/cpp/cuda_gl.hpp	/^  class registered_buffer : public registered_object$/;"	c	namespace:pycuda::gl
+registered_host_memory	src/cpp/cuda.hpp	/^      registered_host_memory(void *p, size_t bytes, unsigned int flags=0, $/;"	f	struct:pycuda::registered_host_memory
+registered_host_memory	src/cpp/cuda.hpp	/^  struct registered_host_memory : public host_pointer$/;"	s	namespace:pycuda
+registered_image	src/cpp/cuda_gl.hpp	/^      registered_image(GLuint gl_handle, GLenum target, $/;"	f	class:pycuda::gl::registered_image
+registered_image	src/cpp/cuda_gl.hpp	/^  class registered_image : public registered_object$/;"	c	namespace:pycuda::gl
+registered_mapping	src/cpp/cuda_gl.hpp	/^      registered_mapping($/;"	f	class:pycuda::gl::registered_mapping
+registered_mapping	src/cpp/cuda_gl.hpp	/^  class registered_mapping : public context_dependent$/;"	c	namespace:pycuda::gl
+registered_object	src/cpp/cuda_gl.hpp	/^      registered_object(GLuint gl_handle)$/;"	f	class:pycuda::gl::registered_object
+registered_object	src/cpp/cuda_gl.hpp	/^  class registered_object : public context_dependent$/;"	c	namespace:pycuda::gl
+release_context	src/cpp/cuda.hpp	/^      void release_context()$/;"	f	class:pycuda::explicit_context_dependent
+resource	src/cpp/cuda_gl.hpp	/^      CUgraphicsResource resource()$/;"	f	class:pycuda::gl::registered_object
+routine	src/cpp/cuda.hpp	/^      const char *routine() const$/;"	f	class:pycuda::error
+run_python_gc	src/wrapper/tools.hpp	/^  inline void run_python_gc()$/;"	f	namespace:pycuda
+s_bool	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; bool x; } s_bool;$/;"	t	typeref:struct:__anon11	file:
+s_codes	src/wrapper/_pycuda_struct.cpp	/^	formatcode *s_codes;$/;"	m	struct:__anon3	file:
+s_dealloc	src/wrapper/_pycuda_struct.cpp	/^s_dealloc(PyStructObject *s)$/;"	f	file:
+s_format	src/wrapper/_pycuda_struct.cpp	/^	PyObject *s_format;$/;"	m	struct:__anon3	file:
+s_get_format	src/wrapper/_pycuda_struct.cpp	/^s_get_format(PyStructObject *self, void *unused)$/;"	f	file:
+s_get_size	src/wrapper/_pycuda_struct.cpp	/^s_get_size(PyStructObject *self, void *unused)$/;"	f	file:
+s_getsetlist	src/wrapper/_pycuda_struct.cpp	/^static PyGetSetDef s_getsetlist[] = {$/;"	v	file:
+s_init	src/wrapper/_pycuda_struct.cpp	/^s_init(PyObject *self, PyObject *args, PyObject *kwds)$/;"	f	file:
+s_len	src/wrapper/_pycuda_struct.cpp	/^	Py_ssize_t s_len;$/;"	m	struct:__anon3	file:
+s_long_long	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; PY_LONG_LONG x; } s_long_long;$/;"	t	typeref:struct:__anon10	file:
+s_methods	src/wrapper/_pycuda_struct.cpp	/^static struct PyMethodDef s_methods[] = {$/;"	v	typeref:struct:PyMethodDef	file:
+s_new	src/wrapper/_pycuda_struct.cpp	/^s_new(PyTypeObject *type, PyObject *args, PyObject *kwds)$/;"	f	file:
+s_pack	src/wrapper/_pycuda_struct.cpp	/^s_pack(PyObject *self, PyObject *args)$/;"	f	file:
+s_pack_internal	src/wrapper/_pycuda_struct.cpp	/^s_pack_internal(PyStructObject *soself, PyObject *args, int offset, char* buf)$/;"	f	file:
+s_pack_into	src/wrapper/_pycuda_struct.cpp	/^s_pack_into(PyObject *self, PyObject *args)$/;"	f	file:
+s_size	src/wrapper/_pycuda_struct.cpp	/^	Py_ssize_t s_size;$/;"	m	struct:__anon3	file:
+s_unpack	src/wrapper/_pycuda_struct.cpp	/^s_unpack(PyObject *self, PyObject *inputstr)$/;"	f	file:
+s_unpack_from	src/wrapper/_pycuda_struct.cpp	/^s_unpack_from(PyObject *self, PyObject *args, PyObject *kwds)$/;"	f	file:
+s_unpack_internal	src/wrapper/_pycuda_struct.cpp	/^s_unpack_internal(PyStructObject *soself, char *startfrom) {$/;"	f	file:
+scoped_context_activation	src/cpp/cuda.hpp	/^      scoped_context_activation(boost::shared_ptr<context> ctx)$/;"	f	class:pycuda::scoped_context_activation
+scoped_context_activation	src/cpp/cuda.hpp	/^  class scoped_context_activation$/;"	c	namespace:pycuda
+set_address	src/cpp/cuda.hpp	/^      pycuda_size_t set_address(CUdeviceptr dptr, unsigned int bytes, bool allow_offset=false)$/;"	f	class:pycuda::texture_reference
+set_address_2d	src/cpp/cuda.hpp	/^      void set_address_2d(CUdeviceptr dptr,$/;"	f	class:pycuda::texture_reference
+set_address_mode	src/cpp/cuda.hpp	/^      void set_address_mode(int dim, CUaddress_mode am)$/;"	f	class:pycuda::texture_reference
+set_array	src/cpp/cuda.hpp	/^      void set_array(boost::shared_ptr<array> ary)$/;"	f	class:pycuda::texture_reference
+set_array	src/cpp/cuda.hpp	/^      void set_array(boost::shared_ptr<array> ary, unsigned int flags)$/;"	f	class:pycuda::surface_reference
+set_block_shape	src/cpp/cuda.hpp	/^      void set_block_shape(int x, int y, int z)$/;"	f	class:pycuda::function
+set_cache_config	src/cpp/cuda.hpp	/^      static void set_cache_config(CUfunc_cache cc)$/;"	f	class:pycuda::context
+set_cache_config	src/cpp/cuda.hpp	/^      void set_cache_config(CUfunc_cache fc)$/;"	f	class:pycuda::function
+set_dst_context	src/cpp/cuda.hpp	/^    void set_dst_context(context const &ctx)$/;"	f	struct:pycuda::memcpy_3d_peer
+set_filter_mode	src/cpp/cuda.hpp	/^      void set_filter_mode(CUfilter_mode fm)$/;"	f	class:pycuda::texture_reference
+set_flags	src/cpp/cuda.hpp	/^      void set_flags(unsigned int flags)$/;"	f	class:pycuda::texture_reference
+set_format	src/cpp/cuda.hpp	/^      void set_format(CUarray_format fmt, int num_packed_components)$/;"	f	class:pycuda::texture_reference
+set_limit	src/cpp/cuda.hpp	/^      static void set_limit(CUlimit limit, size_t value)$/;"	f	class:pycuda::context
+set_module	src/cpp/cuda.hpp	/^      void set_module(boost::shared_ptr<module> mod)$/;"	f	class:pycuda::surface_reference
+set_module	src/cpp/cuda.hpp	/^      void set_module(boost::shared_ptr<module> mod)$/;"	f	class:pycuda::texture_reference
+set_shared_size	src/cpp/cuda.hpp	/^      void set_shared_size(unsigned int bytes)$/;"	f	class:pycuda::function
+set_src_context	src/cpp/cuda.hpp	/^    void set_src_context(context const &ctx)$/;"	f	struct:pycuda::memcpy_3d_peer
+signed_left_shift	src/cpp/mempool.hpp	/^  inline T signed_left_shift(T x, signed shift_amount)$/;"	f	namespace:PYGPU_PACKAGE
+signed_right_shift	src/cpp/mempool.hpp	/^  inline T signed_right_shift(T x, signed shift_amount)$/;"	f	namespace:PYGPU_PACKAGE
+sin	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> sin(const complex<double>& z)$/;"	f	namespace:pycuda
+sin	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> sin(const complex<float>& z)$/;"	f	namespace:pycuda
+sinT	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<_Tp> sinT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+sinh	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> sinh(const complex<double>& z)$/;"	f	namespace:pycuda
+sinh	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> sinh(const complex<float>& z)$/;"	f	namespace:pycuda
+sinhT	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<_Tp> sinhT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+size	src/cpp/cuda_gl.hpp	/^      size_t size() const$/;"	f	class:pycuda::gl::buffer_object_mapping
+size	src/cpp/mempool.hpp	/^      size_type size() const$/;"	f	class:PYGPU_PACKAGE::pooled_allocation
+size	src/wrapper/_pycuda_struct.cpp	/^	Py_ssize_t size;$/;"	m	struct:_formatcode	file:
+size	src/wrapper/_pycuda_struct.cpp	/^	Py_ssize_t size;$/;"	m	struct:_formatdef	file:
+size_from_dims	src/wrapper/tools.hpp	/^  npy_intp size_from_dims(size_t ndim, const npy_intp *dims)$/;"	f	namespace:pycuda
+size_type	src/cpp/mempool.hpp	/^      typedef typename Allocator::size_type size_type;$/;"	t	class:PYGPU_PACKAGE::memory_pool
+size_type	src/cpp/mempool.hpp	/^      typedef typename Pool::size_type size_type;$/;"	t	class:PYGPU_PACKAGE::pooled_allocation
+size_type	src/wrapper/mempool.cpp	/^      typedef size_t size_type;$/;"	t	class:__anon13::device_allocator	file:
+size_type	src/wrapper/mempool.cpp	/^      typedef size_t size_type;$/;"	t	class:__anon13::host_allocator	file:
+sqrt	src/cuda/pycuda-complex-impl.hpp	/^sqrt(const complex<double>& z) { return sqrtT(z); }$/;"	f	namespace:pycuda
+sqrt	src/cuda/pycuda-complex-impl.hpp	/^sqrt(const complex<float>& z) { return sqrtT(z); }$/;"	f	namespace:pycuda
+sqrtT	src/cuda/pycuda-complex-impl.hpp	/^static complex<_Tp> sqrtT(const complex<_Tp>& z) {$/;"	f	namespace:pycuda
+st_double	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; double x; } st_double;$/;"	t	typeref:struct:__anon8	file:
+st_float	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; float x; } st_float;$/;"	t	typeref:struct:__anon7	file:
+st_int	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; int x; } st_int;$/;"	t	typeref:struct:__anon5	file:
+st_long	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; long x; } st_long;$/;"	t	typeref:struct:__anon6	file:
+st_short	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; short x; } st_short;$/;"	t	typeref:struct:__anon4	file:
+st_void_p	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; void *x; } st_void_p;$/;"	t	typeref:struct:__anon9	file:
+stack_t	src/cpp/cuda.hpp	/^      typedef std::stack<boost::shared_ptr<context> > stack_t;$/;"	t	class:pycuda::context_stack
+start_holding_blocks	src/cpp/mempool.hpp	/^      virtual void start_holding_blocks()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+start_holding_blocks	src/wrapper/mempool.cpp	/^      void start_holding_blocks()$/;"	f	class:__anon13::context_dependent_memory_pool
+start_profiler	src/cpp/cuda.hpp	/^  inline void start_profiler()$/;"	f	namespace:pycuda
+stop_holding	src/cpp/mempool.hpp	/^      void stop_holding()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+stop_holding_blocks	src/cpp/mempool.hpp	/^      virtual void stop_holding_blocks()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+stop_holding_blocks	src/wrapper/mempool.cpp	/^      void stop_holding_blocks()$/;"	f	class:__anon13::context_dependent_memory_pool
+stop_profiler	src/cpp/cuda.hpp	/^  inline void stop_profiler()$/;"	f	namespace:pycuda
+stream	src/cpp/cuda.hpp	/^      stream(unsigned int flags=0)$/;"	f	class:pycuda::stream
+stream	src/cpp/cuda.hpp	/^  class stream : public boost::noncopyable, public context_dependent$/;"	c	namespace:pycuda
+super	src/wrapper/mempool.cpp	/^        super;$/;"	t	class:__anon13::pooled_device_allocation	file:
+super	src/wrapper/mempool.cpp	/^        super;$/;"	t	class:__anon13::pooled_host_allocation	file:
+surface_reference	src/cpp/cuda.hpp	/^      surface_reference(CUsurfref sr)$/;"	f	class:pycuda::surface_reference
+surface_reference	src/cpp/cuda.hpp	/^  class surface_reference : public  boost::noncopyable$/;"	c	namespace:pycuda
+synchronize	src/cpp/cuda.hpp	/^      event *synchronize()$/;"	f	class:pycuda::event
+synchronize	src/cpp/cuda.hpp	/^      static void synchronize()$/;"	f	class:pycuda::context
+synchronize	src/cpp/cuda.hpp	/^      void synchronize()$/;"	f	class:pycuda::stream
+tan	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> tan(const complex<double>& z)$/;"	f	namespace:pycuda
+tan	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> tan(const complex<float>& z)$/;"	f	namespace:pycuda
+tanT	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<_Tp> tanT(const complex<_Tp>& z, const _Tp& Tp_limit) {$/;"	f	namespace:pycuda
+tanh	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<double> tanh(const complex<double>& z)$/;"	f	namespace:pycuda
+tanh	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<float> tanh(const complex<float>& z)$/;"	f	namespace:pycuda
+tanhT	src/cuda/pycuda-complex-impl.hpp	/^__device__ complex<_Tp> tanhT(const complex<_Tp>& z, const _Tp& Tp_limit) {$/;"	f	namespace:pycuda
+texture_reference	src/cpp/cuda.hpp	/^      texture_reference()$/;"	f	class:pycuda::texture_reference
+texture_reference	src/cpp/cuda.hpp	/^      texture_reference(CUtexref tr, bool managed)$/;"	f	class:pycuda::texture_reference
+texture_reference	src/cpp/cuda.hpp	/^  class texture_reference : public  boost::noncopyable$/;"	c	namespace:pycuda
+thread_id	src/cpp/cuda.hpp	/^      boost::thread::id thread_id() const$/;"	f	class:pycuda::context
+time_since	src/cpp/cuda.hpp	/^      float time_since(event const &start)$/;"	f	class:pycuda::event
+time_till	src/cpp/cuda.hpp	/^      float time_till(event const &end)$/;"	f	class:pycuda::event
+top	src/cpp/cuda.hpp	/^      value_type &top()$/;"	f	class:pycuda::context_stack
+total_memory	src/cpp/cuda.hpp	/^      pycuda_size_t total_memory()$/;"	f	class:pycuda::device
+translate_cuda_error	src/wrapper/wrap_cudadrv.cpp	/^  void translate_cuda_error(const pycuda::error &err)$/;"	f	namespace:__anon2
+try_release_blocks	src/wrapper/mempool.cpp	/^      void try_release_blocks()$/;"	f	class:__anon13::device_allocator
+try_release_blocks	src/wrapper/mempool.cpp	/^      void try_release_blocks()$/;"	f	class:__anon13::host_allocator
+try_to_free_memory	src/cpp/mempool.hpp	/^      bool try_to_free_memory()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+unmap	src/cpp/cuda_gl.hpp	/^      void unmap()$/;"	f	class:pycuda::gl::buffer_object_mapping
+unmap	src/cpp/cuda_gl.hpp	/^      void unmap(boost::shared_ptr<stream> const &strm)$/;"	f	class:pycuda::gl::registered_mapping
+unmap_no_strm	src/cpp/cuda_gl.hpp	/^      void unmap_no_strm()$/;"	f	class:pycuda::gl::registered_mapping
+unpack	src/wrapper/_pycuda_struct.cpp	/^	PyObject* (*unpack)(const char *,$/;"	m	struct:_formatdef	file:
+unpack	src/wrapper/_pycuda_struct.cpp	/^unpack(PyObject *self, PyObject *args)$/;"	f	file:
+unpack_from	src/wrapper/_pycuda_struct.cpp	/^unpack_from(PyObject *self, PyObject *args, PyObject *kwds)$/;"	f	file:
+unregister	src/cpp/cuda_gl.hpp	/^      void unregister()$/;"	f	class:pycuda::gl::buffer_object
+unregister	src/cpp/cuda_gl.hpp	/^      void unregister()$/;"	f	class:pycuda::gl::registered_object
+value_type	src/cpp/cuda.hpp	/^      typedef stack_t::value_type value_type;;$/;"	t	class:pycuda::context_stack
+value_type	src/cuda/pycuda-complex.hpp	/^  typedef _Tp value_type;$/;"	t	struct:pycuda::complex
+value_type	src/cuda/pycuda-complex.hpp	/^  typedef double value_type;$/;"	t	struct:pycuda::complex
+value_type	src/cuda/pycuda-complex.hpp	/^  typedef float value_type;$/;"	t	struct:pycuda::complex
+wait_for_event	src/cpp/cuda.hpp	/^  inline void stream::wait_for_event(const event &evt)$/;"	f	class:pycuda::stream
+weakreflist	src/wrapper/_pycuda_struct.cpp	/^	PyObject *weakreflist; \/* List of weak references *\/$/;"	m	struct:__anon3	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; PY_LONG_LONG x; } s_long_long;$/;"	m	struct:__anon10	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; bool x; } s_bool;$/;"	m	struct:__anon11	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; double x; } st_double;$/;"	m	struct:__anon8	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; float x; } st_float;$/;"	m	struct:__anon7	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; int x; } st_int;$/;"	m	struct:__anon5	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; long x; } st_long;$/;"	m	struct:__anon6	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; short x; } st_short;$/;"	m	struct:__anon4	file:
+x	src/wrapper/_pycuda_struct.cpp	/^typedef struct { char c; void *x; } st_void_p;$/;"	m	struct:__anon9	file:
+~aligned_host_allocation	src/cpp/cuda.hpp	/^      ~aligned_host_allocation()$/;"	f	struct:pycuda::aligned_host_allocation
+~array	src/cpp/cuda.hpp	/^      ~array()$/;"	f	class:pycuda::array
+~buffer_object	src/cpp/cuda_gl.hpp	/^      ~buffer_object()$/;"	f	class:pycuda::gl::buffer_object
+~buffer_object_mapping	src/cpp/cuda_gl.hpp	/^      ~buffer_object_mapping()$/;"	f	class:pycuda::gl::buffer_object_mapping
+~context	src/cpp/cuda.hpp	/^      ~context()$/;"	f	class:pycuda::context
+~context_stack	src/cpp/cuda.hpp	/^  inline context_stack::~context_stack()$/;"	f	class:pycuda::context_stack
+~device_allocation	src/cpp/cuda.hpp	/^      ~device_allocation()$/;"	f	class:pycuda::device_allocation
+~event	src/cpp/cuda.hpp	/^      ~event()$/;"	f	class:pycuda::event
+~host_pointer	src/cpp/cuda.hpp	/^      virtual ~host_pointer()$/;"	f	struct:pycuda::host_pointer
+~ipc_mem_handle	src/cpp/cuda.hpp	/^      ~ipc_mem_handle()$/;"	f	class:pycuda::ipc_mem_handle
+~memory_pool	src/cpp/mempool.hpp	/^      ~memory_pool()$/;"	f	class:PYGPU_PACKAGE::memory_pool
+~module	src/cpp/cuda.hpp	/^      ~module()$/;"	f	class:pycuda::module
+~pagelocked_host_allocation	src/cpp/cuda.hpp	/^      ~pagelocked_host_allocation()$/;"	f	struct:pycuda::pagelocked_host_allocation
+~pointer_holder_base	src/cpp/cuda.hpp	/^      virtual ~pointer_holder_base() { }$/;"	f	class:pycuda::pointer_holder_base
+~pooled_allocation	src/cpp/mempool.hpp	/^      ~pooled_allocation()$/;"	f	class:PYGPU_PACKAGE::pooled_allocation
+~registered_host_memory	src/cpp/cuda.hpp	/^      ~registered_host_memory()$/;"	f	struct:pycuda::registered_host_memory
+~registered_mapping	src/cpp/cuda_gl.hpp	/^      ~registered_mapping()$/;"	f	class:pycuda::gl::registered_mapping
+~registered_object	src/cpp/cuda_gl.hpp	/^      ~registered_object()$/;"	f	class:pycuda::gl::registered_object
+~scoped_context_activation	src/cpp/cuda.hpp	/^      ~scoped_context_activation()$/;"	f	class:pycuda::scoped_context_activation
+~stream	src/cpp/cuda.hpp	/^      ~stream()$/;"	f	class:pycuda::stream
+~texture_reference	src/cpp/cuda.hpp	/^      ~texture_reference()$/;"	f	class:pycuda::texture_reference
