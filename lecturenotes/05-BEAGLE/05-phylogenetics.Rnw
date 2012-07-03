@@ -1,0 +1,308 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf GPU-CAPABLE SOFTWARE FOR STATISTICAL PHYLOGENETICS} 
+\end{center} $\quad$ \newline
+
+\begin{center}
+\LARGE Will Landau, Matt Simpson, Prof. Jarad Niemi
+\end{center} \newpage
+
+\Huge
+\begin{center}
+{\bf INTRODUCTION TO PHYLOGENETICS}
+\end{center} $\quad$ \newline \huge
+
+{\bf Phylogenetics:} The study of evolutionary relationships among different species or strains of organisms. \newline
+
+Given a set of species, the goal is to construct a model that describes: \newline
+
+\begin{enumerate}[1. ]
+\item Lineage and ancestry.
+\item The relative degree of genetic similarity between and among the different organisms.
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf PHYLOGENETIC TREES}
+\end{center} \LARGE
+
+
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree1} 
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree5}
+
+
+\begin{itemize}
+\item The leaf nodes are the known, contemporary species that we care about
+\item The inner nodes are hidden (possibly unknown) ancestors 
+\item An edge identifies a pair of nodes in which one member evolved directly from the other.
+\end{itemize}
+
+\newpage
+
+\huge
+In general, a {\bf phylogenetic tree} is an acyclic graph. The following properties have explicit phylogenetic meaning. \newline
+
+\begin{itemize}
+\item {\bf topology}: the branching structure: i.e., which nodes are connected to which. Topology depicts ancestry.
+\item {\bf branch lengths}: how long each edge is. Branch lengths are proportional to genetic distance as measured in phylogenetic time, $\lambda \cdot t$, where $\lambda$ is the genetic mutation rate and $t$ is physical time.
+\end{itemize} $\quad$ \newline
+
+
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf UNROOTED TREES}
+\end{center} 
+
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree1} 
+
+An {\bf unrooted tree} is an UNDIRECTED acyclic graph that indicates no common ancestor. \newline
+
+We add the additional assumption that the leaves evolved from the inner nodes, but otherwise, we don't know what evolved from what.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf UNROOTED TREES}
+\end{center} 
+
+\setkeys{Gin}{width=.6\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree5} 
+
+An {\bf rooted tree} is a DIRECTED acyclic graph that indicates no common ancestor. \newline
+
+The time axis indicates the direction of the edges (the direction of evolution).  \newpage
+
+
+
+\newpage
+
+\setkeys{Gin}{width=.6\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree2} 
+\LARGE
+
+Some phylogenetic trees are displayed as cladograms like this one. The horizontal edge lengths convey phylogenetic distance, and the vertical lines are meaningless.
+
+
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree3} \newline
+
+This one revealed that a Florida dentist infected several of his patients with HIV around 1990.  
+
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree4} \newline
+
+Topologies and branch lengths are inferred by sequencing DNA from each of the contemporary organisms and determining the degree of similarity from DNA sequence alignment.
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree6}  \newline
+
+Use of genetic distances: one simple and naive way to put together a phylogenetic tree. \newpage
+
+\Huge
+\begin{center}
+{\bf WAYS TO INFER PHYLOGENETIC TREES FROM GENOMIC DATA}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Use of genetic distances
+\item UPGMA Clustering (Unweighted Pair Group Method using Arithmetic averages)
+\item Clustering via neighbor joining
+\item Parsimony
+\item {\color{blue} \bf MAXIMUM LIKELIHOOD USING CONTINUOUS TIME MARKOV CHAINS TO MODEL GENETIC SEQUENCE MUTATION OVER TIME}
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf RECAP: WE CARE ABOUT SEQUENCE ALIGNMENT FOR CONSTRUCTING TREES}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/seq1}
+\setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree7}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf BY WHAT PROCESS DID THE RABBIT AND THE CHICKEN EACH DESCEND FROM THEIR MOST RECENT COMMON ANCESTOR?}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/seq2} \newline
+
+Use a continuous time Markov process to model the genetic mutations from ancestor to rabbit and ancestor to chicken.
+
+\newpage
+
+Sequence alignment data ${\bf D} = $ \newline
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/matrix1} \newpage
+
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/matrix2} \newline
+
+We assume that mutations in different loci are independent. \newline
+
+Consider locus 4...
+ 
+
+\newpage \LARGE
+
+The nucleotide base in locus 4 \newline might have changed over time in the following way: \newline \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/speculate1} \newpage
+
+
+
+We assume each path along the tree, or line of speciation, happens as a continuous time Markov chain: \newline \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/speculate2} \newpage
+
+
+We assume each path along the tree, or line of speciation, happens as a continuous time Markov chain: \newline \newline
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/timeline1} \newline
+
+
+\newpage
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/trans1} 
+
+\newpage
+\huge
+Each physical time length $t$ gives us a $4 \times 4$ transition matrix: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/trans2} \newline
+
+
+Using calculus and some extra assumptions, we can describe ${\bf P}(t)$ by :
+
+\begin{align*}
+{\bf P}(t) = \exp({\bf R}t)
+\end{align*} $\quad$ \newline
+
+where {\bf R} is the {\bf rate matrix}. 
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Kimura1} \newline
+
+where $\alpha$ and $\beta$ are parameters that make the columns sum to zero.
+
+
+\end{flushleft}
+\end{document}
