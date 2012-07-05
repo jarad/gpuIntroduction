@@ -1,3 +1,0 @@
-list of naive algorithms
-short discussion of ML techniques
-intro to the actual software
