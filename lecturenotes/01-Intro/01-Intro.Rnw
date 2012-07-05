@@ -384,7 +384,7 @@ Everything in here is stored locally on impact1. To ensure fast computation, put
 \Huge
 \begin{center}
 {\bf REFERENCES}
-\end{center} \LARGE $\quad$ \newline
+\end{center} \LARGE 
 
 D. Kirk, W.H. Wen-mei, and W. Hwu. {\it Programming massively parallel processors: a hands-on approach.} Morgan Kaufmann, 2010. \newline
 
