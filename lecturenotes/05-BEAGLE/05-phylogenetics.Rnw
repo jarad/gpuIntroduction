@@ -304,5 +304,61 @@ where {\bf R} is the {\bf rate matrix}.
 where $\alpha$ and $\beta$ are parameters that make the columns sum to zero.
 
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf DETERMINING THE BEST PHYLOGENETIC TREE}
+\end{center} \huge
+
+Given a set genetic sequence data $D$, use maximum likelihood to estimate the best: \newline
+
+\begin{enumerate}[1. ]
+\item CTMC model, $m$
+\item phylogenetic tree, $\tau$ 
+\end{enumerate} $\quad$ \newline
+
+i.e., we want to find:
+
+\begin{align*}
+\wh{\tau} = \text{argmax}_\tau \  P(D \mid \tau, m)
+\end{align*} $\quad$ \newline
+
+the MLE of the space of all possible phylogenetic trees.
+
+\newpage
+
+The likelihood calculation is time-consuming using CPUs. \newline
+
+In their 2009 {\it Bioinformatics} paper, Suchard and Rambaut describe parallel, GPU-capable implementations of the following two steps in the workflow: \newline
+
+\begin{enumerate}[1. ]
+\item Given a tree, compute the probabilities of observing two specific sequences at either node of each edge.
+\item Sum the data likelihood over all possible unobserved sequences at the internal nodes.
+\end{enumerate}
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/garble1}
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/garble2} 
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/garble3} 
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/garble4} 
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/garble5} 
+
+\newpage
+
+
 \end{flushleft}
 \end{document}
