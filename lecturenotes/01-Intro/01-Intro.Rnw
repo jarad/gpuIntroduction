@@ -227,6 +227,8 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 \newpage
 
 
+
+
 \Huge
 \begin{center}
 {\bf GPUs AND PARALLEL COMPUTING}
@@ -237,6 +239,12 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 GPUs parallelize repetitive arithmetic calculations much better than CPUs. \newline
 
 \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/amdahl} \newline
+
+
+\newpage
+
 
 \Huge
 \begin{center}
@@ -258,6 +266,8 @@ GPUs parallelize repetitive arithmetic calculations much better than CPUs. \newl
 
 
 \newpage
+
+
 
 \Huge
 \begin{center}
@@ -385,9 +395,12 @@ D. Kirk, W.H. Wen-mei, and W. Hwu. {\it Programming massively parallel processor
 
 A. Lee, C. Yau, M.B. Giles, A. Doucet, and C.C. Holmes. On the utility of graphics cards to perform massively parallel simulation of advanced monte carlo methods. {\it Journal of Computational and Graphical Statistics}, 19(4): 769-789, 2010. \newline
 
+J. Niemi and M. Wheller. Statistical computation on GPGPUs. Iowa State University. 28 September, 2011. \newline
+
 J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
 
-M.A. Suchard, Q. Wang, C. Chan, J. Frelinger, A. Cron, and M. West. Understanding gpu programming for statistical computation: Studies in massively parallel mixtures. {\it Journal of Computational and Graphical Statistics}. 19(2): 419-438, 2010. 
+M.A. Suchard, Q. Wang, C. Chan, J. Frelinger, A. Cron, and M. West. Understanding gpu programming for statistical computation: Studies in massively parallel mixtures. {\it Journal of Computational and Graphical Statistics}. 19(2): 419-438, 2010.  \newline
+
 
 
 
