@@ -123,6 +123,7 @@ Will Landau, Matt Simpson, Prof. Jarad Niemi
 {\bf BASIC C PROGRAM}
 \end{center} $\quad$ \newline
 
+% JBN: in the future I would suggest using a verbatim environment for code
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
 
 \Huge
@@ -130,6 +131,8 @@ Will Landau, Matt Simpson, Prof. Jarad Niemi
 {\bf BASIC CUDA C PROGRAM}
 \end{center} $\quad$ \newline
 
+% JBN: the __global__ prefix doesn't say to me "do this on the GPU" but rather "only run this function on the GPU"
+%      the kernel<<<1,1>>> says "do this on the GPU"
 \setkeys{Gin}{width=0.9\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2b} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
@@ -156,10 +159,10 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 {\bf PARALLELIZATION AND THE SIMD PARADIGM}
 \end{center} $\quad$ \newline 
 
-{\bf SIMD}: Single Data Multiple Instruction. The paradigm works like this: \newline
+{\bf SIMD}: Single Instruction Multiple Data. The paradigm works like this: \newline
 \begin{enumerate}[1. ]
 \item The CPU sends a kernel (instruction set) to the GPU.
-\item For every time the CPU sends a kernel, the GPU executes the kernel multiple times simultaneously (in {\bf PARALLEL}). Each such execution of the kernel is called a {\bf thread}.  \newline
+\item The GPU executes the kernel multiple times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}.  \newline
 \end{enumerate}
 
 
@@ -169,6 +172,8 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 \begin{center}
 {\bf ORGANIZATION OF THREADS}
 \end{center} $\quad$ \newline
+
+% JBN: Can't you have multiple grids with the same kernel call?
 
 {\bf Grid}; The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
 
@@ -189,7 +194,7 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 
 \Huge
 \begin{center}
-{\bf Here, the GPU runs {kernel()} exactly one time:}
+{\bf Here, the GPU runs {kernel()} one time:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
 #include <iostream>
@@ -207,7 +212,7 @@ int main ( void ) {
 
 \Huge
 \begin{center}
-{\bf Here, the GPU runs {kernel()} exactly 5 times:}
+{\bf Here, the GPU runs {kernel()} 5 times:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
 #include <iostream>
@@ -223,7 +228,7 @@ int main ( void ) {
 
 \Huge
 \begin{center}
-{\bf Here, the GPU runs {kernel()} exactly 5 times:}
+{\bf Here, the GPU runs {kernel()} 5 times:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
 #include <iostream>
@@ -240,7 +245,7 @@ int main ( void ) {
 
 \Huge
 \begin{center}
-{\bf Here, the GPU runs {kernel()} exactly 20 times:}
+{\bf Here, the GPU runs {kernel()} 20 times:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
 #include <iostream>
@@ -262,6 +267,7 @@ int main ( void ) {
 {\bf PASSING DATA TO AND FROM THE GPU: simple1.cu}
 \end{center} $\quad$ \newline \LARGE
 
+% JBN: perhaps decrease font size to get the code all on the same page
 \begin{verbatim}                                                                                                         
 #include <stdio.h>
 #include <stdlib.h>
@@ -296,6 +302,7 @@ int main(){
 {\bf PASSING DATA TO AND FROM THE GPU: simple2.cu}
 \end{center} $\quad$ \newline \LARGE
 
+% JBN: why can't *dev_a be changed after the line you mentioned in the code below?
 \begin{verbatim}
 #include <stdio.h>
 #include <stdlib.h>
@@ -338,6 +345,8 @@ Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block.
 
  The following CUDA C variables are available for use in the kernel: \newline
 
+% JBN: not quite accurate since you can have an array of blocks in a grid and an array of threads in a block
+%      you might want to introduce blockIdx.y, blockIdx.z, threadIdx.y, and threadIdx.z (I believe these all exist)
 {\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
 
 {\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newpage
@@ -348,6 +357,9 @@ Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block.
 {\bf USING blockIdx.x AND threadIdx.x: identify\_naive1.cu}
 \end{center} $\quad$ \newline \LARGE
 
+% JBN: I like this example, but I think you can improve it by
+%      executing every thread with ids less than the blockid and threadid and
+%      then print out all threads
 \begin{verbatim}
 #include <stdio.h>
 #include <stdlib.h>
@@ -414,6 +426,10 @@ the output is still:
 
 Even though thread number 4 in block number 2 executed.  \newline
 
+% JBN: Pedagogically, I typically try to only introduce the proper way of doing things since there are 
+%      an infinite number of ways to mess something up. And I don't want students or the audience to get mixed up
+%      in their head with what is proper and what is improper. That is, if they remember me saying something
+%      then it is the proper way of doing things.
 Why? Take a look at {identify\_naive2.cu} on the following page:
 
 
@@ -535,6 +551,7 @@ int main(){
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify} \newpage
 
 
+% JBN: showing this example in action would be great
 \Huge
 \begin{center}
 {\bf EXAMPLE: VECTOR SUMMATION (Sanders, et. al.)}
