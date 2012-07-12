@@ -118,7 +118,8 @@ $\quad$ \newline \newline \newline \newline \newline
 
 \begin{itemize}
 \item gputools is already installed on impact1.stat.iastate.edu, ready to load with {\tt library(gputools)} in R.
-\item For other GPU systems, download gputools from CRAN with a simple {\tt install.packages("gputools")} in R.
+\item For other GPU systems, download gputools from CRAN with a simple {\tt install.packages("gputools")} in R. 
+% JBN: installation will fail on non-GPU systems since the compiler doesn't exist
 \item Documentation:
 \begin{itemize}
 \item http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/
@@ -236,8 +237,8 @@ Things to note: \newline
 
 \begin{itemize}
 \item Device 3 is a GPU
-\item "Tesla M2070" is the name of the model of the GPU. 
-\item Device 3 contains multiple cores, or "sub-processors". From the output, it has 448 CUDA-capable cores.
+\item ``Tesla M2070'' is the name of the model of the GPU. 
+\item Device 3 contains multiple cores, or ``sub-processors''. From the output, it has 448 CUDA-capable cores.
 \end{itemize}
 
 \newpage
@@ -248,6 +249,8 @@ Things to note: \newline
 \end{center} $\quad$ \newline
 
 Now, suppose I want to do a giant matrix multiplication on Device 3. I'm automatically set to Device 0: \newline
+
+% JBN:Can an available GPU be automatically selected?
 
 \setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/6} \newline
 
@@ -294,8 +297,14 @@ The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(arg)} 
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_large} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_large} \newpage
 
+% JBN: I think this final graph is sufficient
+
 
 \newpage
+
+% JBN: were the following not impressive? 
+%      if they were, I would prefer to see one graph for each operation, i.e. QR, SVD, LM, GLM
+%      what about t-test? It might be interesting to see this example since on slide 4 you mention the usage is different
 
 %\Huge
 %\begin{center}
