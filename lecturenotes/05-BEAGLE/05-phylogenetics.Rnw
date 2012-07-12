@@ -119,13 +119,15 @@ $\quad$ \newline
 {\bf INTRODUCTION TO PHYLOGENETICS}
 \end{center} $\quad$ \newline \huge
 
+% JBN: put a disclaimer stating you are no phylogenetics expert
+
 {\bf Phylogenetics:} The study of evolutionary relationships among different species or strains of organisms. \newline
 
 Given a set of species, the goal is to construct a model that describes: \newline
 
 \begin{enumerate}[1. ]
 \item Lineage and ancestry.
-\item The relative degree of genetic similarity between and among the different organisms.
+\item The relative degree of genetic similarity between and among the different organisms or individuals.
 \end{enumerate}
 
 \newpage
@@ -141,9 +143,9 @@ Given a set of species, the goal is to construct a model that describes: \newlin
 
 
 \begin{itemize}
-\item The leaf nodes are the known, contemporary species that we care about
-\item The inner nodes are hidden (possibly unknown) ancestors 
-\item An edge identifies a pair of nodes in which one member evolved directly from the other.
+\item The leaf nodes are known, contemporary species 
+\item The inner nodes are hidden (possibly unknown) ancestors % JBN: unclear what hidden compared to unknown means
+\item An edge identifies a pair of nodes in which one member evolved from the other.
 \end{itemize}
 
 \newpage
@@ -180,7 +182,7 @@ We add the additional assumption that the leaves evolved from the inner nodes, b
 
 \setkeys{Gin}{width=.6\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree5} 
 
-An {\bf rooted tree} is a DIRECTED acyclic graph that indicates no common ancestor. \newline
+An\ {\bf rooted tree} is a DIRECTED acyclic graph that indicates no common ancestor. \newline
 
 The time axis indicates the direction of the edges (the direction of evolution).  \newpage
 
@@ -202,6 +204,7 @@ This one revealed that a Florida dentist infected several of his patients with H
 \setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree4} \newline
 
 Topologies and branch lengths are inferred by sequencing DNA from each of the contemporary organisms and determining the degree of similarity from DNA sequence alignment.
+% JBN: can certainly use sources other than DNA sequences
 
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/phylotree6}  \newline
 
@@ -279,7 +282,7 @@ We assume each path along the tree, or line of speciation, happens as a continuo
 
 \newpage
 
-
+% JBN: this is getting complicated. I suggest keeping it simple. 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/trans1} 
 
 \newpage
@@ -359,6 +362,7 @@ In their 2009 {\it Bioinformatics} paper, Suchard and Rambaut describe parallel,
 
 \newpage
 
+% JBN: rather than seeing the background, can we use their software to reconstruct trees?
 
 \end{flushleft}
 \end{document}
