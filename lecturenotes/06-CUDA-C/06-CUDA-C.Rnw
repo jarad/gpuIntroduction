@@ -1,0 +1,554 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+  
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf INTRODUCTION TO PROGRAMMING IN CUDA C}
+\end{center} $\quad$ \newline
+
+\LARGE
+
+\begin{center}
+Will Landau, Matt Simpson, Prof. Jarad Niemi
+\end{center}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf BASIC C PROGRAM}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+
+\Huge
+\begin{center}
+{\bf BASIC CUDA C PROGRAM}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=0.9\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2b} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2d} \newpage
+
+\Huge
+\begin{center}
+{\bf REVIEW OF PARALLELIZATION}
+\end{center} $\quad$ \newline 
+
+{\bf Parallelization}: Running different calculations simultaneously.  \newline
+
+{\bf Kernel}: An instruction set executed on the GPU. (All others are executed on the CPU.)  \newline
+
+In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_\_}. For example: \newline
+
+\setkeys{Gin}{width=.85\textwidth} \includegraphics[scale=0.25,angle=0]{kernel1} 
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf PARALLELIZATION AND THE SIMD PARADIGM}
+\end{center} $\quad$ \newline 
+
+{\bf SIMD}: Single Data Multiple Instruction. The paradigm works like this: \newline
+\begin{enumerate}[1. ]
+\item The CPU sends a kernel (instruction set) to the GPU.
+\item For every time the CPU sends a kernel, the GPU executes the kernel multiple times simultaneously (in {\bf PARALLEL}). Each such execution of the kernel is called a {\bf thread}.  \newline
+\end{enumerate}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf ORGANIZATION OF THREADS}
+\end{center} $\quad$ \newline
+
+{\bf Grid}; The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
+
+{\bf Block}: A collection of threads within a grid that share memory quickly and easily.  
+
+\newpage
+
+\setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{imng.jpg} \newpage
+
+\Huge
+\begin{center}
+{\bf NOW BACK TO THE STUFF IN ANGLE BRACKTES...}
+\end{center} $\quad$ \newline
+
+
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{2e} \newpage
+
+
+\Huge
+\begin{center}
+{\bf Here, the GPU runs {kernel()} exactly one time:}
+\end{center} $\quad$ \newline
+\begin{verbatim}
+#include <iostream>
+
+__global__ void kernel ( void ) {
+}
+
+int main ( void ) {
+  kernel<<<1,1>>>();
+  printf( "Hello, World!" \n" )
+  return 0;
+}\end{verbatim} \newpage
+
+
+
+\Huge
+\begin{center}
+{\bf Here, the GPU runs {kernel()} exactly 5 times:}
+\end{center} $\quad$ \newline
+\begin{verbatim}
+#include <iostream>
+
+__global__ void kernel ( void ) {
+}
+
+int main ( void ) {
+  kernel<<<5,1>>>();
+  printf( "Hello, World!" \n" )
+  return 0;
+} \end{verbatim} \newpage
+
+\Huge
+\begin{center}
+{\bf Here, the GPU runs {kernel()} exactly 5 times:}
+\end{center} $\quad$ \newline
+\begin{verbatim}
+#include <iostream>
+
+__global__ void kernel ( void ) {
+}
+
+int main ( void ) {
+  kernel<<<1,5>>>();
+  printf( "Hello, World!" \n" )
+  return 0;
+} \end{verbatim} \newpage
+
+
+\Huge
+\begin{center}
+{\bf Here, the GPU runs {kernel()} exactly 20 times:}
+\end{center} $\quad$ \newline
+\begin{verbatim}
+#include <iostream>
+
+__global__ void kernel ( void ) {
+}
+
+int main ( void ) {
+  kernel<<<4,5>>>();
+  printf( "Hello, World!" \n" )
+  return 0;
+} \end{verbatim}\newpage
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf PASSING DATA TO AND FROM THE GPU: simple1.cu}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{verbatim}                                                                                                         
+#include <stdio.h>
+#include <stdlib.h>
+
+__global__ void colonel(int *dev_a){
+  *dev_a = 1;
+}
+
+int main(){
+
+  // Declare variables and allocate memory on the GPU.
+  int a[1], *dev_a;
+  cudaMalloc((void**) &dev_a, sizeof(int));
+
+  // Execute kernel and copy the result to CPU memory.
+  colonel<<<1,1>>>(dev_a);
+  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
+
+  // Print result and free dynamically allocated memory.
+  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
+  cudaFree(dev_a);
+
+}
+\end{verbatim} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{simple1} 
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf PASSING DATA TO AND FROM THE GPU: simple2.cu}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+__global__ void colonel(int *dev_b, int *dev_a){
+  *dev_b = *dev_a + 1;
+}
+
+int main(){
+
+  // Declare variables and allocate memory on the GPU.
+  int a[1], b[1], *dev_a, *dev_b;
+  cudaMalloc((void**) &dev_a, sizeof(int));
+  cudaMalloc((void**) &dev_b, sizeof(int));
+
+  // Intitialize argument a, executed kernel, and store result in b.
+  a[0] = 1; // REMEMBER: INDEXING IN C STARTS FROM 0.
+  cudaMemcpy(dev_a, a, sizeof(int), cudaMemcpyHostToDevice); 
+      // AFTER THIS LINE, *dev_a CANNOT BE CHANGED!
+  colonel<<<1,1>>>(dev_b, dev_a);
+  cudaMemcpy(b, dev_b, sizeof(int), cudaMemcpyDeviceToHost);
+
+  // Print result and free dynamically allocated memory.
+  printf("b[0] = %d\n", b[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
+  cudaFree(dev_a);
+  cudaFree(dev_b);
+
+}
+
+\end{verbatim} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{simple2} \newpage
+
+\Huge
+\begin{center}
+{\bf threadIdx.x AND blockIdx.x}
+\end{center} $\quad$ \newline \huge 
+
+Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block. \newline
+
+ The following CUDA C variables are available for use in the kernel: \newline
+
+{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
+
+{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newpage
+
+
+\Huge
+\begin{center}
+{\bf USING blockIdx.x AND threadIdx.x: identify\_naive1.cu}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+__global__ void isExecuted(int *dev_a, int blockid, int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+  else
+    *dev_a = 0;
+
+}
+
+int main(){
+
+  // Declare variables and allocate memory on the GPU.
+  int a[1], *dev_a;
+  cudaMalloc((void**) &dev_a, sizeof(int));
+
+  // Execute kernel and copy the result to CPU memory.
+  isExecuted<<<1,1>>>(dev_a, 0, 0); 
+            // NOTE: INDEXING OF THREADS AND BLOCKS STARTS FROM 0.
+  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
+
+  // Print result and free dynamically allocated memory.
+  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
+  cudaFree(dev_a);
+
+}
+
+\end{verbatim} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify_naive1} \newline
+
+\newpage \huge
+
+You can verify that when the line, \newline
+
+\begin{verbatim}
+    isExecuted<<<1,1>>>(dev_a, 0, 0); 
+\end{verbatim} $\quad$ \newline
+is changed to: \newline
+
+\begin{verbatim}
+    isExecuted<<<1,1>>>(dev_a, 2, 4); 
+\end{verbatim} $\quad$ \newline
+the output of the program: \newline
+
+\begin{verbatim}
+    a[0] = 0
+\end{verbatim} $\quad$ \newline
+which makes sense because there was no block number 2 or thread number 4. \newpage
+
+However, if I change that same line to: \newline
+
+\begin{verbatim}
+    isExecuted<<<100,100>>>(dev_a, 2, 4); 
+\end{verbatim} $\quad$ \newline
+the output is still:
+
+\begin{verbatim}
+    a[0] = 0
+\end{verbatim} $\quad$ \newline
+
+Even though thread number 4 in block number 2 executed.  \newline
+
+Why? Take a look at {identify\_naive2.cu} on the following page:
+
+
+\newpage
+\large
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+__global__ void isExecuted(int *dev_a, int blockid, int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+  else
+    *dev_a = 0;
+
+}
+
+int main(){
+
+  // Declare variables and allocate memory on the GPU.
+  int a[1], *dev_a;
+  cudaMalloc((void**) &dev_a, sizeof(int));
+
+  // Execute kernel and copy the result to CPU memory.
+  isExecuted<<<100,100>>>(dev_a, 2, 4); 
+            // NOTE: INDEXING OF THREADS AND BLOCKS STARTS FROM 0.
+  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
+
+  // Print result and free dynamically allocated memory.
+  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
+  cudaFree(dev_a);
+
+}
+
+\end{verbatim} 
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{identify_naive2} \newpage
+
+
+\huge
+
+The problem is in: \newline
+
+
+\begin{verbatim}
+__global__ void isExecuted(int *dev_a, int blockid, 
+               int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+  else
+    *dev_a = 0;
+
+}
+\end{verbatim}
+
+\newpage
+
+
+
+The problem is in: \huge
+
+
+\begin{verbatim}
+__global__ void isExecuted(int *dev_a, int blockid, 
+               int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+  else
+    *dev_a = 0;
+
+}
+\end{verbatim} $\quad$ \newline
+
+The thread with blockIdx.x = blockid and threadIdx.x = threaded will set  *dev\_a to 1. \newline
+
+However, all the other threads will set *dev\_a to 0. 
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf IMPROVED CODE: identify.cu}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+
+__global__ void isExecuted(int *dev_a, int blockid, int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+
+}
+
+int main(){
+
+  // Declare variables and allocate memory on the GPU.
+  int init[1], a[1], *dev_a;
+  cudaMalloc((void**) &dev_a, sizeof(int));
+
+  // Initialize dev_a, execute kernel, and copy the result to CPU memory.
+  init[1] = 0;
+  cudaMemcpy(dev_a, init, sizeof(int), cudaMemcpyHostToDevice);
+  isExecuted<<<100,100>>>(dev_a, 2, 4); 
+        // NOTE: INDEXING OF THREADS AND BLOCKS STARTS FROM 0.
+  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
+
+  // Print result and free dynamically allocated memory.
+  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
+  cudaFree(dev_a);
+
+}
+\end{verbatim} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify} \newpage
+
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: VECTOR SUMMATION (Sanders, et. al.)}
+\end{center} 
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1p5} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum2} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum3} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum4} \newpage
+
+
+
+
+
+
+\end{flushleft}
+\end{document}
