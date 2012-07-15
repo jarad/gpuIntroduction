@@ -306,6 +306,30 @@ The R script, {\tt gpuQr.r}, compares the performance of {\tt gpuQr(arg)} and {\
 % JBN: I think this final graph is sufficient
 
 
+\Huge
+\begin{center}
+{\bf A COMPARISON OF gpuSolve() AND solve()}
+\end{center} $\quad$ \newline
+
+The R script, {\tt gpuSolve.r}, compares the performance of {\tt gpuSolve(arg)} and {\tt solve(arg)} for square matrices {\tt arg} of varying sizes. \newline
+
+ See the results on the next few slides. \newline
+
+\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_user_small} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_syst_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_total_small} \newpage
+
+\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_user_large} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_syst_large} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_total_large} \newpage
+
+
+
+
 \newpage
 
 % JBN: were the following not impressive? 
