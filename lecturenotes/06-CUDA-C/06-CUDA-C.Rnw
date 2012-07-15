@@ -161,8 +161,8 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 
 {\bf SIMD}: Single Instruction Multiple Data. The paradigm works like this: \newline
 \begin{enumerate}[1. ]
-\item The CPU sends a kernel (instruction set) to the GPU.
-\item The GPU executes the kernel multiple times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}.  \newline
+\item The CPU sends a kernel (a SINGLE INSTRUCTION set) to the GPU.
+\item The GPU executes the kernel MULTIPLE times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}, and each thread is executed on different parts of a giant data set.  \newline
 \end{enumerate}
 
 
