@@ -262,10 +262,10 @@ int main ( void ) {
 
 \newpage
 
-\Huge
+\LARGE
 \begin{center}
 {\bf PASSING DATA TO AND FROM THE GPU: simple1.cu}
-\end{center} $\quad$ \newline \LARGE
+\end{center}  \Large
 
 % JBN: perhaps decrease font size to get the code all on the same page
 \begin{verbatim}                                                                                                         
@@ -297,39 +297,34 @@ int main(){
 
 \newpage
 
-\Huge
+\LARGE
 \begin{center}
 {\bf PASSING DATA TO AND FROM THE GPU: simple2.cu}
-\end{center} $\quad$ \newline \LARGE
+\end{center}  \Large
 
 % JBN: why can't *dev_a be changed after the line you mentioned in the code below?
 \begin{verbatim}
 #include <stdio.h>
 #include <stdlib.h>
 
-__global__ void colonel(int *dev_b, int *dev_a){
-  *dev_b = *dev_a + 1;
+__global__ void colonel(int *dev_a){
+  *dev_a = *dev_a + 1;
 }
 
 int main(){
-
   // Declare variables and allocate memory on the GPU.
-  int a[1], b[1], *dev_a, *dev_b;
+  int a[1], *dev_a;
   cudaMalloc((void**) &dev_a, sizeof(int));
-  cudaMalloc((void**) &dev_b, sizeof(int));
 
-  // Intitialize argument a, executed kernel, and store result in b.
+  // Intitialize argument a, executed kernel, and store result back in a.
   a[0] = 1; // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaMemcpy(dev_a, a, sizeof(int), cudaMemcpyHostToDevice); 
-      // AFTER THIS LINE, *dev_a CANNOT BE CHANGED!
-  colonel<<<1,1>>>(dev_b, dev_a);
-  cudaMemcpy(b, dev_b, sizeof(int), cudaMemcpyDeviceToHost);
+  cudaMemcpy(dev_a, a, sizeof(int), cudaMemcpyHostToDevice);
+  colonel<<<1,1>>>(dev_a);
+  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
 
   // Print result and free dynamically allocated memory.
-  printf("b[0] = %d\n", b[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
+  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
   cudaFree(dev_a);
-  cudaFree(dev_b);
-
 }
 
 \end{verbatim} $\quad$ \newline
@@ -349,7 +344,12 @@ Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block.
 %      you might want to introduce blockIdx.y, blockIdx.z, threadIdx.y, and threadIdx.z (I believe these all exist)
 {\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
 
-{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newpage
+{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
+
+{\color{red}NOTE: there are also variables like blockIdx.y and threadIdx.y, but those are only useful if you deliberately organize your blocks and threads in two-dimensional arrays (which can be done).} 
+
+
+
 
 
 \Huge
