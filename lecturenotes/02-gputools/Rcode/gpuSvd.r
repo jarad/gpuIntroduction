@@ -26,7 +26,7 @@ cpu_function = svd
 gpu_function = gpuSvd
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor((seq(from = 2, by = 10, length.out = 10))^2) # nrows of each matrix arg
+nrows = floor((seq(from = 2, by = 5, length.out = 1))^2) # nrows of each matrix arg
 ncols = nrows # use square matrices here
 sizes = nrows * ncols
 xs = sizes # plotted on horizontal axis

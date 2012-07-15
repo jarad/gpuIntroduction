@@ -111,7 +111,7 @@ $\quad$ \newline \newline \newline \newline \newline
 \newpage
 
 
-\Huge
+\huge
 \begin{center}
 {\bf GETTING UP AND RUNNING WITH gputools}
 \end{center}  \huge
@@ -119,7 +119,9 @@ $\quad$ \newline \newline \newline \newline \newline
 \begin{itemize}
 \item gputools is already installed on impact1.stat.iastate.edu, ready to load with {\tt library(gputools)} in R.
 \item For other GPU systems, download gputools from CRAN with a simple {\tt install.packages("gputools")} in R. 
-% JBN: installation will fail on non-GPU systems since the compiler doesn't exist
+\begin{itemize}
+\item {\color{red} WARNING: installation will fail on non-GPU systems since the CUDA C compiler doesn't exist}
+\end{itemize}
 \item Documentation:
 \begin{itemize}
 \item http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/
@@ -283,18 +285,22 @@ Compare the run time to that of the analogous CPU run on impact1: \newline
 {\bf A COMPARISON OF gpuQr() AND qr()}
 \end{center} $\quad$ \newline
 
-The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(arg)} and {\tt qr(arg)} for square matrices {\tt arg} of varying sizes. See the results on the next few slides. {\color{red} NOTE: ALL TIMES ARE IN SECONDS.}
+The R script, {\tt gpuQr.r}, compares the performance of {\tt gpuQr(arg)} and {\tt qr(arg)} for square matrices {\tt arg} of varying sizes. \newline
+
+ See the results on the next few slides. \newline
+ 
+  {\color{red} NOTE: ALL TIMES ARE IN SECONDS.}
 
 \newpage
 
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_small} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_small} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_small} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_small} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_small} \newpage
 
 \newpage
 
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_large} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_large} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_large} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_large} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_large} \newpage
 
 % JBN: I think this final graph is sufficient
@@ -311,7 +317,7 @@ The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(arg)} 
 %{\bf A COMPARISON OF gpuSvd() AND svd()}
 %\end{center} $\quad$ \newline
 
-%The R script, {\tt perf\_gpuSvd.r}, compares the performance of {\tt gpuSvd(x)} and {\tt svd(x)} for matrices {\tt x} of varying sizes. See the results on the next few slides.
+%The R script, {\tt gpuSvd.r}, compares the performance of {\tt gpuSvd(x)} and {\tt svd(x)} for matrices {\tt x} of varying sizes. See the results on the next few slides.
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuSvd_user} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuSvd_syst} \newpage
@@ -319,33 +325,51 @@ The R script, {\tt perf\_gpuQr.r}, compares the performance of {\tt gpuQr(arg)} 
 % \newpage
 
 
-%\Huge
-%\begin{center}
-%{\bf A COMPARISON OF gpuLm() AND lm()}
-%\end{center} $\quad$ \newline
+\Huge
+\begin{center}
+{\bf A COMPARISON OF gpuLm() AND lm()}
+\end{center} $\quad$ \newline
 
-%The R script, {\tt perf\_gpuLm.r}, compares the performance of {\tt gpuLm(y ~ x)} and {\tt lm(y ~ x)} for matrices {\tt y} and {\tt x} of varying sizes. See the results on the next few slides.
+The R script, {\tt gpuLm.r}, compares the performance of {\tt gpuLm(y $\sim$ x)} and {\tt lm(y $\sim$ x)} for matrices {\tt y} and {\tt x} of varying sizes.  \newline
 
-%\newpage
+See the results on the next slide.
 
-%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuLm_user} \newpage
-%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuLm_syst} \newpage
-%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuLm_total} \newpage
+\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_user_small} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_syst_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_total_small} \newpage
+
+
+\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_user_large} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_syst_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_total_large} \newpage
 
 
 
-%\Huge
-%\begin{center}
-%{\bf A COMPARISON OF gpuGlm() AND glm()}
-%\end{center} $\quad$ \newline
+\Huge
+\begin{center}
+{\bf A COMPARISON OF gpuGlm() AND glm()}
+\end{center} $\quad$ \newline
 
-%The R script, {\tt perf\_gpuGlm.r}, compares the performance of {\tt gpuGlm(y ~ x)} and {\tt glm(y ~ x)} for matrices {\tt y} and {\tt x} of varying sizes. See the results on the next few slides.
+The R script, {\tt gpuGlm.r}, compares the performance of {\tt gpuGlm(y $\sim$ x)} and {\tt glm(y $\sim$ x)} for matrices {\tt y} and {\tt x} of varying sizes. \newline
 
-%\newpage
+See the results on the next few slides.
 
-%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuGlm_user} \newpage
-%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuGlm_syst} \newpage
-%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{performance_gpuGlm_total} \newpage
+\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_user_small} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_syst_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_total_small} \newpage
+
+
+\newpage
+
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_user_large} \newpage
+%\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_syst_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_total_large} \newpage
 
 
 \Huge

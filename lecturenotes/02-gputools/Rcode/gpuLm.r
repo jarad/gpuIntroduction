@@ -31,7 +31,7 @@ gpu_function = function(arg){
 }
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor((seq(from = 2, by = 10, length.out = 10))^2) # nrows of each matrix arg
+nrows = floor((seq(from = 2, by = 5, length.out = 8))^2) # nrows of each matrix arg
 ncols = nrows # use square matrices here
 sizes = nrows * ncols
 xs = sizes # plotted on horizontal axis
