@@ -52,4 +52,4 @@ OMIT_SHRUTIL_LIB := 1
 ################################################################################
 # Rules and targets
 
-include ../../common/common.mk
+include common.mk
