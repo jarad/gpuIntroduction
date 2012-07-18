@@ -113,6 +113,23 @@ $\quad \newline$ \newline \newline \newline \newline
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Why GPU computing?
+\item Computer processors
+\begin{itemize}
+\item CPUs
+\item GPUs
+\end{itemize}
+\item Parallel computing
+\item Our GPU cluster
+\end{itemize}
+
+\newpage
 
 
 \Huge
@@ -124,12 +141,34 @@ The whole point is to use new hardware (the GPU) in order to make long, repetiti
 
 \newpage
 
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee.png} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee1.png} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee.png} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee2.png} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee.png} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee3.png} \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Suchard.png}
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/suchardtable} \newpage
+
+
+
+
+
+
+
+\newpage
+
+
 \Huge
 \begin{center}
 {\bf COMPUTER PROCESSORS}
 \end{center} $\quad$ \newline
-The computer processor is the "brain" of a computer. It's a computer chip that is responsible for \emph{actually doing} calculations and performing executive functions. \newline
 
+{\bf Processing Unit}: a computer chip that performs executive functions: arithmetic, logic, etc. \newline
+
+{\bf Core}: One of possibly many ``sub-processors" placed on the same processing unit (chip). They work together, but each of them has the full functionality of a processing unit.
 
 \newpage
 
@@ -167,6 +206,61 @@ The computer processor is the "brain" of a computer. It's a computer chip that i
 \setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3}
 \setkeys{Gin}{width=.3\textwidth} \includegraphics[scale=0.25,angle=0]{picts/4}
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf HOW THE CPU AND GPU WORK TOGETHER }
+\end{center} 
+
+A GPU can't run a whole computer on its own because it can't do logic or control flow. \newline
+
+In a GPU-capable computer, the CPU is the main processor, and the GPU is an optional hardware add-on. \newline
+
+The CPU is the ``master" of the computer, and it can delegate its highest-throughput parallelizable arithmetic load to the GPU ``minion".  \newline
+
+Another analogy: the CPU uses the GPU in the same way that a human uses a hand-held calculator.
+\newpage \huge
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee4.png} 
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf GPUs AND PARALLEL COMPUTING}
+\end{center} $\quad$ \newline \huge
+
+{\bf Parallelization}: Running different calculations simultaneously.  \newline
+
+GPUs parallelize repetitive arithmetic calculations much better than CPUs. \newline
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/amdahl} \newline
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf PARALLELIZING A WORKLOAD ON A GPU}
+\end{center}  \huge
+\begin{enumerate}[1. ]
+\item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
+\item The GPU core multitasks to execute the command: \newline
+\begin{enumerate}[a. ]
+\item A {\bf grid} is the sum total of a GPU core's  current workload. \newline
+\item Within a grid, the workload is divided into tasks called {\bf blocks}. \newline
+\item Each block is divided into even smaller subtasks called {\bf threads}. The GPU core uses multitasking to run all the threads at once.
+\end{enumerate} 
+\end{enumerate}
+
+\newpage
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/imng.jpg} 
+
 
 \newpage
 
@@ -201,7 +295,7 @@ CUDA systems have the data crunching power of the GPU and the versatility of the
 {\bf SPECS OF IMPACT1}
 \end{center} \LARGE
 \begin{itemize}
-\item linux 
+\item Linux: Red Hat Enterprise Linux Server release 6.2 (Santiago) 
 \item no GUI or remote desktop capabilities yet (use the command line for now)
 \item Four CUDA-capable Tesla M2070 GPUs, each with:
 \begin{itemize}
@@ -282,6 +376,25 @@ Everything in here is stored locally on impact1. To ensure fast computation, put
  
  
 \end{itemize}
+
+
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} \LARGE 
+
+D. Kirk, W.H. Wen-mei, and W. Hwu. {\it Programming massively parallel processors: a hands-on approach.} Morgan Kaufmann, 2010. \newline
+
+A. Lee, C. Yau, M.B. Giles, A. Doucet, and C.C. Holmes. On the utility of graphics cards to perform massively parallel simulation of advanced monte carlo methods. {\it Journal of Computational and Graphical Statistics}, 19(4): 769-789, 2010. \newline
+
+J. Niemi and M. Wheeler. Statistical computation on GPGPUs. Iowa State University. 28 September, 2011. \newline
+
+J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
+
+M.A. Suchard, Q. Wang, C. Chan, J. Frelinger, A. Cron, and M. West. Understanding gpu programming for statistical computation: Studies in massively parallel mixtures. {\it Journal of Computational and Graphical Statistics}. 19(2): 419-438, 2010. 
 
 
 
