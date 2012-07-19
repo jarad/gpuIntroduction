@@ -1,0 +1,539 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+
+$\quad$ \newline \newline \newline \newline \newline
+
+{\bf ASSORTED ALGORITHMS AMENABLE TO GPU COMPUTING: BACKGROUND FOR THE R PACKAGE, {\tt gputools}}
+\end{center} $\quad$ \newline
+\newpage
+
+Linear algebraic algorithms are particularly amenable to GPU computing because they involve a high volume of simple arithmetic. \newline
+
+I will review: \newline
+
+\begin{enumerate}[1. ]
+\item the QR decomposition
+\item the singular value decomposition
+\item the Cholesky decomposition
+
+\newpage
+
+
+I will also touch on the following algorithms found in the {\tt gputools} R package: \newline
+
+
+\item Hierarchical Clustering for Vectors
+\item FastICA algorithm of Aapo Hyvarinen et al.
+\item Granger Causality Tests for Vectors 
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf 1. THE QR DECOMPOSITION}
+\end{center} $\quad$ \newline \huge
+\emph{ Theorem:} Let $A$ be an $m \times n$ matrix with linearly independent columns. Then: \newline
+\begin{align*}
+A = QR
+\end{align*} $\quad$ \newline
+where: \newline
+
+\begin{itemize}
+\item $Q$ is an $m \times n $ matrix whose columns form an orthonormal basis for the column space of $A$.
+\item $R$ is an $n \times n $ upper triangular (and therefore invertible) matrix with all positive entries on the diagonal.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf EXAMPLE}
+\end{center} $\quad$ \newline \LARGE
+\begin{align*}
+A  = \begin{bmatrix}
+5 & 9 \\
+1 & 7 \\
+-3 & -5 \\
+1 & 5
+\end{bmatrix}
+\end{align*} $\quad$ \newline
+The columns of A are linearly independent. Therefore, $A$ has a QR decomposition:
+
+\begin{align*}
+&A = QR \\
+\intertext{The following choices for $Q$ and $R$ work:} \\
+Q = \frac{1}{6} \cdot \begin{bmatrix}
+5 & -1 \\
+1 & 5 \\
+-3 & 1 \\
+1 & 3
+\end{bmatrix}& \quad \quad
+R = \begin{bmatrix}
+6 & 12 \\
+0 & 6
+\end{bmatrix}
+\end{align*}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf FINDING THE QR DECOMPOSITION USING ORTHOGONALITY AND THE GRAHAM SCHMIDT PROCESS}
+\end{center} $\quad$ \newline \LARGE
+{\bf Orthogonal}: two vectors $u$ and $v$ are orthogonal if $u \bullet v = 0$. \newline
+
+ {\color{red} Note: If $u$ and $v$ are two component vectors in $\R^n$, $u \bullet v = 0$ iff they form a right angle. In Euclidian space, orthogonality is the same as perpendicularity. }\newline
+
+Here ``$\bullet$" denotes the dot product (or inner product) of two component vectors: \newline
+
+If $a = (a_1, a_2, \ldots, a_n)$ and $b = (b_1, b_2,  \ldots, b_n)$, then: \newline
+ 
+\begin{align*}
+a \bullet b = (a_1 \cdot b_1, \ a_2 \cdot b_2, \  \ldots, \ a_n \cdot b_n)
+\end{align*}
+ 
+\newpage
+
+\Huge
+\begin{center}
+{\bf THE GRAHAM SCHMIDT PROCESS}
+\end{center} \Large
+
+To find the QR decomposition of $A = [a_1, \ldots, a_n] $ (where $a_1, \ldots, a_n$ are linearly independent), you first want to find an orthogonal basis for the column space of $A$.  \newline
+
+That's where the Graham Schmidt process comes in. The Graham Schmidt process is the construction one such basis, $\{v_1, v_2, \ldots, v_n\}$, by: 
+
+\begin{align*}
+&v_1 = a_1 \\ \\
+&v_2 = a_2 - \frac{a_2 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 \\ \\
+&v_3 = a_3 - \frac{a_3 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_3 \bullet v_2}{v_2 \bullet v_2} \cdot v_2 \\ 
+&\vdots \\ 
+&v_n = a_n - \frac{a_n \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_n \bullet v_2}{v_2 \bullet v_2} \cdot v_2 - \cdots - - \frac{a_{n} \bullet v_{n-1}}{v_{n-1} \bullet v_{n-1}} \cdot v_{n-1}
+\end{align*} $\quad$ \newline
+
+Even better, you can get an ortho{\bf normal} basis, $\{u_1, \ u_2, \ldots, \ u_n\}$, by:
+
+\begin{align*}
+\left \{u_1 = \frac{v_1}{{v_1 \bullet v_1}}, \ u_2 = \frac{v_2}{{v_2 \bullet v_2}}, \ \ldots, \ u_n = \frac{v_n}{{v_n \bullet v_n}} \right \}
+\end{align*}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REARRANGING THAT LONG LIST OF EQUATIONS...}
+\end{center} $\quad$ \newline \Large
+
+\begin{align*}
+&a_1 = (a_1 \bullet u_1) \cdot u_1 \\ \\
+&a_2 = (a_2 \bullet u_1) \cdot u_1 +  (a_2 \bullet u_2) \cdot u_2 \\ \\
+&a_3 =  (a_3 \bullet u_1) \cdot u_1 + (a_3 \bullet u_2) \cdot u_2 + (a_3 \bullet u_3) \cdot u_3 \\ 
+&\vdots \\ 
+&a_n =  (a_n \bullet u_1) \cdot u_1 + (a_n \bullet u_2) \cdot u_2  + (a_3 \bullet u_3) \cdot u_3 + \cdots + (a_n \bullet u_n) \cdot u_n
+\end{align*} $\quad$ \newline
+ 
+ We can put it all in matrix form:
+ 
+ \begin{align*}
+A = [a_1, \ldots, a_n] \quad \quad Q = [u_1, \ldots, u_n] \quad \quad R = \begin{bmatrix}
+(a_1 \bullet u_1) & (a_2 \bullet u_1) & (a_3 \bullet u_1) & \cdots \\
+0 & (a_2 \bullet u_2) & (a_3 \bullet u_2) & \cdots  \\
+0 & 0 & (a_3 \bullet u_3) & \cdots\\
+\vdots & \vdots & \vdots & \ddots
+\end{bmatrix}
+\end{align*}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf 2. SINGULAR VALUE DECOMPOSITION}
+\end{center} \LARGE $\quad$ \newline
+\emph{Theorem}: Let $A$ be an $m \times n$ matrix with rank $r$. Then, there exist: \newline
+
+\begin{itemize}
+\item An $r \times r$ diagonal matrix $D$ with the largest $r$ nonzero {\bf singular values} of $A$ on the diagonal.
+\item An $m \times n$ matrix, $\Sigma = \begin{bmatrix} D & 0 \\ 0 & 0 \end{bmatrix}$
+\item An $m \times m$ orthonormal matrix, $U$
+\item An $n \times n$ orthonormal matrix, $V$
+\end{itemize} $\quad$ \newline
+
+Such that: \newline
+\Huge
+\begin{align*}
+A = U \Sigma V^T
+\end{align*}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf HOW DO I FIND THE SVD OF A MATRIX?}
+\end{center} $\quad$ \newline
+
+
+To answer these questions, I first need to review: \newline
+
+
+\begin{enumerate}[a. ]
+\item eigenvalues and eigenvectors
+\item eigenvector bases
+\item diagonalization
+\item orthogonal diagonalizations
+\item singular values
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf a. EIGENVALUES AND EIGENVECTORS}
+\end{center} $\quad$ \newline \huge
+
+Let $A$ be an $n \times n$ square matrix. Let $\lambda$ be a scalar and $x$ be a nonzero vector such that: \newline
+
+\Huge
+\begin{align*}
+Ax = \lambda x
+\end{align*} $\quad$ \newline
+\huge
+
+Then: \newline
+
+\begin{itemize}
+\item $\lambda$ is an eigenvalue of $A$.
+\item $x$ is an eigenvector of $A$ corresponding to $\lambda$.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf FINDING EIGENDATA}
+\end{center} \huge
+\begin{enumerate}[1. ]
+\item \emph{Finding eigenvalues:} The eigenvalues of $A$ are exactly the solutions $\lambda$ to the characteristic equation:
+\begin{align*}
+\det(A - \lambda I) = 0
+\end{align*} $\quad$ \newline
+{\color{red}NOTE: Since the characteristic equation is a polynomial of degree $n$, every square matrix is guaranteed to have $n$ complex eigenvalues and therefore $n$ complex eigenvectors.} 
+\item \emph{Finding eigenvectors:} To find the space of eigenvectors corresponding to an eigenvalue $\lambda$, solve for $x$: \newline
+\begin{align*}
+(A- \lambda I) x &= 0
+\end{align*} $\quad$ \newline
+And pick any basis you want for the solution space.
+\end{enumerate} 
+
+
+
+
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf FUN FACTS ABOUT EIGENDATA}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Eigenvectors that correspond to different eigenvalues are linearly independent.
+\item Eigenvectors {\bf of a symmetric matrix} that correspond to distinct eigenvalues are orthogonal.
+\item $A$ is {\bf diagonalizable} iff $A$ has $n$ linearly independent eigenvectors. 
+\end{itemize}
+
+\newpage
+
+\huge
+\begin{center}
+{\bf DIAGONALIZATION}
+\end{center} $\quad$ \newline \Large
+Denote the eigenvectors of $A$ by $x_1, \ldots, x_n$, and let them correspond to eigenvalues $\lambda_1, \ldots, \lambda_n$, respectively. We have the equations: \newline
+\begin{align*}
+A x_1 &=  x_1 \lambda_1 \\  A x_2 &=  x_2  \lambda_2 \\ & \vdots \\  A x_n &=  x_n  \lambda_n \\ \\
+\intertext{Which we can put in matrix form:}
+ A \underbrace{\begin{bmatrix} x_1 & x_2 & \cdots & x_n \end{bmatrix}}_{P} &= \underbrace{ \begin{bmatrix} x_1 & x_2 & \cdots & x_n \end{bmatrix}}_{P}\underbrace{\begin{bmatrix} \lambda_1 & & & \\ & \lambda_2 & & \\ & & \ddots & \\ & & & \lambda_n \end{bmatrix}}_{D}  \\
+ A P &= PD
+ \intertext{And if $P$ is invertible:}
+ A & = P D P \nv
+\end{align*} 
+
+\newpage
+\huge
+Recap: if the eigenvector matrix $P = \begin{bmatrix} x_1 & x_2 & \cdots & x_n \end{bmatrix}$ is invertible, then we can write:
+
+\begin{align*}
+A = P D P \nv
+\end{align*}
+
+And we say that: \newline
+
+\begin{itemize}
+\item $A$ is {\bf diagonalizable}.
+\item $P D P \nv$ is the {\bf diagonalization} of $A$.
+\end{itemize} $\quad$ \newline
+
+$P$ is invertible (and therefore is $A$ diagonalizable) whenever:
+
+\begin{itemize}
+\item The columns of $P$ are linearly independent.
+\item All the eigenvectors of $A$ are linearly independent.
+\item $A$ has $n$ distinct eigenvalues.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf d. ORTHOGONAL DIAGONALIZATIONS}
+\end{center} $\quad$ \newline
+
+An orthogonal diagonalization of $A$ is a diagonalization, $P D P \nv$ such that $P$ is an orthogonal matrix (that is, all the columns of $P$ are mutually orthogonal.) \newline
+
+Recall: for symmetric matrices, eigenvectors with distinct eigenvalues are orthogonal. \newline
+
+Hence, any $n \times n$ symmetric matrix with $n$ distinct eigenvalues has an orthogonal diagonalization.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf e. SINGULAR VALUES}
+\end{center} $\quad$ \newline
+
+Let $A$ be an $m \times n$ matrix. Let:
+
+\begin{align*}
+\gamma_1, \gamma_2, \ldots, \gamma_n
+\end{align*} $\quad$ \newline
+
+be the eigenvalues of $A^T A$. Then the singular values $A$ are the square roots, $\sigma_1, \sigma_2, \ldots, \sigma_n$, of the eigenvalues of $A$:
+
+\begin{align*}
+\sigma_1 = \sqrt{\gamma_1}, \ \sigma_2 = \sqrt{\gamma_2}, \ \ldots, \ \sigma_n = \sqrt{\gamma_n}
+\end{align*}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf BACK TO THE SINGULAR VALUE DECOMPOSITION}
+\end{center} \LARGE $\quad$ \newline
+\emph{Theorem}: Let $A$ be an $m \times n$ matrix with rank $r$. Then, there exist: \newline
+
+\begin{itemize}
+\item An $r \times r$ diagonal matrix $D$ with the largest $r$ nonzero {\bf singular values} of $A$ on the diagonal.
+\item An $m \times n$ matrix, $\Sigma = \begin{bmatrix} D & 0 \\ 0 & 0 \end{bmatrix}$
+\item An $m \times m$ orthonormal matrix, $U$
+\item An $n \times n$ orthonormal matrix, $V$
+\end{itemize} $\quad$ \newline
+
+Such that: \newline
+\Huge
+\begin{align*}
+A = U \Sigma V^T
+\end{align*}
+
+\newpage
+
+\huge
+\begin{center}
+{\bf HOW TO FIND THE SVD OF AN $m \times n$ RANK $r$ MATRIX $A$}
+\end{center} 
+
+\begin{enumerate}[1. ]
+\item Find the $n$ eigenvalues $\gamma_1, \gamma_2, \ldots, \gamma_n$ of $A^TA$ (indexed in decreasing order), along with corresponding unit-length orthogonal eigenvectors, $v_1, v_2, \ldots, v_n$.
+\item Let $V = \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix}$
+\item Let $D = \begin{bmatrix} \sqrt{\gamma_1} & & & \\ & \sqrt{\gamma_2} & & \\ & & \ddots & \\ & & & \sqrt{\gamma_r} \end{bmatrix}$ and $\Sigma = \begin{bmatrix} D & 0 \\ 0 & 0 \end{bmatrix}$
+\item Construct $U$:
+\begin{enumerate}[a. ]
+\item Let the first $r$ columns of $U$ be $ \frac{1}{||A v_1 ||} A v_1, \ \frac{1}{||A v_2 ||} A v_2, \ \ldots, \ \frac{1}{||A v_r ||} A v_r $
+\item If need be, form the last $m-r$ columns of $U$ by extending the above $r$ vectors to an orthonormal basis for $R^m$. 
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf EXAMPLE}
+\end{center} $\quad$ \newline \Large
+
+Let's find the SVD of $A = \begin{bmatrix} 1 & -1 \\ -2 & 2 \\ 2 & -2 \end{bmatrix}$ \newline
+
+\begin{enumerate}[1. ]
+\item $A^T A = \begin{bmatrix} 9 & -9 \\ -9 & 9 \end{bmatrix}$ \newline
+
+By inspection, two orthogonal eigenvectors of $A^T A$ are $x_1 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}$ and $x_2 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$, with eigenvalues $\gamma_1 = 18$ and $\gamma_2 = 0$, respectively.  \newline
+
+From $x_1$ and $x_2$, I construct orthonormal eigenvectors $v_1 = \begin{bmatrix} 1/\sqrt{2} \\ -1/\sqrt{2} \end{bmatrix}$ and $v_2 = \begin{bmatrix} 1/\sqrt{2} \\ 1/\sqrt{2} \end{bmatrix}$.
+\item Let $V = \begin{bmatrix} 1/\sqrt{2} & 1/\sqrt{2} \\ -1/\sqrt{2} & 1/\sqrt{2} \end{bmatrix}$
+\item The only nonzero singular value is $\sqrt{18} = 3 \sqrt{2}$. Hence, $D = [3 \sqrt{2}]$ and $\Sigma = \begin{bmatrix} 3 \sqrt{2} & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}$ \newpage \LARGE
+\item Let's construct $U$: \newline
+\begin{enumerate}[a. ]
+\item $A v_1 = \begin{bmatrix} 2/ \sqrt{2} \\ -4/\sqrt{2} \\ 4/\sqrt{2} \end{bmatrix}$ and $A v_2 = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}$. We take $\frac{1}{||A v_1||} A v_1 = \begin{bmatrix} 1/3 \\ -2/3 \\ 2/3 \end{bmatrix}$ to be the first column of $U$. \newline
+\item To find the other two columns, we extend $A v_1$ to an orthonormal basis for $\R^3$. If a vector $x = \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}$ is to be in this basis, we need:
+\begin{align*}
+Av_1 \bullet x = 0 \\
+\intertext{and hence:}
+\frac{2}{\sqrt{2}}x_1 - \frac{4}{\sqrt{2}} x_2 + \frac{4}{\sqrt{2}} x_3 = 0
+\end{align*} 
+
+Solving for two linearly independent solutions to the above, applying the Graham Schmidt process, and normalizing, we get the last two columns of $U$:
+
+\begin{align*}
+\begin{bmatrix} 2/ \sqrt{5} \\ 1/ \sqrt{5} \\ 0 \end{bmatrix} \quad \quad \quad \begin{bmatrix} -2/\sqrt{45} \\ 4/\sqrt{45} \\ 5/\sqrt{45} \end{bmatrix}
+\end{align*} $\quad$ \newline
+
+Hence, $U = \begin{bmatrix} 1/3  & 2/\sqrt{5} & -2/\sqrt{45} \\ -2/3 & 1/\sqrt{5} & 4/\sqrt{45} \\ 2/3 & 0 & 5/\sqrt{45} \end{bmatrix}$
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+\huge
+To summarize: \newline
+ 
+\begin{align*}
+\underbrace{ \begin{bmatrix} 1 & -1 \\ -2 & 2 \\ 2 & -2 \end{bmatrix}}_{A} =  \underbrace{\begin{bmatrix} 1/3  & 2/\sqrt{5} & -2/\sqrt{45} \\ -2/3 & 1/\sqrt{5} & 4/\sqrt{45} \\ 2/3 & 0 & 5/\sqrt{45} \end{bmatrix}}_{U} \underbrace{\begin{bmatrix} 3 \sqrt{2} & 0 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}}_{\Sigma} \underbrace{\begin{bmatrix} 1/\sqrt{2} & -1/\sqrt{2} \\ 1/\sqrt{2} & 1/\sqrt{2} \end{bmatrix} }_{V^T} 
+\end{align*}
+
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf 3. THE CHOLESKY DECOMPOSITION}
+\end{center} $\quad$ \newline
+
+Let $A$ be an $n \times n $ matrix. Then, a Cholesky decomposition of $A$ is:
+
+\begin{align*}
+A = LL^T
+\end{align*} $\quad$ \newline
+
+where $L$ is an $n \times n$ invertible lower triangular matrix whose diagonals are all positive. \newline
+
+Note: $A$ has a Cholesky decomposition iff $A$ is positive definite. \newpage
+
+The following slides explaining how to get the Cholesky decomposition are taken directly from UCLA Professor Lieven Vandenberghe's EE103 class: \newline
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vand} \newline
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/2} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3} \newpage
+
+
+\Huge
+\begin{center}
+{\bf 4. Hierarchical Clustering for Vectors}
+\end{center} $\quad$ \newline
+
+
+\end{flushleft}
+\end{document}
