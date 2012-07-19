@@ -103,10 +103,8 @@
 
 \Huge
 \begin{center}
-
 $\quad$ \newline \newline \newline \newline \newline
-
-{\bf ASSORTED ALGORITHMS AMENABLE TO GPU COMPUTING: BACKGROUND FOR THE R PACKAGE, {\tt gputools}}
+{\bf SOME LINEAR ALGEBRA AND BACKGROUND FOR THE R PACKAGE, {\tt gputools}}
 \end{center} $\quad$ \newline
 \newpage
 
@@ -118,16 +116,6 @@ I will review: \newline
 \item the QR decomposition
 \item the singular value decomposition
 \item the Cholesky decomposition
-
-\newpage
-
-
-I will also touch on the following algorithms found in the {\tt gputools} R package: \newline
-
-
-\item Hierarchical Clustering for Vectors
-\item FastICA algorithm of Aapo Hyvarinen et al.
-\item Granger Causality Tests for Vectors 
 \end{enumerate}
 
 \newpage
@@ -526,14 +514,7 @@ The following slides explaining how to get the Cholesky decomposition are taken 
 \setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vand} \newline
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/1} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/2} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3} \newpage
-
-
-\Huge
-\begin{center}
-{\bf 4. Hierarchical Clustering for Vectors}
-\end{center} $\quad$ \newline
-
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3}
 
 \end{flushleft}
 \end{document}
