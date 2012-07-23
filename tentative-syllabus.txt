@@ -1,20 +1,16 @@
 The following is a tentative list of talks of the gpu computing lecture series:
 
 1. Introduction to GPU Computing
-2. Algorithms in gputools (including a review of linear algebra)
+2. Algorithms in gputools (including a review of some topics in linear algebra)
 3. gputools: usage and performance
-4. the WideLM R package: algorithms and usage (and maybe performance)
-5. the cudaBayesreg R package: algorithms and usage (and maybe performance)
-6. the magma R package: algorithms and usage (and maybe performance)
-7. the gcbd R package: algorithms and usage (and maybe performance)
-8. Introduction to programming in CUDA C
-9. more CUDA C: pairwise summation and simple MC integration
-10. more advanced CUDA C topics from the Sanders book
-11. CUDA C: a review of algorithms and implementations in recent papers:
+4. Introduction to programming in CUDA C
+5. more CUDA C: pairwise summation and simple MC integration
+6. more advanced CUDA C topics from the Sanders book (1-2 lectures)
+7. CUDA C: a review of algorithms and implementations in recent papers:
   - Anthony Lee's paper on GPU implementations of MC, SMC, and MCMC
   - the Suchard paper on statistical phylogenetics
   - current work on the Cholesky decomposition
-12. Matt's talk: gpu model search and/or R extensions to C and CUDA C (whatever makes the most sense to present)
-13. Introduction to programming in python.
-14. pycuda
-15. gpustats
+8. Matt's talk: gpu model search and/or R extensions to C and CUDA C (whatever makes the most sense to present)
+9. Introduction to programming in python (1-2 lectures).
+10. pycuda (1-2 lectures)
+11. gpustats (1-2 lectures)
