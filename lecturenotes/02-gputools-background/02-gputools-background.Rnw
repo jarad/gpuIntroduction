@@ -113,16 +113,17 @@ Linear algebraic algorithms are particularly amenable to GPU computing because t
 I will review: \newline
 
 \begin{enumerate}[1. ]
-\item the QR decomposition
-\item the singular value decomposition
-\item the Cholesky decomposition
+\item the QR factorization
+\item the singular value factorization
+\item the Cholesky factorization
+\item the LU factorization
 \end{enumerate}
 
 \newpage
 
 \Huge
 \begin{center}
-{\bf 1. THE QR DECOMPOSITION}
+{\bf 1. THE QR FACTORIZATION}
 \end{center} $\quad$ \newline \huge
 \emph{ Theorem:} Let $A$ be an $m \times n$ matrix with linearly independent columns. Then: \newline
 \begin{align*}
@@ -149,7 +150,7 @@ A  = \begin{bmatrix}
 1 & 5
 \end{bmatrix}
 \end{align*} $\quad$ \newline
-The columns of A are linearly independent. Therefore, $A$ has a QR decomposition:
+The columns of A are linearly independent. Therefore, $A$ has a QR factorization:
 
 \begin{align*}
 &A = QR \\
@@ -171,7 +172,7 @@ R = \begin{bmatrix}
 
 \Huge
 \begin{center}
-{\bf FINDING THE QR DECOMPOSITION USING ORTHOGONALITY AND THE GRAHAM SCHMIDT PROCESS}
+{\bf FINDING THE QR FACTORIZATION USING ORTHOGONALITY AND THE GRAHAM SCHMIDT PROCESS}
 \end{center} $\quad$ \newline \LARGE
 {\bf Orthogonal}: two vectors $u$ and $v$ are orthogonal if $u \bullet v = 0$. \newline
 
@@ -192,7 +193,7 @@ a \bullet b = (a_1 \cdot b_1, \ a_2 \cdot b_2, \  \ldots, \ a_n \cdot b_n)
 {\bf THE GRAHAM SCHMIDT PROCESS}
 \end{center} \Large
 
-To find the QR decomposition of $A = [a_1, \ldots, a_n] $ (where $a_1, \ldots, a_n$ are linearly independent), you first want to find an orthogonal basis for the column space of $A$.  \newline
+To find the QR factorization of $A = [a_1, \ldots, a_n] $ (where $a_1, \ldots, a_n$ are linearly independent), you first want to find an orthogonal basis for the column space of $A$.  \newline
 
 That's where the Graham Schmidt process comes in. The Graham Schmidt process is the construction one such basis, $\{v_1, v_2, \ldots, v_n\}$, by: 
 
@@ -240,7 +241,7 @@ A = [a_1, \ldots, a_n] \quad \quad Q = [u_1, \ldots, u_n] \quad \quad R = \begin
 
 \Huge
 \begin{center}
-{\bf 2. SINGULAR VALUE DECOMPOSITION}
+{\bf 2. SINGULAR VALUE FACTORIZATION}
 \end{center} \LARGE $\quad$ \newline
 \emph{Theorem}: Let $A$ be an $m \times n$ matrix with rank $r$. Then, there exist: \newline
 
@@ -411,7 +412,7 @@ be the eigenvalues of $A^T A$. Then the singular values $A$ are the square roots
 
 \Huge
 \begin{center}
-{\bf BACK TO THE SINGULAR VALUE DECOMPOSITION}
+{\bf BACK TO THE SINGULAR VALUE FACTORIZATION}
 \end{center} \LARGE $\quad$ \newline
 \emph{Theorem}: Let $A$ be an $m \times n$ matrix with rank $r$. Then, there exist: \newline
 
@@ -496,10 +497,10 @@ To summarize: \newline
 
 \Huge
 \begin{center}
-{\bf 3. THE CHOLESKY DECOMPOSITION}
+{\bf 3. THE CHOLESKY FACTORIZATION}
 \end{center} $\quad$ \newline
 
-Let $A$ be an $n \times n $ matrix. Then, a Cholesky decomposition of $A$ is:
+Let $A$ be an $n \times n $ matrix. Then, a Cholesky factorization of $A$ is:
 
 \begin{align*}
 A = LL^T
@@ -507,14 +508,141 @@ A = LL^T
 
 where $L$ is an $n \times n$ invertible lower triangular matrix whose diagonals are all positive. \newline
 
-Note: $A$ has a Cholesky decomposition iff $A$ is positive definite. \newpage
+Note: $A$ has a Cholesky factorization iff $A$ is positive definite. \newpage
 
-The following slides explaining how to get the Cholesky decomposition are taken directly from UCLA Professor Lieven Vandenberghe's EE103 class: \newline
+The following slides explaining how to get the Cholesky factorization are taken directly from UCLA Professor Lieven Vandenberghe's EE103 class: \newline
 
 \setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vand} \newline
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/1} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/2} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/3}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf 4. The LU FACTORIZATION}
+\end{center} $\quad$ \newline
+
+Let $A$ be an $m \times n$ matrix. \newline
+
+Suppose $A$ can be row-reduced to an echelon form using only for replacements that add a multiple of one row to another row below it. Then:
+
+\begin{align*}
+A = L U
+\end{align*}
+
+where:
+
+\begin{enumerate}[1. ]
+\item $L $ is a lower-triangular $m \times m$ matrix
+\item $U$ is an upper echelon $m \times n$ matrix
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf A REVIEW OF ROW REDUCTIONS AND ECHELON FORMS}
+\end{center} $\quad$ \newline \LARGE
+
+Let $A = \begin{bmatrix} 2 & 4 & -1 & 5 & -2 \\ -4 & -5 & 3 & -8 & 1 \\ 2 & -5 & -4 & 1 & 8 \\ -6 & 0 & 7 & -3 & 1 \end{bmatrix} = \begin{bmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{bmatrix}$. \newline
+
+
+A row replacement on $A$ is the addition of a multiple of one row to another row in $A$ to create another matrix. For example, we can use a row replacement to turn $A$ into $A_2$ below: \newline
+
+$A_2 = \begin{bmatrix} a_1 \\ a_2 + 2 \cdot a_1 \\ a_3 \\ a_4 \end{bmatrix} = \begin{bmatrix} 2 & 4 & -1 & 5 & -2 \\ 0 & 3 &1 & 2 & -3 \\ 2 & -5 & -4 & 1 & 8 \\ -6 & 0 & 7 & -3 & 1 \end{bmatrix}$
+
+\newpage
+\large
+This row replacement operation, like all other row replacements, can be encoded as a matrix: \newline
+
+$\begin{bmatrix} a_1 \\ a_2 + 2 \cdot a_1 \\ a_3 \\ a_4 \end{bmatrix} = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 2 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} a_1 \\ a_2 \\ a_3 \\ a_4 \end{bmatrix} $ \newline
+
+
+{\color{blue} NOTE: Since the above row replacement adds a multiple of one row to a row below it, the square matrix above is lower triangular.} \newline
+
+We can continue similar row replacements such as the above to produce the following matrix: \newline
+
+$U = \begin{bmatrix} 2 & 4 & -1 & 5 & -2 \\ 0 & 3 & 1 & 2 & -3 \\ 0 & 0 & 0 & 2 & 1 \\ 0 & 0 & 0 & 0 & 5\end{bmatrix} = E_k \cdot E_{k - 1} \cdot \cdots \cdot E_1 \cdot A$ \newline
+
+where each $E_i$ is (in this case, a lower-triangular) square matrix encoding a row replacement. \newline
+
+We say that:
+
+\begin{itemize}
+\item $A$ has been {\bf row-reduced} to $U$ with row replacements.
+\item $U$ is an {\bf upper echelon form} because:
+\begin{itemize}
+\item All nonzero rows are above any nonzero rows.
+\item Each leading nonzero entry in a row is to the right of the nonzero leading entry in the above row.
+\item All entries in a column below a leading entry are zeroes.
+\end{itemize}
+\end{itemize}
+
+{\color{blue} NOTE: The upper echelon form is a generalization of the upper triangular form.}
+
+\newpage
+\Large
+So far, we have:  
+\begin{align*}
+E_k \cdot E_{k - 1} \cdot \cdots \cdot E_1 \cdot A = U
+\end{align*} $\quad$ \newline
+
+Now, in this case, each $E_i$ encodes a row replacement adding a multiple of one row to some lower row. Hence, each $E_i$  is lower-triangular. Thus, $E_k \cdot E_{k - 1} \cdot \cdots \cdot E_1$ is lower-triangular, so $(E_k \cdot E_{k - 1} \cdot \cdots \cdot E_1) \nv$ is lower-triangular. Now, note: \newline
+
+\begin{align*}
+A = (E_k \cdot E_{k - 1} \cdot \cdots \cdot E_1) \nv \cdot U
+\end{align*} $\quad$ \newline
+
+Let $L = (E_k \cdot E_{k - 1} \cdot \cdots \cdot E_1) \nv$. Then, we have the LU factorization of $A$: \newline
+
+\begin{align*}
+A = LU
+\end{align*}
+
+where: \newline
+
+\begin{itemize}
+\item $L$ is a lower-triangular square $m \times m$ matrix
+\item $U$ is an upper echelon form matrix $m \times n$ matrix.
+\end{itemize} \newpage
+
+\Huge
+\begin{center}
+{\bf FINAL NOTES ON THE LU FACTORIZTION}
+\end{center} $\quad$ \newline \huge
+
+
+\begin{enumerate}[1. ]
+\item You can verify that in our example:
+
+\begin{align*}
+L = \begin{bmatrix} 
+1 & 0 & 0 & 0 \\
+-2 & 1 & 0 & 0 \\
+1 & -3 & 1 & 0 \\
+-3 & 4 & 2 & 1
+\end{bmatrix}
+\end{align*} $\quad$ \newline
+\item Also, note that the Cholesky factorization is just the LU factorization for positive definite square matrices. 
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline
+
+Lay, David C. {\emph Linear Algebra and Its Applications}. 3rd Ed. Addison Wesley, 2006. \newline
+
+Vandenberghe, Lieven. Lecture slides found at http://www.ee.ucla.edu/~vandenbe/103/lectures/chol.pdf.
+
+
+
+
+
 
 \end{flushleft}
 \end{document}
