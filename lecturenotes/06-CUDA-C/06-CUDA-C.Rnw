@@ -564,7 +564,12 @@ int main(){
 
 
 
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline
 
+J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
 
 
 \end{flushleft}
