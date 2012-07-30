@@ -422,5 +422,39 @@ See the results on the next few slides.
 
 \setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/14} 
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf OTHER R PACKAGES FOR THE GPU}
+\end{center} $\quad$ \newline
+
+
+\begin{itemize}
+\item WideLM - used to quickly fit a large number of linear models to a fixed design matrix and response vector.
+\item magma - a small linear algebra with implementations of backsolving and the LU factorization.
+\item cudaBayesreg - implements a Bayesian model for fitting fMRI data. 
+\item gcbd - a Debian package for ``benchmarking" linear algebra algorithms such as the QR, SVD and LU factorizations.
+\end{itemize}
+
+\newpage
+
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline \Large
+
+Josh Buckner, Mark Seligman, Justin Wilson. ``R+GPU". http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/\#introduction. \newline
+
+Dirk Eddelbuettel. ``Package gcbd". http://cran.r-project.org/web/packages/gcbd/gcbd.pdf. \newline
+
+Mark Seligman, Chris Fraley. ``Package WideLM". http://cran.r-project.org/web/packages/WideLM/WideLM.pdf. \newline
+
+Brian J Smith. ``Package cudaBayesreg". http://cran.r-project.org/web/packages/cudaBayesreg/cudaBayesreg.pdf.
+
 \end{flushleft}
 \end{document}
