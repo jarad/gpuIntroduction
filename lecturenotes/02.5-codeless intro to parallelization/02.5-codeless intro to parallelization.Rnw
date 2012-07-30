@@ -240,7 +240,7 @@ Linear algebraic algorithms are particularly amenable to GPU computing because t
 I will showcase: \newline
 
 \begin{enumerate}[1. ]
-\item the pairwise c(ascading) sum
+\item the pairwise (cascading) sum
 \item matrix multiplication
 \item the QR factorization
 \end{enumerate}
@@ -250,7 +250,7 @@ I will showcase: \newline
 \Huge
 \begin{center}
 {\bf 1. THE PAIRWISE (CASCADING) SUM}
-\end{center}  \LARGE
+\end{center}   \LARGE 
 
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psum2} \newline
 
