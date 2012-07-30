@@ -98,17 +98,21 @@
 
 \setcounter{section}{\pset}
 
+
+% JBN: My main comment is the way you think about grid and parallel computing. We have talked before about a single grid being created for each kernel call to the GPU. Every function you have here (cascading sum, matrix multiplication, and QR decomposition) should be a single kernel call to the GPU. That is, you want a function sum(a) that computes the sum of a. This is one kernel call and therefore one grid. 
+
 \begin{document}
 \begin{flushleft}
 
 \Huge
 \begin{center}
 $\quad$ \newline \newline \newline \newline \newline
-{\bf A CODELESS INTRODUCTION TO PARALLELLIZATION}
+{\bf A CODELESS INTRODUCTION TO PARALLELIZATION}
 \end{center} $\quad$ \newline
 
 \begin{center}
-{\Large Will Landau, Matt Simpson, Prof. Jarad Niemi}
+{\Large Will Landau, Matt Simpson, Prof. Jarad Niemi} 
+%JBN: I don't think you need to put Matt's name on here and mine is also optional
 \end{center}
 
 
@@ -140,7 +144,7 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 {\bf GPUS AND PARALLELIZATION}
 \end{center} $\quad$ \newline  \Huge
 
-{\bf Parallelization}: Running different calculations simultaneously. {\color{blue} It speeds up calculations dramatically, and GPUS are much better at it than CPUs.} \newline
+{\bf Parallelization}: Running different calculations simultaneously. {\color{blue} It speeds up calculations dramatically, and GPUs are much better at it than CPUs.} \newline
 
 {\bf Kernel}: An instruction set executed on the GPU. (All others are executed on the CPU.)  \newline
 
@@ -168,9 +172,9 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 {\bf ORGANIZATION OF THREADS}
 \end{center} $\quad$ \newline
 
-{\bf Grid}; The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
+{\bf Grid}: The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
 
-{\bf Block}: A collection of threads within a grid that share memory quickly and easily.  
+{\bf Block}: A collection of threads within a grid that share memory.  
 
 \newpage
 
@@ -189,6 +193,11 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 \item Blocks within the same grid are executed SIMULTANEOUSLY.
 \item Threads within the same grid are executed SIMULTANEOUSLY, whether they share a block or not.
 \end{itemize}
+% JBN: Although this is the way to think about what is going on, it is not technically accurate.
+%          Some blocks are executed simultaneously while others have already executed or are waiting to execute.
+%          Threads within a grid get executed simultaneously within a warp. 
+%          The bottom line here is that this might be the way to thinking about what is going on. Don't count on blocks or threads actually being executed simultaneously.
+
 \color{black}
 
 \newpage
@@ -225,7 +234,7 @@ Calculations you don't want to parallelize: \newline
 \begin{itemize}
 \item Inherently sequential calculations, such as recursions.
 \item Control flow: if-then statements, etc. 
-\item CPU system routines, such as printing to the console. 
+\item CPU system routines, such as printing to the console. %JBN: that would be funny
 \end{itemize}
 
 \newpage
@@ -240,7 +249,7 @@ Linear algebraic algorithms are particularly amenable to GPU computing because t
 I will showcase: \newline
 
 \begin{enumerate}[1. ]
-\item the pairwise (cascading) sum
+\item the pairwise (cascading) sum %JBN: the vector sum example fits right here and is simpler to understand than the cascading sum
 \item matrix multiplication
 \item the QR factorization
 \end{enumerate}
@@ -272,9 +281,12 @@ Suppose you have a vector $X_0 = (x_{(0,1)}, x_{(0,2)}, \ldots, x_{(0,n)})$, whe
 \item Create another new vector: $X_2 = ( \underbrace{x_{(1,1)} + x_{(1,2)}}_{x_{(2, 1)}}, \  \underbrace{x_{(1,3)} + x_{(1,4)}}_{x_{(2,2)}}, \ \ldots, \underbrace{x_{(1, n/2-1)} + x_{(1,n/2)}}_{x_{(2, n/4)}})$
 \item Continue this process until you get a singleton vector: $X_{\log_2(n)} =  ( \underbrace{x_{(\log_2(n) - 1, 1)}, \  x_{(\log_2(n) - 1, 2)}}_{x_{(\log_2(n), 1)}}  ) $
 \end{enumerate} $\quad$ \newline
-
-Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(\log_2(n), 1)}
-$
+%JBN: since log_2(n)=m$ why not use m instead of log_2(x)
+Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(\log_2(n), 1)}$
+%JBN:Perhaps compare this version of the algorithm to the sequential version.
+%       The sequential version has n-1 operations whereas the cascading sum has 
+%       n(1/2+1/4+1/8+...+1/2^m) \to n as n\to \infty and yet the cascading sum will be much quicker
+%       due to parallelization particularly of the initial steps
 
 
 \newpage
@@ -284,16 +296,18 @@ $
 \begin{center}
 {\bf PARALLELIZING THE PAIRWISE SUM}
 \end{center} $\quad$ \newline
-
+%JBN: again, replace log_2(n) with m
 Create $\log_2(n)$ grids, each to compute $X_1, X_2, \ldots, X_{\log_2(n)}$, respectively, in sequence. For the $i$'th grid: \newline
-
+%JBN: this isn't what is actually done. Instead the successive values just overwrite the previous values, e.g. the first thread initially has x_{(0,1)}, then contains x_{(1,1)}, then x_{(2,1)}, then x_{(3,1)}, etc. 
+% This means that many of the threads do nothing in steps.
 \begin{enumerate}[1. ]
-\item Spawn one block of $n/2^i$ threads. 
+\item Spawn one block of $n/2^i$ threads. %JBN: this will be one block of n threads
 \item Let the $j$'th thread compute the $j$'th element of $X_i$ by pairwise summing the appropriate two elements of $X_{i-1}$.
 \end{enumerate}
 
 \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/grids} \newpage
+%JBN: this is all actually done within one kernel call, i.e. one grid
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/blocks} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/threads} 
 
@@ -306,12 +320,15 @@ Create $\log_2(n)$ grids, each to compute $X_1, X_2, \ldots, X_{\log_2(n)}$, res
 {\bf 2. MATRIX MULTIPLICATION}
 \end{center} \Large
 
-Consider an $m \times n$ matrices, $A = (a_{ij})$ , and an $n \times p$ matrix, $B = (b_{ij})$. Compute $A \cdot B$: \newline
 
+Consider an $m \times n$ matrix, $A = (a_{ij})$ , and an $n \times p$ matrix, $B = (b_{ij})$. Compute $A \cdot B$: \newline
+%JBN: I would suggest using \cdot instead of the # symbol to make it easier to read
+%JBN: I also suggest assigning $C=AB$ with elements $c_{ij} = a_{i\cdot}b_{\cdot j}$. 
 \begin{enumerate}[1. ]
 \item Break apart $A$ into its rows: $A = \begin{bmatrix} a_{1\#}  \\ a_{2\#} \\ \vdots \\ a_{m\#} \end{bmatrix}$, where each $a_{i\#} = \begin{bmatrix} a_{i1} & a_{i2} & \cdots & a_{in} \end{bmatrix} $
 \item Break apart $B$ into its columns: $B = \begin{bmatrix} b_{\#1} & b_{\#2} & \cdots & b_{\#p} \end{bmatrix}$, where each $b_{\#j} = \begin{bmatrix} b_{1j} \\ b_{2j} \\ \vdots \\ b_{nj} \end{bmatrix}$
 \item Compute $A \cdot B$ elementwise, using the usual matrix multiplication rules to find each $a_i \cdot b_j$:
+%JBN: no need to have this whole matrix, just show a single element $c_{ij}$ where each of these elements can be computed independently.
 \begin{align*}
 A \cdot B = \begin{bmatrix} 
 (a_{1\#} \cdot b_{\#1})  & (a_{1\#} \cdot b_{\#2}) & \cdots & (a_{1\#} \cdot b_{\#p}) \\
@@ -329,6 +346,7 @@ A \cdot B = \begin{bmatrix}
 \begin{center}
 {\bf PARALLELIZING MATRIX MULTIPLICATION}
 \end{center} $\quad$ \newline \huge
+%JBN: I believe, for reasonable size matrices, this is done completely within a single block on a single grid, i.e. thread(i,j) computes element c_{ij}...notice the threads are arranged in a matrix.
 One approach is to use two sequential grids: \newline
 \begin{enumerate}[1. ]
 \item Grid 1: spawn $m \cdot p$ blocks. The $(i,j)$'th block does the following:
@@ -419,7 +437,7 @@ A \cdot B = \begin{bmatrix}
 \newpage
 
 
-
+%JBN: I'm not sure you are going to have time for this. I typically think about one slide every 2 minutes and you are already at slide 26. And the QR decomposition looks pretty intense. 
 \Huge
 \begin{center}
 {\bf 3. THE QR FACTORIZATION}
@@ -431,8 +449,9 @@ A = QR
 where: \newline
 
 \begin{itemize}
+%JBN: wikipedia has a different definition of QR decomposition. I have no idea if the two are compatible.
 \item $Q$ is an $m \times n $ matrix whose columns form an orthonormal basis for the column space of $A$.
-\item $R$ is an $n \times n $ upper triangular (and therefore invertible) matrix with all positive entries on the diagonal.
+\item $R$ is an $n \times n $ upper triangular (and therefore invertible) matrix with all positive entries on the diagonal. %JBN: does it matter that it is invertible?
 \end{itemize}
 
 \newpage
