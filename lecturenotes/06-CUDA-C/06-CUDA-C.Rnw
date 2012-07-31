@@ -562,6 +562,11 @@ int main(){
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum3} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum4} \newpage
 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vsumex} \newline
+
+\LARGE
+You can download the code, along with other simple CUDA C examples, at https://github.com/jarad/gpuIntroduction/tree/master/CUDA\_C\_sandbox. \newpage
+
 
 
 \Huge
