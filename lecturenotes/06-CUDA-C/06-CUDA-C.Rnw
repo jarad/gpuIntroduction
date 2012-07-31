@@ -354,167 +354,7 @@ Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block.
 
 \Huge
 \begin{center}
-{\bf USING blockIdx.x AND threadIdx.x: identify\_naive1.cu}
-\end{center} $\quad$ \newline \LARGE
-
-% JBN: I like this example, but I think you can improve it by
-%      executing every thread with ids less than the blockid and threadid and
-%      then print out all threads
-\begin{verbatim}
-#include <stdio.h>
-#include <stdlib.h>
-
-__global__ void isExecuted(int *dev_a, int blockid, int threadid){
-
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
-  else
-    *dev_a = 0;
-
-}
-
-int main(){
-
-  // Declare variables and allocate memory on the GPU.
-  int a[1], *dev_a;
-  cudaMalloc((void**) &dev_a, sizeof(int));
-
-  // Execute kernel and copy the result to CPU memory.
-  isExecuted<<<1,1>>>(dev_a, 0, 0); 
-            // NOTE: INDEXING OF THREADS AND BLOCKS STARTS FROM 0.
-  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
-
-  // Print result and free dynamically allocated memory.
-  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaFree(dev_a);
-
-}
-
-\end{verbatim} $\quad$ \newline
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify_naive1} \newline
-
-\newpage \huge
-
-You can verify that when the line, \newline
-
-\begin{verbatim}
-    isExecuted<<<1,1>>>(dev_a, 0, 0); 
-\end{verbatim} $\quad$ \newline
-is changed to: \newline
-
-\begin{verbatim}
-    isExecuted<<<1,1>>>(dev_a, 2, 4); 
-\end{verbatim} $\quad$ \newline
-the output of the program: \newline
-
-\begin{verbatim}
-    a[0] = 0
-\end{verbatim} $\quad$ \newline
-which makes sense because there was no block number 2 or thread number 4. \newpage
-
-However, if I change that same line to: \newline
-
-\begin{verbatim}
-    isExecuted<<<100,100>>>(dev_a, 2, 4); 
-\end{verbatim} $\quad$ \newline
-the output is still:
-
-\begin{verbatim}
-    a[0] = 0
-\end{verbatim} $\quad$ \newline
-
-Even though thread number 4 in block number 2 executed.  \newline
-
-% JBN: Pedagogically, I typically try to only introduce the proper way of doing things since there are 
-%      an infinite number of ways to mess something up. And I don't want students or the audience to get mixed up
-%      in their head with what is proper and what is improper. That is, if they remember me saying something
-%      then it is the proper way of doing things.
-Why? Take a look at {identify\_naive2.cu} on the following page:
-
-
-\newpage
-\large
-\begin{verbatim}
-#include <stdio.h>
-#include <stdlib.h>
-
-__global__ void isExecuted(int *dev_a, int blockid, int threadid){
-
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
-  else
-    *dev_a = 0;
-
-}
-
-int main(){
-
-  // Declare variables and allocate memory on the GPU.
-  int a[1], *dev_a;
-  cudaMalloc((void**) &dev_a, sizeof(int));
-
-  // Execute kernel and copy the result to CPU memory.
-  isExecuted<<<100,100>>>(dev_a, 2, 4); 
-            // NOTE: INDEXING OF THREADS AND BLOCKS STARTS FROM 0.
-  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
-
-  // Print result and free dynamically allocated memory.
-  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaFree(dev_a);
-
-}
-
-\end{verbatim} 
-
-\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{identify_naive2} \newpage
-
-
-\huge
-
-The problem is in: \newline
-
-
-\begin{verbatim}
-__global__ void isExecuted(int *dev_a, int blockid, 
-               int threadid){
-
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
-  else
-    *dev_a = 0;
-
-}
-\end{verbatim}
-
-\newpage
-
-
-
-The problem is in: \huge
-
-
-\begin{verbatim}
-__global__ void isExecuted(int *dev_a, int blockid, 
-               int threadid){
-
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
-  else
-    *dev_a = 0;
-
-}
-\end{verbatim} $\quad$ \newline
-
-The thread with blockIdx.x = blockid and threadIdx.x = threaded will set  *dev\_a to 1. \newline
-
-However, all the other threads will set *dev\_a to 0. 
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf IMPROVED CODE: identify.cu}
+{\bf USING blockIdx.x AND threadIdx.x: identify.cu}
 \end{center} $\quad$ \newline \LARGE
 
 \begin{verbatim}
@@ -550,8 +390,78 @@ int main(){
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify} \newpage
 
+\newpage \huge
 
-% JBN: showing this example in action would be great
+You can verify that when the line, \newline
+
+\begin{verbatim}
+    isExecuted<<<1,1>>>(dev_a, 0, 0); 
+\end{verbatim} $\quad$ \newline
+is changed to: \newline
+
+\begin{verbatim}
+    isExecuted<<<1,1>>>(dev_a, 2, 4); 
+\end{verbatim} $\quad$ \newline
+the output of the program: \newline
+
+\begin{verbatim}
+    a[0] = 0
+\end{verbatim} $\quad$ \newline
+which makes sense because there was no block number 2 or thread number 4. \newpage
+
+
+\Huge
+\begin{center}
+{\bf ASIDE: AVOIDING PITFALLS IN PARALLELIZATION}
+\end{center} $\quad$ \newline \LARGE
+
+What problem would arise if I changed isExecuted() to: \newline
+\color{red}
+\begin{verbatim}
+__global__ void isExecuted(int *dev_a, int blockid, 
+               int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+  else
+    *dev_a = 0;
+
+}
+\end{verbatim} 
+\newpage
+
+\normalsize
+\begin{verbatim}
+__global__ void isExecuted(int *dev_a, int blockid, 
+               int threadid){
+
+  if(blockIdx.x == blockid && threadIdx.x == threadid)
+    *dev_a = 1;
+  else
+    *dev_a = 0;
+
+}
+\end{verbatim}  $\quad$ \newline \LARGE
+\color{black}
+Suppose:
+
+\begin{itemize}
+\item  I run {\tt isExecuted(dev\_a, 0, 0)}
+\item Block 0 thread 0 finishes before Block 0 thread 1 finishes.
+\end{itemize}
+
+Then, here's what would happen: \newline
+
+\begin{enumerate}[1. ]
+\item Block 0 thread 0 would set *dev\_a to 1 because our arguments are blockid = 0 and threadid = 0. 
+\item Block 0 thread 1 would set *dev\_a back to 0 because threadid does not equal 1.
+\end{enumerate}
+
+So {\tt isExecuted(dev\_a, 1, 1)} might return 0 even it block 1 thread 1 is among the threads that executed.
+
+\color{black}
+\newpage
+
 \Huge
 \begin{center}
 {\bf EXAMPLE: VECTOR SUMMATION (Sanders, et. al.)}
