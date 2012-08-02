@@ -111,7 +111,7 @@ $\quad$ \newline \newline \newline \newline \newline
 \end{center} $\quad$ \newline
 
 \begin{center}
-{\Large Will Landau, Matt Simpson, Prof. Jarad Niemi} 
+{\Large Will Landau, Prof. Jarad Niemi} 
 %JBN: I don't think you need to put Matt's name on here and mine is also optional
 \end{center}
 
@@ -190,8 +190,8 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 
 \begin{itemize}
 \item With one grid per kernel, GRIDS are executed SEQUENTIALLY.
-\item Blocks within the same grid are executed SIMULTANEOUSLY.
-\item Threads within the same grid are executed SIMULTANEOUSLY, whether they share a block or not.
+\item Blocks within the same grid are executed SIMULTANEOUSLY (unless otherwise specified).
+\item Threads within the same grid are executed SIMULTANEOUSLY (unless otherwise specified), whether they share a block or not.
 \end{itemize}
 % JBN: Although this is the way to think about what is going on, it is not technically accurate.
 %          Some blocks are executed simultaneously while others have already executed or are waiting to execute.
@@ -249,6 +249,7 @@ Linear algebraic algorithms are particularly amenable to GPU computing because t
 I will showcase: \newline
 
 \begin{enumerate}[1. ]
+\item vector addition
 \item the pairwise (cascading) sum %JBN: the vector sum example fits right here and is simpler to understand than the cascading sum
 \item matrix multiplication
 \item the QR factorization
@@ -258,7 +259,47 @@ I will showcase: \newline
 
 \Huge
 \begin{center}
-{\bf 1. THE PAIRWISE (CASCADING) SUM}
+{\bf VECTOR ADDITION}
+\end{center} $\quad$ \newline \Large
+
+Say I have two vectors:  \newline
+
+\begin{align*}
+a = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix} \quad b =  \begin{bmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix} 
+\end{align*} $\quad$ \newline
+
+I compute their sum, $c = a + b$, by: \newline
+
+\begin{align*}
+c = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}  =  \begin{bmatrix} a_1 + b_1 \\ a_2 + b_2 \\ \vdots \\ a_n + b_n\end{bmatrix} 
+\end{align*}
+\newpage
+
+\Huge
+\begin{center}
+{\bf PARALLELIZING VECTOR ADDITION: METHOD 1 OF 3}
+\end{center} \Large
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vadd1} \newpage
+
+\Huge
+\begin{center}
+{\bf PARALLELIZING VECTOR ADDITION: METHOD 2 OF 3}
+\end{center} \Large
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vadd2} \newpage
+
+\Huge
+\begin{center}
+{\bf PARALLELIZING VECTOR ADDITION: METHOD 3 OF 3}
+\end{center} \Large
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vadd3} \newpage
+
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf 2. THE PAIRWISE (CASCADING) SUM}
 \end{center}   \LARGE 
 
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psum2} \newline
@@ -279,10 +320,9 @@ Suppose you have a vector $X_0 = (x_{(0,1)}, x_{(0,2)}, \ldots, x_{(0,n)})$, whe
 \begin{enumerate}[1. ]
 \item Create a new vector: $X_1 = ( \underbrace{x_{(0,1)} + x_{(0,2)}}_{x_{(1, 1)}}, \  \underbrace{x_{(0,3)} + x_{(0,4)}}_{x_{(1,2)}}, \ \ldots, \underbrace{x_{(0, n-1)} + x_{(0,n)}}_{x_{(1, n/2)}})$
 \item Create another new vector: $X_2 = ( \underbrace{x_{(1,1)} + x_{(1,2)}}_{x_{(2, 1)}}, \  \underbrace{x_{(1,3)} + x_{(1,4)}}_{x_{(2,2)}}, \ \ldots, \underbrace{x_{(1, n/2-1)} + x_{(1,n/2)}}_{x_{(2, n/4)}})$
-\item Continue this process until you get a singleton vector: $X_{\log_2(n)} =  ( \underbrace{x_{(\log_2(n) - 1, 1)}, \  x_{(\log_2(n) - 1, 2)}}_{x_{(\log_2(n), 1)}}  ) $
+\item Continue this process until you get a singleton vector: $X_{m} =  ( \underbrace{x_{(m - 1, 1)}, \  x_{(m - 1, 2)}}_{x_{(m, 1)}}  ) $
 \end{enumerate} $\quad$ \newline
-%JBN: since log_2(n)=m$ why not use m instead of log_2(x)
-Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(\log_2(n), 1)}$
+Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 1)}$
 %JBN:Perhaps compare this version of the algorithm to the sequential version.
 %       The sequential version has n-1 operations whereas the cascading sum has 
 %       n(1/2+1/4+1/8+...+1/2^m) \to n as n\to \infty and yet the cascading sum will be much quicker
@@ -296,48 +336,81 @@ Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(\log_2(n), 1)}$
 \begin{center}
 {\bf PARALLELIZING THE PAIRWISE SUM}
 \end{center} $\quad$ \newline
-%JBN: again, replace log_2(n) with m
-Create $\log_2(n)$ grids, each to compute $X_1, X_2, \ldots, X_{\log_2(n)}$, respectively, in sequence. For the $i$'th grid: \newline
-%JBN: this isn't what is actually done. Instead the successive values just overwrite the previous values, e.g. the first thread initially has x_{(0,1)}, then contains x_{(1,1)}, then x_{(2,1)}, then x_{(3,1)}, etc. 
-% This means that many of the threads do nothing in steps.
+
+Spawn one grid with a single block and $n = 2^m$ threads. For each iteration $i = 1, 2, \cdots, m$, do the following: \newline
+
 \begin{enumerate}[1. ]
-\item Spawn one block of $n/2^i$ threads. %JBN: this will be one block of n threads
-\item Let the $j$'th thread compute the $j$'th element of $X_i$ by pairwise summing the appropriate two elements of $X_{i-1}$.
+\item Assign thread $j$ to compute: 
+\begin{align*}
+x_{(i,j)} = x_{(i-1, \ 2j - 1)} + x_{(i-1,\  2j)}
+\end{align*} for $j = 1, 2, \cdots, \frac{n}{2^i}$.
+\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 1.
+\item Set $i = i + 1$ and repeat. 
 \end{enumerate}
-
 \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/grids} \newpage
-%JBN: this is all actually done within one kernel call, i.e. one grid
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/blocks} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/threads} 
+\Huge
+\begin{center}
+{\bf EXAMPLE}
+\end{center} 
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt1} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt2} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt3} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt4} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt5} \newpage
 
 
+\Huge
+\begin{center}
+{\bf \huge COMPARE TO THE SEQUENTIAL VERSION}
+\end{center} 
 
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/sequential} 
+
+The pairwise sum requires only $\log_2(n)$ sequential steps, whereas the sequential sum requires $n - 1$ steps.
 
 \newpage
 \Huge
 \begin{center}
-{\bf 2. MATRIX MULTIPLICATION}
+{\bf AN ASIDE: SYNCHRONIZING THREADS}
+\end{center} $\quad$ \newline \Huge
+
+{\bf Synchronization}: Waiting for all parallel tasks to reach a checkpoint before allowing any of those tasks to proceed beyond that checkpoint. \newline
+
+
+NOTE:
+
+\begin{itemize}
+\item Threads from the same block can be synchronized easily.
+\item  In general, do not try to synchronize threads from different blocks. It's possible, but extremely inefficient.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf 3. MATRIX MULTIPLICATION}
 \end{center} \Large
 
 
 Consider an $m \times n$ matrix, $A = (a_{ij})$ , and an $n \times p$ matrix, $B = (b_{ij})$. Compute $A \cdot B$: \newline
-%JBN: I would suggest using \cdot instead of the # symbol to make it easier to read
 %JBN: I also suggest assigning $C=AB$ with elements $c_{ij} = a_{i\cdot}b_{\cdot j}$. 
 \begin{enumerate}[1. ]
-\item Break apart $A$ into its rows: $A = \begin{bmatrix} a_{1\#}  \\ a_{2\#} \\ \vdots \\ a_{m\#} \end{bmatrix}$, where each $a_{i\#} = \begin{bmatrix} a_{i1} & a_{i2} & \cdots & a_{in} \end{bmatrix} $
-\item Break apart $B$ into its columns: $B = \begin{bmatrix} b_{\#1} & b_{\#2} & \cdots & b_{\#p} \end{bmatrix}$, where each $b_{\#j} = \begin{bmatrix} b_{1j} \\ b_{2j} \\ \vdots \\ b_{nj} \end{bmatrix}$
-\item Compute $A \cdot B$ elementwise, using the usual matrix multiplication rules to find each $a_i \cdot b_j$:
+\item Break apart $A$ into its rows: $A = \begin{bmatrix} a_{1\cdot}  \\ a_{2\cdot} \\ \vdots \\ a_{m\cdot} \end{bmatrix}$, where each $a_{i\cdot} = \begin{bmatrix} a_{i1} & a_{i2} & \cdots & a_{in} \end{bmatrix} $
+\item Break apart $B$ into its columns: $B = \begin{bmatrix} b_{\cdot 1} & b_{\cdot 2} & \cdots & b_{\cdot p} \end{bmatrix}$, where each $b_{\cdot j} = \begin{bmatrix} b_{1j} \\ b_{2j} \\ \vdots \\ b_{nj} \end{bmatrix}$
+\item Compute $C = A \cdot B$ elementwise, using the usual matrix multiplication rules to find each $a_i \cdot b_j$:
 %JBN: no need to have this whole matrix, just show a single element $c_{ij}$ where each of these elements can be computed independently.
 \begin{align*}
-A \cdot B = \begin{bmatrix} 
-(a_{1\#} \cdot b_{\#1})  & (a_{1\#} \cdot b_{\#2}) & \cdots & (a_{1\#} \cdot b_{\#p}) \\
-(a_{2\#} \cdot b_{\#1}) & (a_{2\#} \cdot b_{\#2}) & {} & (a_{2\#} \cdot b_{\#p}) \\
+C &= A \cdot B = \begin{bmatrix} 
+(a_{1\cdot} \cdot b_{\cdot 1})  & (a_{1\cdot} \cdot b_{\cdot 2}) & \cdots & (a_{1\cdot } \cdot b_{\cdot p}) \\
+(a_{2\cdot} \cdot b_{\cdot 1}) & (a_{2\cdot} \cdot b_{\cdot 2}) & {} & (a_{2\cdot} \cdot b_{\cdot p}) \\
 \vdots & { } & \ddots & \vdots \\
-(a_{m\#} \cdot b_{\#1}) &( a_{m\#} \cdot b_{\#2}) & \cdots & (a_{m\#} \cdot b_{\#p})
+(a_{m\cdot} \cdot b_{\cdot 1}) &( a_{m\cdot} \cdot b_{\cdot 2}) & \cdots & (a_{m\cdot } \cdot b_{\cdot p})
 \end{bmatrix}
+\intertext{i.e.:}
+C_{(i, j)} &= a_{i\cdot} \cdot b_{\cdot j}
 \end{align*}
-\end{enumerate} $\quad$ \newline
+\end{enumerate} 
 
 
 \newpage
@@ -347,17 +420,12 @@ A \cdot B = \begin{bmatrix}
 {\bf PARALLELIZING MATRIX MULTIPLICATION}
 \end{center} $\quad$ \newline \huge
 %JBN: I believe, for reasonable size matrices, this is done completely within a single block on a single grid, i.e. thread(i,j) computes element c_{ij}...notice the threads are arranged in a matrix.
-One approach is to use two sequential grids: \newline
+Spawn one grid with $m \cdot p$ blocks. Assign block $(i,j)$ to compute $C_{(i,j)} = a_{i \cdot} \cdot b_{\cdot j}$ using the following steps: \newline
 \begin{enumerate}[1. ]
-\item Grid 1: spawn $m \cdot p$ blocks. The $(i,j)$'th block does the following:
-\begin{enumerate}[a. ]
 \item Spawn $n$ threads.
-\item Tell the $k$'th thread to compute $c_{ink} = a_{ik} b_{kj}$. 
-\end{enumerate}
-\item Grid 2: spawn $m \cdot p$ blocks. The $(i,j)$'th block does the following:
-\begin{enumerate}[a. ]
-\item Compute $(A \cdot B)_{(i, j)} = \sum_{k = 1}^n c_{ijk}$ as a pairwise sum.
-\end{enumerate}
+\item Tell the $k$'th thread to compute $c_{ijk} = a_{ik} b_{kj}$.
+\item Synchronize the $n$ threads to make sure we have finished calculating all of $c_{ij1}, c_{ij2}, \ldots, c_{ijn}$ before proceeding.
+\item Compute $C_{(i,j)} = \sum_{k = 1}^n c_{ijk}$ as a pairwise sum.
 \end{enumerate}
 
 \newpage
@@ -378,270 +446,28 @@ B = \begin{bmatrix}
 3 & 5 & 2
 \end{bmatrix}
 \intertext{which I'm setting up as:} \\
-A \cdot B = \begin{bmatrix}
+C = A \cdot B = \begin{bmatrix}
 \left ( \begin{bmatrix} 1 & 2\end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3\end{bmatrix}  \right ) & \left (  \begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 5 \end{bmatrix}  \right ) & \left ( \begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 7 \\ 2\end{bmatrix} \right ) \\ \\
 \left ( \begin{bmatrix} -1 & 5\end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}  \right) & \left (  \begin{bmatrix} -1 & 5 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 5 \end{bmatrix} \right ) & \left (\begin{bmatrix} -1 & 5 \end{bmatrix} \cdot \begin{bmatrix} 7 \\ 2\end{bmatrix} \right )\\ \\
 \left ( \begin{bmatrix} 7 & -9 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}  \right) & \left (  \begin{bmatrix}  7 & -9\end{bmatrix} \cdot \begin{bmatrix} 8 \\ 5 \end{bmatrix} \right ) & \left (\begin{bmatrix} 7 & -9 \end{bmatrix} \cdot \begin{bmatrix} 7 \\ 2\end{bmatrix} \right )\\
 \end{bmatrix}
 \end{align*}
 
-\newpage \Large
-
-\begin{align*}
-\text{\huge Grid 1: } \begin{bmatrix}
-\left ( \begin{bmatrix} 1 & 2\end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3\end{bmatrix}  \right ) & \left (  \begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 5 \end{bmatrix}  \right ) & \left ( \begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 7 \\ 2\end{bmatrix} \right ) \\ \\
-\left ( \begin{bmatrix} -1 & 5\end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}  \right) & \left (  \begin{bmatrix} -1 & 5 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 5 \end{bmatrix} \right ) & \left (\begin{bmatrix} -1 & 5 \end{bmatrix} \cdot \begin{bmatrix} 7 \\ 2\end{bmatrix} \right )\\ \\
-\left ( \begin{bmatrix} 7 & -9 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}  \right) & \left (  \begin{bmatrix}  7 & -9\end{bmatrix} \cdot \begin{bmatrix} 8 \\ 5 \end{bmatrix} \right ) & \left (\begin{bmatrix} 7 & -9 \end{bmatrix} \cdot \begin{bmatrix} 7 \\ 2\end{bmatrix} \right )\\
-\end{bmatrix}
-\quad \mapsto \quad \begin{bmatrix}
-\begin{bmatrix} 8 \\ 6 \end{bmatrix} & \begin{bmatrix} 8 \\ 10 \end{bmatrix} & \begin{bmatrix} 7 \\ 4 \end{bmatrix} \\ \\
-\begin{bmatrix} -8 \\ 15 \end{bmatrix} & \begin{bmatrix} -8 \\ 25 \end{bmatrix} & \begin{bmatrix} -7 \\ 10 \end{bmatrix} \\ \\
-\begin{bmatrix} 56 \\ -27 \end{bmatrix} & \begin{bmatrix} 56 \\ -45 \end{bmatrix} & \begin{bmatrix} 49 \\ -18 \end{bmatrix}
-\end{bmatrix}
-\end{align*} 
-
 \newpage
 
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/blockmul} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/threadmul} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/mat} \newline
 
+We don't need to synchronize the blocks because we can compute them independently. \newpage
 
-\newpage \Large
-
-\begin{align*}
-\text{\huge Grid 2: } \begin{bmatrix}
-\begin{bmatrix} 8 \\ 6 \end{bmatrix} & \begin{bmatrix} 8 \\ 10 \end{bmatrix} & \begin{bmatrix} 7 \\ 4 \end{bmatrix} \\ \\
-\begin{bmatrix} -8 \\ 15 \end{bmatrix} & \begin{bmatrix} -8 \\ 25 \end{bmatrix} & \begin{bmatrix} -7 \\ 10 \end{bmatrix} \\ \\
-\begin{bmatrix} 56 \\ -27 \end{bmatrix} & \begin{bmatrix} 56 \\ -45 \end{bmatrix} & \begin{bmatrix} 49 \\ -18 \end{bmatrix}
-\end{bmatrix}
-\quad \mapsto \quad 
-\begin{bmatrix}
-14 & 18 & 11 \\
-7 & 17 & 3 \\
-29 & 11 & 31
-\end{bmatrix}
-\end{align*} $\quad$ \newline
-
-\newpage
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/blockmul2} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/threadmul2} 
+Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}$:
 
 
 
+\setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{picts/bl1} \newpage
+\setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{picts/bl2} \newpage
+\setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{picts/bl3} \newpage
 
-
-
-
-\newpage
-
-
-%JBN: I'm not sure you are going to have time for this. I typically think about one slide every 2 minutes and you are already at slide 26. And the QR decomposition looks pretty intense. 
-\Huge
-\begin{center}
-{\bf 3. THE QR FACTORIZATION}
-\end{center} $\quad$ \newline \huge
-\emph{ Theorem:} Let $A$ be an $m \times n$ matrix with linearly independent columns. Then: \newline
-\begin{align*}
-A = QR
-\end{align*} $\quad$ \newline
-where: \newline
-
-\begin{itemize}
-%JBN: wikipedia has a different definition of QR decomposition. I have no idea if the two are compatible.
-\item $Q$ is an $m \times n $ matrix whose columns form an orthonormal basis for the column space of $A$.
-\item $R$ is an $n \times n $ upper triangular (and therefore invertible) matrix with all positive entries on the diagonal. %JBN: does it matter that it is invertible?
-\end{itemize}
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf EXAMPLE}
-\end{center} $\quad$ \newline \LARGE
-\begin{align*}
-A  = \begin{bmatrix}
-5 & 9 \\
-1 & 7 \\
--3 & -5 \\
-1 & 5
-\end{bmatrix}
-\end{align*} $\quad$ \newline
-The columns of A are linearly independent. Therefore, $A$ has a QR factorization:
-
-\begin{align*}
-&A = QR \\
-\intertext{The following choices for $Q$ and $R$ work:} \\
-Q = \frac{1}{6} \cdot \begin{bmatrix}
-5 & -1 \\
-1 & 5 \\
--3 & 1 \\
-1 & 3
-\end{bmatrix}& \quad \quad
-R = \begin{bmatrix}
-6 & 12 \\
-0 & 6
-\end{bmatrix}
-\end{align*}
-
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf FINDING THE QR FACTORIZATION USING ORTHOGONALITY AND THE GRAHAM SCHMIDT PROCESS}
-\end{center} $\quad$ \newline \LARGE
-{\bf Orthogonal}: two vectors $u$ and $v$ are orthogonal if $u \bullet v = 0$. \newline
-
- {\color{red} Note: If $u$ and $v$ are two component vectors in $\R^n$, $u \bullet v = 0$ iff they form a right angle. In Euclidian space, orthogonality is the same as perpendicularity. }\newline
-
-Here ``$\bullet$" denotes the dot product (or inner product) of two component vectors: \newline
-
-If $a = (a_1, a_2, \ldots, a_n)$ and $b = (b_1, b_2,  \ldots, b_n)$, then: \newline
- 
-\begin{align*}
-a \bullet b = (a_1 \cdot b_1, \ a_2 \cdot b_2, \  \ldots, \ a_n \cdot b_n)
-\end{align*}
- 
-\newpage
-
-\Huge
-\begin{center}
-{\bf THE GRAHAM SCHMIDT PROCESS}
-\end{center} \Large
-
-To find the QR factorization of $A = [a_1, \ldots, a_n] $ (where $a_1, \ldots, a_n$ are linearly independent), you first want to find an orthogonal basis for the column space of $A$.  \newline
-
-That's where the Graham Schmidt process comes in. The Graham Schmidt process is the construction one such basis, $\{v_1, v_2, \ldots, v_n\}$, by: 
-
-\begin{align*}
-&v_1 = a_1 \\ \\
-&v_2 = a_2 - \frac{a_2 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 \\ \\
-&v_3 = a_3 - \frac{a_3 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_3 \bullet v_2}{v_2 \bullet v_2} \cdot v_2 \\ 
-&\vdots \\ 
-&v_n = a_n - \frac{a_n \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_n \bullet v_2}{v_2 \bullet v_2} \cdot v_2 - \cdots - - \frac{a_{n} \bullet v_{n-1}}{v_{n-1} \bullet v_{n-1}} \cdot v_{n-1}
-\end{align*} $\quad$ \newline
-
-Even better, you can get an ortho{\bf normal} basis, $\{u_1, \ u_2, \ldots, \ u_n\}$, by:
-
-\begin{align*}
- \{u_1 = \frac{v_1}{{v_1 \bullet v_1}}, \ u_2 = \frac{v_2}{{v_2 \bullet v_2}}, \ \ldots, \ u_n = \frac{v_n}{{v_n \bullet v_n}}  \}
-\end{align*}
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf REARRANGING THAT LONG LIST OF EQUATIONS...}
-\end{center} \Large
-
-\begin{align*}
-&a_1 = (a_1 \bullet u_1) \cdot u_1 \\ \\
-&a_2 = (a_2 \bullet u_1) \cdot u_1 +  (a_2 \bullet u_2) \cdot u_2 \\ \\
-&a_3 =  (a_3 \bullet u_1) \cdot u_1 + (a_3 \bullet u_2) \cdot u_2 + (a_3 \bullet u_3) \cdot u_3 \\ 
-&\vdots \\ 
-&a_n =  (a_n \bullet u_1) \cdot u_1 + (a_n \bullet u_2) \cdot u_2  + (a_3 \bullet u_3) \cdot u_3 + \cdots + (a_n \bullet u_n) \cdot u_n
-\end{align*} $\quad$ \newline
- 
- We can put it all in matrix form:
- 
- \begin{align*}
-A = [a_1, \ldots, a_n] \quad \quad Q = [u_1, \ldots, u_n] \quad \quad R = \begin{bmatrix}
-(a_1 \bullet u_1) & (a_2 \bullet u_1) & (a_3 \bullet u_1) & \cdots \\
-0 & (a_2 \bullet u_2) & (a_3 \bullet u_2) & \cdots  \\
-0 & 0 & (a_3 \bullet u_3) & \cdots\\
-\vdots & \vdots & \vdots & \ddots
-\end{bmatrix}
-\end{align*}
-And we're all done.
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf A SUMMARY OF THE WORKFLOW}
-\end{center} \Large
-
-\begin{enumerate}[a. ]
-\item Start with $A = [a_1, \ldots, a_n] $ 
-\item Compute:
-\begin{align*}
-&v_1 = a_1 \\ \\
-&v_2 = a_2 - \frac{a_2 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 \\ \\
-&v_3 = a_3 - \frac{a_3 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_3 \bullet v_2}{v_2 \bullet v_2} \cdot v_2 \\ 
-&\vdots \\ 
-&v_n = a_n - \frac{a_n \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_n \bullet v_2}{v_2 \bullet v_2} \cdot v_2 - \cdots - - \frac{a_{n} \bullet v_{n-1}}{v_{n-1} \bullet v_{n-1}} \cdot v_{n-1}
-\end{align*}  $\quad$ \newline
-
-\item Compute: $
- \{u_1 = \frac{v_1}{{v_1 \bullet v_1}}, \ u_2 = \frac{v_2}{{v_2 \bullet v_2}}, \ \ldots, \ u_n = \frac{v_n}{{v_n \bullet v_n}}  \}$ \newline
-
-\item Compute:
-$R = \begin{bmatrix}
-(a_1 \bullet u_1) & (a_2 \bullet u_1) & (a_3 \bullet u_1) & \cdots \\
-0 & (a_2 \bullet u_2) & (a_3 \bullet u_2) & \cdots  \\
-0 & 0 & (a_3 \bullet u_3) & \cdots\\
-\vdots & \vdots & \vdots & \ddots
-\end{bmatrix}$
-
-
-\end{enumerate}
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf ONE WAY TO PARALLELIZE b}
-\end{center} \normalsize \color{blue}
-\begin{align*}
-&v_1 = a_1 \\ \\
-&v_2 = a_2 - \frac{a_2 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 \\ \\
-&v_3 = a_3 - \frac{a_3 \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_3 \bullet v_2}{v_2 \bullet v_2} \cdot v_2 \\ 
-&\vdots \\ 
-&v_n = a_n - \frac{a_n \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_n \bullet v_2}{v_2 \bullet v_2} \cdot v_2 - \cdots - \frac{a_{n} \bullet v_{n-1}}{v_{n-1} \bullet v_{n-1}} \cdot v_{n-1}
-\end{align*}  $\quad$ \newline
-
-\LARGE \color{black}
-
-Give each $v_i = a_i - \frac{a_i \bullet v_1}{v_1 \bullet v_1} \cdot v_1 - \frac{a_i \bullet v_2}{v_2 \bullet v_2} \cdot v_2 - \cdots - \frac{a_{i} \bullet v_{i-1}}{v_{i-1} \bullet v_{i-1}} \cdot v_{i-1}$ three SEQUENTIAL grids: \newline
-\begin{enumerate}[Grid 1: ]
-\item Create a block of threads to calculate each of $v_{i-1} \bullet v_{i-i}$ and $a_i \bullet v_j$ for all $j < i$. The other dot products have already been calculated from the step that calculates $v_{i - 1}$.
-\item Create one block of threads, where the $i$'th thread computes $-\frac{a_{i} \bullet v_{i-1}}{v_{i-1} \bullet v_{i-1}} \cdot v_{i-1}$. 
-\item Create one final block of threads that performs a cascading sum on the terms, $a_i, \  - \frac{a_i \bullet v_1}{v_1 \bullet v_1} \cdot v_1, \  - \frac{a_i \bullet v_2}{v_2 \bullet v_2} \cdot v_2, \  - \cdots, \  - \frac{a_{i} \bullet v_{i-1}}{v_{i-1} \bullet v_{i-1}} \cdot v_{i-1}$
-\end{enumerate}
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf ONE WAY TO PARALLELIZE c}
-\end{center} $\quad$ \newline \LARGE \color{blue}
-\begin{align*}
- \{u_1 = \frac{v_1}{{v_1 \bullet v_1}}, \ u_2 = \frac{v_2}{{v_2 \bullet v_2}}, \ \ldots, \ u_n = \frac{v_n}{{v_n \bullet v_n}}  \}\end{align*} \newline \color{black}
-
-Spawn a grid containing one block of threads, where the $i$'th thread computes $\frac{v_i}{{v_i \bullet v_i}}$. All the dot products, $v_i \bullet v_i$, should be available from step b.
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf ONE WAY TO PARALLELIZE d }
-\end{center} $\quad$ \newline  \LARGE \color{blue}
-
-\begin{align*}
-R = \begin{bmatrix}
-(a_1 \bullet u_1) & (a_2 \bullet u_1) & (a_3 \bullet u_1) & \cdots \\
-0 & (a_2 \bullet u_2) & (a_3 \bullet u_2) & \cdots  \\
-0 & 0 & (a_3 \bullet u_3) & \cdots\\
-\vdots & \vdots & \vdots & \ddots
-\end{bmatrix}
-\end{align*} $\quad$ \newline \color{black}
-
-Spawn a block of threads, where the ($i,j$)'th thread computes $(a_1 \bullet u_1) = \frac{1}{v_1 \bullet v_1} (a_1 \bullet v_1)$ for each $j < i < n$. Each $v_i \bullet v_i$ should be available from step b.
-
-
-\newpage
 \Huge
 \begin{center}
 {\bf REFERENCES}
