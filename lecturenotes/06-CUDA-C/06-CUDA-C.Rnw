@@ -390,6 +390,12 @@ int main(){
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify} \newpage
 
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{gallant} \newline
+
+
+
 \newpage \huge
 
 You can verify that when the line, \newline
@@ -415,10 +421,10 @@ which makes sense because there was no block number 2 or thread number 4. \newpa
 {\bf ASIDE: AVOIDING PITFALLS IN PARALLELIZATION}
 \end{center} $\quad$ \newline \LARGE
 
-What problem would arise if I changed isExecuted() to: \newline
+What problem would arise if I used the function, isExectued\_goofup(), instead of Executed(): \newline
 \color{red}
 \begin{verbatim}
-__global__ void isExecuted(int *dev_a, int blockid, 
+__global__ void isExecuted_goofup(int *dev_a, int blockid, 
                int threadid){
 
   if(blockIdx.x == blockid && threadIdx.x == threadid)
@@ -430,36 +436,9 @@ __global__ void isExecuted(int *dev_a, int blockid,
 \end{verbatim} 
 \newpage
 
-\normalsize
-\begin{verbatim}
-__global__ void isExecuted(int *dev_a, int blockid, 
-               int threadid){
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{goofus} \newline
 
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
-  else
-    *dev_a = 0;
 
-}
-\end{verbatim}  $\quad$ \newline \LARGE
-\color{black}
-Suppose:
-
-\begin{itemize}
-\item  I run {\tt isExecuted(dev\_a, 0, 0)}
-\item Block 0 thread 0 finishes before Block 0 thread 1 finishes.
-\end{itemize}
-
-Then, here's what would happen: \newline
-
-\begin{enumerate}[1. ]
-\item Block 0 thread 0 would set *dev\_a to 1 because our arguments are blockid = 0 and threadid = 0. 
-\item Block 0 thread 1 would set *dev\_a back to 0 because threadid does not equal 1.
-\end{enumerate}
-
-So {\tt isExecuted(dev\_a, 1, 1)} might return 0 even it block 1 thread 1 is among the threads that executed.
-
-\color{black}
 \newpage
 
 \Huge
