@@ -1,0 +1,473 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+  
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf INTRODUCTION TO PROGRAMMING IN CUDA C}
+\end{center} $\quad$ \newline
+
+\LARGE
+
+\begin{center}
+Will Landau, Matt Simpson, Prof. Jarad Niemi
+\end{center}
+
+\newpage
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf REVIEW}
+\end{center}  \newpage
+
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf BASIC C PROGRAM}
+\end{center} $\quad$ \newline
+
+% JBN: in the future I would suggest using a verbatim environment for code
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+
+\Huge
+\begin{center}
+{\bf BASIC CUDA C PROGRAM}
+\end{center} $\quad$ \newline
+
+% JBN: the __global__ prefix doesn't say to me "do this on the GPU" but rather "only run this function on the GPU"
+%      the kernel<<<1,1>>> says "do this on the GPU"
+\setkeys{Gin}{width=0.9\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
+
+\Large
+\begin{verbatim} __global__: Call from CPU and run only on GPU.
+
+__device__: Call from GPU and run only on GPU.
+                               (More specifically, call only from within 
+                                a __global__ or another __device__ function.)
+
+__host__: Call from CPU and run only on CPU.
+                                (i.e., a traditional C function.)
+ \end{verbatim}
+
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{fkeywords} \newpage
+
+\LARGE
+
+\begin{verbatim}
+__device__ int dev1( void ){
+}
+
+__device__ int dev2( void ){
+}
+
+__global__ void kernel ( void ) {
+  dev1();
+  dev2();
+}
+
+int main ( void ) {
+  kernel<<<1, 1>>>();
+  printf( "Hello, World!\n" );
+  return 0;
+}
+\end{verbatim}
+
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf ORGANIZATION OF THREADS}
+\end{center} $\quad$ \newline
+
+% JBN: Can't you have multiple grids with the same kernel call?
+
+{\bf Grid}; The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
+
+{\bf Block}: A collection of threads within a grid that share memory quickly and easily.  
+
+\newpage
+
+\setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{imng.jpg} \newpage
+
+
+\Huge
+\begin{center}
+{\bf USEFUL VARIABLES WITHIN A KERNEL CALL OF B BLOCKS AND T THREADS PER BLOCK}
+\end{center}  $\quad$ \newline
+
+\Large
+
+{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
+
+{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
+
+{\bf gridDim.x}: $B$, the number of blocks in the grid. \newline
+
+{\bf blockDim.x}: $T$, the number of threads per block. \newline
+
+{\bf maxThreadsPerBlock}: exactly that: 1024 on an impact1 core. \newline
+
+{\color{red} Note: the maximum number of blocks per grid is 65535 on an impact1 core.}
+
+
+
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf END OF REVIEW}
+\end{center} \newpage
+
+
+
+
+
+
+
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: VECTOR SUMMATION (Sanders, et. al.)}
+\end{center} 
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1p5} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum2} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum3} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum4} \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vsumex} \newline
+
+\LARGE
+You can download the code, along with other simple CUDA C examples, at https://github.com/jarad/gpuIntroduction/tree/master/CUDA\_C\_sandbox. \newpage
+
+
+\Huge
+\begin{center}
+{\bf VECTOR SUMMATION: MULTIPLE THREADS PER BLOCK}
+\end{center} $\quad$ \newline
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum5} \newline
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf USEFUL VARIABLES IN A CALL TO \begin{verbatim}add<<<B, T>>>(dev_a, dev_b, dev_c)\end{verbatim}}
+\end{center}  $\quad$ \newline
+
+\Large
+
+{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
+
+{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
+
+{\bf gridDim.x}: $B$, the number of blocks in the grid. \newline
+
+{\bf blockDim.x}: $T$, the number of threads per block. \newline
+
+{\bf maxThreadsPerBlock}: exactly that: 1024 on an impact1 core. \newline
+
+Note: the maximum number of blocks per grid is : 65535 on an impact1 core.
+
+
+
+
+
+\newpage
+
+
+\huge
+\begin{center}
+{\bf THREAD COOPERATION: SHARED MEMORY AND SYNCHRONIZATION}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=0.75\textwidth} \includegraphics[scale=0.25,angle=0]{mem} \newpage
+
+
+ \LARGE
+Let's say we have a kernel: \newline
+
+\begin{verbatim}
+    __global__ void kernel( void ){
+      int x;
+      x = threadIdx.x + blockIdx.x * blockDim.x;
+    }
+\end{verbatim} $\quad$ \newline
+\setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{share} 
+
+{\color{red} \huge Remember: we don't know which thread finishes last!}
+
+\newpage
+
+\huge
+
+All the threads will share the same copy of x in {\color{blue} GLOBAL MEMORY}: \newline
+
+If we call:
+
+\begin{verbatim}
+    kernel<<3, 2>>();
+\end{verbatim}
+
+Then we would get: \newline
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+ &  Block 0 & Block 1 & Block 2 \\ \hline
+Thread 0 & x = 3 & x = 3 & x = 3 \\ \hline
+Thread 1 & x = 3 & x = 3 & x = 3 \\ \hline
+\end{tabular} $\quad$ \newline \newline
+
+If thread 1 block 1 finished last.
+
+
+\newpage
+\Large
+If, on the other hand, we define: \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{k2} \newline
+
+then each BLOCK will have its own copy of x in {\color{blue} SHARED MEMORY}, shared by all the threads in the block.  \newline
+
+If we call:
+
+\begin{verbatim}
+    kernel<<3, 2>>();
+\end{verbatim}
+
+Then we would get: \newline
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+ &  Block 0 & Block 1 & Block 2 \\ \hline
+Thread 0 & x = 0 & x = 3 & x = 4 \\ \hline
+Thread 1 & x = 0 & x = 3 & x = 4 \\ \hline
+\end{tabular} $\quad$ \newline \newline
+
+If thread 0 finished last in block 0, thread 1 finished last in block 1, and thread 0 finished last in block 2.
+
+\newpage
+
+\huge
+\begin{center}
+{\bf NOW, WE'RE READY FOR AN EXAMPLE OF THREAD COOPERATION: THE DOT PRODUCT}
+\end{center} $\quad$ \newline
+
+\begin{align*}
+(x_1, \ x_2, \ x_3,\  x_4) \bullet (y_1, \ y_2, \ y_3, \ y_4) = x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4
+\end{align*} $\quad$ \newline
+
+
+\newpage
+
+First part of the code: \newline
+
+\setkeys{Gin}{width=.73\textwidth} \includegraphics[scale=0.25,angle=0]{c1} 
+\setkeys{Gin}{width=.47\textwidth} \includegraphics[scale=0.25,angle=0]{c2} \newpage
+
+What the code does: \newline \newline \newline
+
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w0} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w1} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w2} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w3} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w4} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w5} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w6} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w7} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w8} \newpage
+
+
+We want to make sure that {\tt cache} is filled up for each block before we continue further. \newline
+
+Hence, the next line of code is: \newline \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{synch} 
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf NEXT, WE EXECUTE A PAIRWISE SUM ON {\tt cache} FOR EACH BLOCK}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{step2} \newpage
+
+
+
+\Huge
+\begin{center}
+{\bf WHAT'S GOING ON}
+\end{center} $\quad$ \newline
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s2} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s3} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s4} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s5} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s6} 
+
+Similarly, the contribution of block 1 to the dot product is 183.
+
+Next: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{mess} \newline
+
+
+So now, c[0] = 123 and c[1] is 183. \newline
+
+We return c to the cpu, call it {\tt partial\_c} and then take a linear sum of the elements of {\tt partial\_c}: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{final} \newline
+
+
+
+Now, c is the final answer.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf COMPLETE CODE}
+\end{center}
+
+
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp1} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp2} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp3} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp4} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp5} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp6} \newpage
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline
+
+J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
+
+
+\end{flushleft}
+\end{document}
+

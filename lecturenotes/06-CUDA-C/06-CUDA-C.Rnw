@@ -134,9 +134,45 @@ Will Landau, Matt Simpson, Prof. Jarad Niemi
 % JBN: the __global__ prefix doesn't say to me "do this on the GPU" but rather "only run this function on the GPU"
 %      the kernel<<<1,1>>> says "do this on the GPU"
 \setkeys{Gin}{width=0.9\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2b} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2d} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2b} \newpage
+
+\Large
+\begin{verbatim} __global__: Call from CPU and run only on GPU.
+
+__device__: Call from GPU and run only on GPU.
+                               (More specifically, call only from within 
+                                a __global__ or another __device__ function.)
+
+__host__: Call from CPU and run only on CPU.
+                                (i.e., a traditional C function.)
+ \end{verbatim}
+
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{fkeywords} \newpage
+\LARGE
+
+\begin{verbatim}
+__device__ int dev1( void ){
+}
+
+__device__ int dev2( void ){
+}
+
+__global__ void kernel ( void ) {
+  dev1();
+  dev2();
+}
+
+int main ( void ) {
+  kernel<<<1, 1>>>();
+  printf( "Hello, World!\n" );
+  return 0;
+}
+\end{verbatim}
+
+\newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2d} \newpage
 
 \Huge
 \begin{center}
@@ -162,7 +198,7 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 {\bf SIMD}: Single Instruction Multiple Data. The paradigm works like this: \newline
 \begin{enumerate}[1. ]
 \item The CPU sends a kernel (a SINGLE INSTRUCTION set) to the GPU.
-\item The GPU executes the kernel MULTIPLE times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}, and each thread is executed on different parts of a giant data set.  \newline
+\item The GPU executes the kernel MULTIPLE times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}, and each thread is executed on different parts of a giant data set.  
 \end{enumerate}
 
 
@@ -340,8 +376,6 @@ Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block.
 
  The following CUDA C variables are available for use in the kernel: \newline
 
-% JBN: not quite accurate since you can have an array of blocks in a grid and an array of threads in a block
-%      you might want to introduce blockIdx.y, blockIdx.z, threadIdx.y, and threadIdx.z (I believe these all exist)
 {\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
 
 {\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
@@ -435,27 +469,12 @@ __global__ void isExecuted_goofup(int *dev_a, int blockid,
 }
 \end{verbatim} 
 \newpage
-
+\color{black}
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{goofus} \newline
 
 
+
 \newpage
-
-\Huge
-\begin{center}
-{\bf EXAMPLE: VECTOR SUMMATION (Sanders, et. al.)}
-\end{center} 
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1p5} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum2} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum3} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum4} \newpage
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vsumex} \newline
-
-\LARGE
-You can download the code, along with other simple CUDA C examples, at https://github.com/jarad/gpuIntroduction/tree/master/CUDA\_C\_sandbox. \newpage
-
 
 
 \Huge
