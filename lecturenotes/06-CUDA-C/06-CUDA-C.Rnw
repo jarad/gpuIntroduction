@@ -482,6 +482,8 @@ __global__ void isExecuted_goofup(int *dev_a, int blockid,
 {\bf REFERENCES}
 \end{center} $\quad$ \newline
 
+David B. Kirk and Wen-mei W. Hwu. ``Programming Massively Parallel Processors: a Hands-on Approach." Morgan Kaufman, 2010. \newline
+
 J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
 
 

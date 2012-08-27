@@ -113,7 +113,7 @@ $\quad$ \newline
 \LARGE
 
 \begin{center}
-Will Landau, Matt Simpson, Prof. Jarad Niemi
+Will Landau, Prof. Jarad Niemi
 \end{center}
 
 \newpage
@@ -457,6 +457,7 @@ Now, c is the final answer.
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp5} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp6} \newpage
 
+This code can be found at http://www.github.com/jarad/gpuIntroduction/CUDA\_C\_sandbox/dot\_product.
 
 
 \newpage
@@ -465,8 +466,11 @@ Now, c is the final answer.
 {\bf REFERENCES}
 \end{center} $\quad$ \newline
 
+David B. Kirk and Wen-mei W. Hwu. ``Programming Massively Parallel Processors: a Hands-on Approach." Morgan Kaufman, 2010. \newline
+
 J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
 
+Michael Romero and Rodrigo Urra. "CUDA Programming."  Rochester Institute of Technology. http://cuda.ce.rit.edu/cuda\_overview/cuda\_overview.html
 
 \end{flushleft}
 \end{document}
