@@ -236,6 +236,22 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 
 GPUs parallelize repetitive arithmetic calculations much better than CPUs. \newline
 
+\color{red}
+
+\Large
+Note: there are several kinds of parallelization, all implemented differently: \newline
+
+\begin{enumerate}[1. ]
+\item CPU parallelization
+\item GPU parallelization
+\item parallel cloud computing
+\item parallelization for openMP
+\end{enumerate} $\quad$ \newline
+
+I will only focus on GPU parallelization, which does not completely generalize to other kinds of parallelization.
+
+\color{black}
+
 \newpage
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/amdahl} \newline

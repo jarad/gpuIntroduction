@@ -107,7 +107,7 @@
 \Huge
 \begin{center}
 $\quad$ \newline \newline \newline \newline \newline
-{\bf A CODELESS INTRODUCTION TO PARALLELIZATION}
+{\bf A CODELESS INTRODUCTION TO GPU PARALLELIZATION}
 \end{center} $\quad$ \newline
 
 \begin{center}
@@ -150,7 +150,25 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 
 {\color{red} In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_\_}. (More on that in a later talk.)}
 
+\newpage
 
+\color{red}
+\Huge
+\begin{center}
+{\bf REMINDER}
+\end{center} $\quad$ \newline \huge
+There are several kinds of parallelization, all implemented differently: \newline
+
+\begin{enumerate}[1. ]
+\item CPU parallelization
+\item GPU parallelization
+\item parallel cloud computing
+\item parallelization for openMP
+\end{enumerate} $\quad$ \newline
+
+I will only focus on GPU parallelization, which does not completely generalize to other kinds of parallelization.
+
+\color{black}
 \newpage
 
 
