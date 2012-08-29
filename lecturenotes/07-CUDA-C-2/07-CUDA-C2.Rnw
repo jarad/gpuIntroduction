@@ -107,7 +107,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf INTRODUCTION TO PROGRAMMING IN CUDA C}
+{\bf MORE PROGRAMMING IN CUDA C: SHARED MEMORY AND THREAD COOPERATION}
 \end{center} $\quad$ \newline
 
 \LARGE
