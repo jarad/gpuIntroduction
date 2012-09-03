@@ -107,7 +107,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf MORE PROGRAMMING IN CUDA C}
+{\bf MORE PROGRAMMING IN CUDA C: PERFORMANCE MEASUREMENT AND ATOMICS}
 \end{center} $\quad$ \newline
 
 \LARGE
@@ -117,6 +117,202 @@ Will Landau, Prof. Jarad Niemi
 \end{center}
 
 \newpage
+
+\Huge
+\begin{center}
+{\bf EVENTS: MEASURING PERFORMANCE ON THE GPU}
+\end{center} $\quad$ \newline
+
+{\bf Event}: a time stamp for the GPU. \newline
+
+Use events to measure the amount of time the GPU spends on a task. \newline
+
+\newpage
+
+
+
+\LARGE
+
+\begin{verbatim}
+int main(){
+  float   elapsedTime;
+  cudaEvent_t start, stop;
+
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord( start, 0 );
+
+  // SOME GPU KERNEL YOU WANT TIMED HERE
+
+  cudaEventRecord( stop, 0 );
+  cudaEventSynchronize( stop );
+  cudaEventElapsedTime( &elapsedTime, start, stop );
+
+  cudaEventDestroy( start );
+  cudaEventDestroy( stop ); 
+
+  printf("GPU Time elapsed: %f\n", elapsedTime);
+}
+\end{verbatim}  \newpage
+
+\Huge
+
+The variable, {\tt elapsedTime}, is the GPU time spent on the task. You can now print it any way you like. \newline
+\color{red}
+
+Note: only GPU elapsed time is measured, not CPU time. \newline
+
+GPU time and CPU time must be measured separately.
+\color{black}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf MEASURING CPU TIME}
+\end{center} $\quad$ \newline \huge
+
+
+\begin{verbatim}
+#include <stdio.h>
+#include <time.h>
+
+int main(){
+
+  clock_t start = clock();
+
+  // SOME CPU CODE YOU WANT TIMED HERE
+
+  float elapsedTime = ((double)clock() - start) / 
+                            CLOCKS_PER_SEC;
+
+  printf("CPU Time elapsed: %f\n", elapsedTime);
+}
+\end{verbatim} 
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf ATOMICS}
+\end{center} $\quad$ \newline
+
+Consider the following GPU operation on integer {\tt x}: \newline
+
+
+
+\begin{verbatim}
+                     x++;
+\end{verbatim} $\quad$ \newline
+
+which tells the GPU to do 3 things...
+\newpage
+
+\begin{verbatim}
+                     x++;
+\end{verbatim} $\quad$ \newline
+
+
+\begin{enumerate}[1. ]
+\item Read the value stored in x.
+\item Add 1 to the value read in step 1.
+\item Write the result back to x.
+\end{enumerate}
+
+
+\newpage
+
+Say we need threads A and B to increment x. We want: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+
+but we might get: \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2} 
+
+\newpage
+
+
+{\bf Race Condition:} A computational hazard that arises when the results of a program depend on the timing of uncontrollable events, such as threads. \newline
+
+{\bf Atomic Operation:} A command that is executed one thread at a time, thus avoiding a race condition. \newline
+
+To avoid the race condition in our example, we atomically add 1 to x: \newline
+
+\begin{verbatim}
+               atomicAdd( &x, 1 );
+\end{verbatim} $\quad$ \newline
+
+instead of using {\tt x++;}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LIST OF CUDA C BUILT-IN ATOMICS}
+\end{center} $\quad$ \newline
+
+atomicAdd() \newline
+atomicSub()  \newline
+atomicMin()  \newline 
+atomicMax() \newline
+atomicInc() \newline
+atomicDec() \newline
+atomicExch() \newline
+atomicCAS() \newline
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{3}  \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{4} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{5} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{6}  \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{7} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{8} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{9} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{10} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{11} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{12} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{13} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{14} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{15} \newpage
+
+
+
+\Huge
+\begin{center}
+{\bf LOCKS}
+\end{center} $\quad$ \newline
+
+{\bf Lock}: a mechanism in parallel computing that forces a block of code to be executed atomically.  \newline
+
+{\bf mutex}: short for ``mutual exclusion", the idea behind locks: while a thread is running code inside a lock, it blocks all other threads from running the code.
+
+\newpage \Large
+lock.h: \newline
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{lock} \newpage
+
+\Huge
+\begin{center}
+{\bf NEW DOT PRODUCT CODE}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{d1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{d2} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{d3} \newpage
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline
+
+NVIDIA CUDA C Programming Guide. Version 3.2. 2010. 
+
 
 \end{flushleft}
 \end{document}
