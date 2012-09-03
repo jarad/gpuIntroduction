@@ -306,14 +306,247 @@ nvcc dot_product_atomic.cu -arch sm_20
 lock.h: \newline
 \setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{lock} \newpage
 
+\large
+Now, let's look at the lock function:
+
+\begin{verbatim}
+__device__ void lock( void ) {
+    while( atomicCAS( mutex, 0, 1 ) != 0 );
+}
+\end{verbatim} $\quad$ \newline
+
+In pseudo-code:
+
+\begin{verbatim}
+__device__ void lock( void ) {
+  repeat{
+    do atomically{
+      
+      if(mutex == 0){
+        mutex = 1;
+        return_value = 0;
+      }
+      
+      else if(mutex == 1){
+        return_value = 1;
+      }
+      
+    } // do atomically
+    
+    if(return_value = 0)
+      exit loop;
+    
+  } // repeat
+}// lock
+\end{verbatim} $\quad$ \newpage
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop} \newpage
+
+
+
+
+\LARGE
+Compare these two kernels, both of which attempt to count the number of spawned blocks: \newline
+
+\begin{verbatim}
+__global__ void blockCounterUnlocked( int *nblocks ){
+   if(threadIdx.x == 0){
+    *nblocks = *nblocks + 1;
+  }
+}
+
+__global__ void blockCounter1( Lock lock, int *nblocks ){
+  if(threadIdx.x == 0){
+    lock.lock();
+    *nblocks = *nblocks + 1;
+    lock.unlock();
+  }
+}
+\end{verbatim} $\quad$ \newline \color{blue}
+Which one gives us the correct answer? \newline
+Which one is faster?
+\color{black}
+\newpage
+
 \Huge
 \begin{center}
-{\bf NEW DOT PRODUCT CODE}
+{\bf blockCounter.cu}
+\end{center} $\quad$ \newline
+\Large
+\begin{verbatim}
+#include "../common/lock.h"
+#define NBLOCKS_TRUE 512
+#define NTHREADS_TRUE 512 * 2
+
+__global__ void blockCounterUnlocked( int *nblocks ){
+   if(threadIdx.x == 0){
+    *nblocks = *nblocks + 1;
+  }
+}
+
+__global__ void blockCounter1( Lock lock, int *nblocks ){
+  if(threadIdx.x == 0){
+    lock.lock();
+    *nblocks = *nblocks + 1;
+    lock.unlock();
+  }
+}
+
+
+
+int main(){
+  int nblocks_host, *nblocks_dev;
+  Lock lock;
+  float elapsedTime;
+  cudaEvent_t start, stop;
+ 
+  cudaMalloc((void**) &nblocks_dev, sizeof(int));
+  
+
+  //blockCounterUnlocked:
+
+  nblocks_host = 0;
+  cudaMemcpy( nblocks_dev, &nblocks_host, sizeof(int), cudaMemcpyHostToDevice );
+  
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord( start, 0 );
+  
+  blockCounterUnlocked<<<NBLOCKS_TRUE, NTHREADS_TRUE>>>(nblocks_dev);
+
+  cudaEventRecord( stop, 0 );
+  cudaEventSynchronize( stop );
+  cudaEventElapsedTime( &elapsedTime, start, stop );
+
+  cudaEventDestroy( start );
+  cudaEventDestroy( stop ); 
+
+  cudaMemcpy( &nblocks_host, nblocks_dev, sizeof(int), cudaMemcpyDeviceToHost );
+  printf("blockCounterUnlocked <<< %d, %d >>> () counted %d blocks in %f ms.\n", 
+        NBLOCKS_TRUE,
+        NTHREADS_TRUE,
+        nblocks_host,
+        elapsedTime);
+        
+        
+  //blockCounter1:
+
+  nblocks_host = 0;
+  cudaMemcpy( nblocks_dev, &nblocks_host, sizeof(int), cudaMemcpyHostToDevice );
+  
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord( start, 0 );
+  
+  blockCounter1<<<NBLOCKS_TRUE, NTHREADS_TRUE>>>(lock, nblocks_dev);
+
+  cudaEventRecord( stop, 0 );
+  cudaEventSynchronize( stop );
+  cudaEventElapsedTime( &elapsedTime, start, stop );
+
+  cudaEventDestroy( start );
+  cudaEventDestroy( stop ); 
+
+  cudaMemcpy( &nblocks_host, nblocks_dev, sizeof(int), cudaMemcpyDeviceToHost );
+  printf("blockCounter1 <<< %d, %d >>> () counted %d blocks in %f ms.\n", 
+        NBLOCKS_TRUE,
+        NTHREADS_TRUE,
+        nblocks_host,
+        elapsedTime);      
+                   
+  cudaFree(nblocks_dev); 
+}
+
+\end{verbatim}
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{locks} \newpage
+
+\Huge
+\begin{center}
+{\bf WITH MORE THAN 1 THREAD PER BLOCK, THIS KERNEL WILL MAKE YOUR PROGRAM STALL OUT}
+\end{center} $\quad$ \newline
+ 
+ \huge
+\begin{verbatim}
+__global__ void blockCounter2( Lock lock, int *nblocks ){
+  lock.lock();
+  if(threadIdx.x == 0){
+    *nblocks = *nblocks + 1 ;
+  }
+  lock.unlock();
+}
+\end{verbatim}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf WHY? BECAUSE OF WARPS!}
 \end{center} $\quad$ \newline
 
-\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{d1} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{d2} 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{d3} \newpage
+Each block is divided into groups of 32 threads called warps. \newline
+
+{\bf Warp:} a group of 32 threads that execute together in lockstep: that is, all threads in the warp synchronize after every single step.  \newline
+
+{\color{blue} Imagine that a warp is saturated with calls to {\tt \_\_synchThreads()}.}
+
+\newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{diffwarp} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{samewarp} \newpage
+\large
+Now, let's look at the lock function again:
+
+\begin{verbatim}
+__device__ void lock( void ) {
+    while( atomicCAS( mutex, 0, 1 ) != 0 );
+}
+\end{verbatim} $\quad$ \newline
+
+In pseudo-code:
+
+\begin{verbatim}
+__device__ void lock( void ) {
+  repeat{
+    do atomically{
+      
+      if(mutex == 0){
+        mutex = 1;
+        return_value = 0;
+      }
+      
+      else if(mutex == 1){
+        return_value = 1;
+      }
+      
+    } // do atomically
+    
+    if(return_value = 0)
+      exit loop;
+    
+  } // repeat
+}// lock
+\end{verbatim} $\quad$ \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop2}  \newpage
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf BEWARE THE CATCH-22!}
+\end{center} $\quad$ \newline
+
+
+
 
 
 
@@ -323,7 +556,9 @@ lock.h: \newline
 {\bf REFERENCES}
 \end{center} $\quad$ \newline
 
-NVIDIA CUDA C Programming Guide. Version 3.2. 2010. 
+NVIDIA CUDA C Programming Guide. Version 3.2. 2010.  \newline
+
+J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. 
 
 
 \end{flushleft}
