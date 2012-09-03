@@ -1,7 +1,10 @@
 #include "../common/book.h" 
-#include "lock.h"
+#include "../common/lock.h"
 
 #define imin(a,b) (a<b?a:b)
+
+// NOTE: COMPILE LIKE THIS:
+//nvcc dot_product_atomic.cu -arch sm_20 -o dot_product_atomic
 
 const int N = 33 * 1024 * 1024; 
 const int threadsPerBlock = 256; 
