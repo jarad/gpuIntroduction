@@ -279,7 +279,19 @@ atomicCAS() \newline
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{14} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{15} \newpage
 
+\color{red}
+\Huge
 
+NOTE: If you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} \newline
+
+Example: \newline
+\begin{verbatim}
+nvcc dot_product_atomic.cu -arch sm_20 
+     -o dot_product_atomic
+\end{verbatim}
+\newpage
+
+\color{black}
 
 \Huge
 \begin{center}
