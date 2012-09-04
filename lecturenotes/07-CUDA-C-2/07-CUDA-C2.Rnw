@@ -457,7 +457,19 @@ Now, c is the final answer.
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp5} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp6} \newpage
 
-This code can be found at http://www.github.com/jarad/gpuIntroduction/CUDA\_C\_sandbox/dot\_product.
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf LECTURE SERIES MATERIALS}
+\end{center} $\quad$ \newline
+
+These lecture slides, a tentative syllabus for the series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center}
 
 
 \newpage

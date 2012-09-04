@@ -113,7 +113,7 @@ $\quad$ \newline
 \LARGE
 
 \begin{center}
-Will Landau, Matt Simpson, Prof. Jarad Niemi
+Will Landau, Prof. Jarad Niemi
 \end{center}
 
 \newpage
@@ -472,10 +472,20 @@ __global__ void isExecuted_goofup(int *dev_a, int blockid,
 \color{black}
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{goofus} \newline
 
-
-
 \newpage
 
+\Huge
+\begin{center}
+{\bf LECTURE SERIES MATERIALS}
+\end{center} $\quad$ \newline
+
+These lecture slides, a tentative syllabus for the series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center}
+
+\newpage
 
 \Huge
 \begin{center}
