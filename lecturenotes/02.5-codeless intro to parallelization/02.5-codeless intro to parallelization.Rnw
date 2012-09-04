@@ -144,7 +144,7 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 {\bf GPUS AND PARALLELIZATION}
 \end{center} $\quad$ \newline  \Huge
 
-{\bf Parallelization}: Running different calculations simultaneously. {\color{blue} It speeds up calculations dramatically, and GPUs are much better at it than CPUs.} \newline
+{\bf Parallelization}: Running multiple calculations simultaneously. {\color{blue} It speeds up calculations dramatically, and GPUs are much better at it than CPUs.} \newline
 
 {\bf Kernel}: An instruction set executed on the GPU. (All others are executed on the CPU.)  \newline
 
@@ -174,25 +174,17 @@ I will only focus on GPU parallelization, which does not completely generalize t
 
 \Huge
 \begin{center}
-{\bf IMPLEMENTING PARALLELIZATION ON THE GPU IN PRACTICE}
-\end{center} $\quad$ \newline 
-
+{\bf PARALLELIZING A WORKLOAD ON A GPU}
+\end{center}  \huge
 \begin{enumerate}[1. ]
-\item The CPU sends a kernel (instruction set) to the GPU.
-\item For every time the CPU sends a kernel, the GPU executes the kernel multiple times simultaneously (in {\bf PARALLEL}). Each such execution of the kernel is called a {\bf thread}.  \newline
+\item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
+\item The GPU core multitasks to execute the command: \newline
+\begin{enumerate}[a. ]
+\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The sum total of all the threads from a kernel call is a {\bf grid}. 
+\end{enumerate} 
 \end{enumerate}
-
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf ORGANIZATION OF THREADS}
-\end{center} $\quad$ \newline
-
-{\bf Grid}: The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
-
-{\bf Block}: A collection of threads within a grid that share memory.  
 
 \newpage
 

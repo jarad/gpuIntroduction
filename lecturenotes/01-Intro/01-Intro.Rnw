@@ -267,9 +267,9 @@ I will only focus on GPU parallelization, which does not completely generalize t
 \item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
 \item The GPU core multitasks to execute the command: \newline
 \begin{enumerate}[a. ]
-\item A {\bf grid} is the sum total of a GPU core's  current workload. \newline
-\item Within a grid, the workload is divided into tasks called {\bf blocks}. \newline
-\item Each block is divided into even smaller subtasks called {\bf threads}. The GPU core uses multitasking to run all the threads at once.
+\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The sum total of all the threads from a kernel call is a {\bf grid}. 
 \end{enumerate} 
 \end{enumerate}
 
@@ -388,7 +388,7 @@ Everything in here is stored locally on impact1. To ensure fast computation, put
  
  \item {\tt \bf /usr/local/NVIDIA\_GPU\_Computing\_SDK} \newline
  
- Contains example code for those of you who want to learn CUDA C. 
+Contains example code for those of you who want to learn CUDA C. Stored locally on impact1.
  
  
 \end{itemize}

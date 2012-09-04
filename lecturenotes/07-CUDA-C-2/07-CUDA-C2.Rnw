@@ -186,16 +186,21 @@ int main ( void ) {
 
 \newpage
 
+
 \Huge
 \begin{center}
-{\bf ORGANIZATION OF THREADS}
-\end{center} $\quad$ \newline
+{\bf PARALLELIZING A WORKLOAD ON A GPU}
+\end{center}  \huge
+\begin{enumerate}[1. ]
+\item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
+\item The GPU core multitasks to execute the command: \newline
+\begin{enumerate}[a. ]
+\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The sum total of all the threads from a kernel call is a {\bf grid}. 
+\end{enumerate} 
+\end{enumerate}
 
-% JBN: Can't you have multiple grids with the same kernel call?
-
-{\bf Grid}; The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
-
-{\bf Block}: A collection of threads within a grid that share memory quickly and easily.  
 
 \newpage
 

@@ -200,7 +200,25 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 \item The CPU sends a kernel (a SINGLE INSTRUCTION set) to the GPU.
 \item The GPU executes the kernel MULTIPLE times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}, and each thread is executed on different parts of a giant data set.  
 \end{enumerate}
+\newpage
 
+\Huge
+\begin{center}
+{\bf PARALLELIZING A WORKLOAD ON A GPU}
+\end{center}  \huge
+\begin{enumerate}[1. ]
+\item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
+\item The GPU core multitasks to execute the command: \newline
+\begin{enumerate}[a. ]
+\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The sum total of all the threads from a kernel call is a {\bf grid}. 
+\end{enumerate} 
+\end{enumerate}
+
+\newpage
+
+\setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{imng.jpg}
 
 \newpage
 
