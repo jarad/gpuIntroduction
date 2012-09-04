@@ -491,14 +491,25 @@ Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot 
 \begin{center}
 {\bf LECTURE SERIES MATERIALS}
 \end{center} $\quad$ \newline
-
-These lecture slides, a tentative syllabus for the series, and code are available at: \newline
+\huge
+These lecture slides, a tentative syllabus for the whole lecture series, and code are available at: \newline
 
 \begin{center}
  https://github.com/wlandau/gpu. 
-\end{center}
-\newpage
+\end{center} $\quad$ \newline
 
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the course materials.
+
+
+
+\newpage
 
 \Huge
 \begin{center}

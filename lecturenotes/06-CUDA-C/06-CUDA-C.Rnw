@@ -426,7 +426,7 @@ int main(){
 
 \newpage
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{gallant} \newline
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{gallant}
 
 
 
@@ -470,7 +470,7 @@ __global__ void isExecuted_goofup(int *dev_a, int blockid,
 \end{verbatim} 
 \newpage
 \color{black}
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{goofus} \newline
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{goofus}
 
 \newpage
 
@@ -478,12 +478,21 @@ __global__ void isExecuted_goofup(int *dev_a, int blockid,
 \begin{center}
 {\bf LECTURE SERIES MATERIALS}
 \end{center} $\quad$ \newline
-
-These lecture slides, a tentative syllabus for the series, and code are available at: \newline
+\huge
+These lecture slides, a tentative syllabus for the whole lecture series, and code are available at: \newline
 
 \begin{center}
  https://github.com/wlandau/gpu. 
-\end{center}
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the course materials.
 
 \newpage
 
