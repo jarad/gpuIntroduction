@@ -106,7 +106,11 @@
 
 $\quad$ \newline \newline \newline \newline \newline
 
-{\bf gputools: an R package for GPU computing}
+{\bf gputools: an R package for GPU computing} \newline \newline
+
+\Large
+
+Will Landau, Prof. Jarad Niemi
 \end{center} $\quad$ \newline
 \newpage
 
@@ -439,6 +443,16 @@ See the results on the next few slides.
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf LECTURE SERIES MATERIALS}
+\end{center} $\quad$ \newline
+
+These lecture slides, a tentative syllabus for the series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center}
 
 
 \newpage
