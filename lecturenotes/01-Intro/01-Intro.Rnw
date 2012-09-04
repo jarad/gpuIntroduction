@@ -108,7 +108,7 @@ $\quad \newline$ \newline \newline \newline \newline
 \end{center} $\quad$ \newline
 
 \begin{center}
-\LARGE Will Landau, Matt Simpson, Prof. Jarad Niemi
+\LARGE Will Landau, Prof. Jarad Niemi
 \end{center}
 
 \newpage
@@ -396,7 +396,36 @@ Everything in here is stored locally on impact1. To ensure fast computation, put
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
 
+\begin{itemize}
+\item Why GPU computing?
+\item Computer processors
+\begin{itemize}
+\item CPUs
+\item GPUs
+\end{itemize}
+\item Parallel computing
+\item Our GPU cluster
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LECTURE SERIES MATERIALS}
+\end{center} $\quad$ \newline
+
+These lecture slides, a tentative syllabus for the series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center}
+
+\newpage
 \Huge
 \begin{center}
 {\bf REFERENCES}
