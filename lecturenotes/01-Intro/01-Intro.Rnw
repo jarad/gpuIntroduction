@@ -232,23 +232,23 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 {\bf GPUs AND PARALLEL COMPUTING}
 \end{center} $\quad$ \newline \huge
 
-{\bf Parallelization}: Running different calculations simultaneously.  \newline
+{\bf parallelism}: The practice of running multiple calculations simultaneously.  \newline
 
 GPUs parallelize repetitive arithmetic calculations much better than CPUs. \newline
 
 \color{red}
 
 \Large
-Note: there are several kinds of parallelization, all implemented differently: \newline
+Note: there are several kinds of parallelism, all implemented differently: \newline
 
 \begin{enumerate}[1. ]
-\item CPU parallelization
-\item GPU parallelization
+\item CPU parallelism
+\item GPU parallelism
 \item parallel cloud computing
-\item parallelization for openMP
-\end{enumerate} $\quad$ \newline
+\item parallelism for openMP
+\end{enumerate} 
 
-I will only focus on GPU parallelization, which does not completely generalize to other kinds of parallelization.
+I will only focus on GPU parallelism, which does not completely generalize to other kinds of parallelism.
 
 \color{black}
 

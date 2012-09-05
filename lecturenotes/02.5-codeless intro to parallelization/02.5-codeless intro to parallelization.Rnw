@@ -107,7 +107,7 @@
 \Huge
 \begin{center}
 $\quad$ \newline \newline \newline \newline \newline
-{\bf A CODELESS INTRODUCTION TO GPU PARALLELIZATION}
+{\bf A CODELESS INTRODUCTION TO GPU PARALLELISM}
 \end{center} $\quad$ \newline
 
 \begin{center}
@@ -136,45 +136,9 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee4.png} 
 \newpage
 
-
-
-
 \Huge
 \begin{center}
-{\bf GPUS AND PARALLELIZATION}
-\end{center} $\quad$ \newline  \Huge
-
-{\bf Parallelization}: Running multiple calculations simultaneously. {\color{blue} It speeds up calculations dramatically, and GPUs are much better at it than CPUs.} \newline
-
-{\bf Kernel}: An instruction set executed on the GPU. (All others are executed on the CPU.)  \newline
-
-{\color{red} In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_\_}. (More on that in a later talk.)}
-
-\newpage
-
-\color{red}
-\Huge
-\begin{center}
-{\bf REMINDER}
-\end{center} $\quad$ \newline \huge
-There are several kinds of parallelization, all implemented differently: \newline
-
-\begin{enumerate}[1. ]
-\item CPU parallelization
-\item GPU parallelization
-\item parallel cloud computing
-\item parallelization for openMP
-\end{enumerate} $\quad$ \newline
-
-I will only focus on GPU parallelization, which does not completely generalize to other kinds of parallelization.
-
-\color{black}
-\newpage
-
-
-\Huge
-\begin{center}
-{\bf PARALLELIZING A WORKLOAD ON A GPU}
+{\bf GPU PARALLELISM}
 \end{center}  \huge
 \begin{enumerate}[1. ]
 \item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
@@ -208,21 +172,6 @@ I will only focus on GPU parallelization, which does not completely generalize t
 %          Threads within a grid get executed simultaneously within a warp. 
 %          The bottom line here is that this might be the way to thinking about what is going on. Don't count on blocks or threads actually being executed simultaneously.
 
-\color{black}
-
-\newpage
-\color{blue}
-\Huge
-\begin{center}
-{\bf NOTE: PARALLELIZATION HAS TWO EQUIVALENT DEFINITIONS}
-\end{center} $\quad$ \newline
-
-\begin{enumerate}[1. ]
-\item Running different calculations simultaneously. 
-\item Breaking up a calculation into grids, then into blocks, and then into threads. 
-\end{enumerate} $\quad$ \newline
-
-When I say ``parallelization" in practice, I will most likely be referring to definition 2. 
 \color{black}
 
 \newpage
@@ -336,7 +285,7 @@ Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 1)}$
 %JBN:Perhaps compare this version of the algorithm to the sequential version.
 %       The sequential version has n-1 operations whereas the cascading sum has 
 %       n(1/2+1/4+1/8+...+1/2^m) \to n as n\to \infty and yet the cascading sum will be much quicker
-%       due to parallelization particularly of the initial steps
+%       due to parallelism particularly of the initial steps
 
 
 \newpage

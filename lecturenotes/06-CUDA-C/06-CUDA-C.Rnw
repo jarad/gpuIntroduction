@@ -176,10 +176,10 @@ int main ( void ) {
 
 \Huge
 \begin{center}
-{\bf REVIEW OF PARALLELIZATION}
+{\bf REVIEW OF PARALLELISM}
 \end{center} $\quad$ \newline 
 
-{\bf Parallelization}: Running different calculations simultaneously.  \newline
+{\bf Parallelism}: Running different calculations simultaneously.  \newline
 
 {\bf Kernel}: An instruction set executed on the GPU. (All others are executed on the CPU.)  \newline
 
@@ -192,7 +192,7 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 
 \Huge
 \begin{center}
-{\bf PARALLELIZATION AND THE SIMD PARADIGM}
+{\bf PARALLELISM AND THE SIMD PARADIGM}
 \end{center} $\quad$ \newline 
 
 {\bf SIMD}: Single Instruction Multiple Data. The paradigm works like this: \newline
@@ -470,7 +470,7 @@ which makes sense because there was no block number 2 or thread number 4. \newpa
 
 \Huge
 \begin{center}
-{\bf ASIDE: AVOIDING PITFALLS IN PARALLELIZATION}
+{\bf ASIDE: AVOIDING PITFALLS IN PARALLELISM}
 \end{center} $\quad$ \newline \LARGE
 
 What problem would arise if I used the function, isExectued\_goofup(), instead of Executed(): \newline
