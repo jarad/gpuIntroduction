@@ -181,7 +181,7 @@ The whole point is to use new hardware (the GPU) in order to make long, repetiti
 \begin{itemize}
 \item The kind of processor you would find in a regular computer. 
 \item Designed for general purpose computing.
-\item Does parallel computing, but not very fast.
+\item Does parallel computing too, but differently than a GPU.
 \end{itemize}
 
 \setkeys{Gin}{width=.45\textwidth} \includegraphics[scale=0.25,angle=0]{picts/1}
@@ -348,7 +348,7 @@ For me, a login looks like this: \newline
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/5} \newline
 
-{\color{red} \bf \Huge MAKE SURE TO USE PORT 323!} \newpage
+{\color{red} \bf \Huge NOTE: You may have to change ``{\tt-p 323}" to ``{\tt-p <some other port number>}"} \newpage
 \Huge
 Contact me (at landau@iastate.edu or in person) if you'd like help with: \newline
 \begin{itemize}
@@ -398,24 +398,6 @@ Contains example code for those of you who want to learn CUDA C. Stored locally 
 
 \Huge
 \begin{center}
-{\bf OUTLINE}
-\end{center} $\quad$ \newline
-
-\begin{itemize}
-\item Why GPU computing?
-\item Computer processors
-\begin{itemize}
-\item CPUs
-\item GPUs
-\end{itemize}
-\item Parallel computing
-\item Our GPU cluster
-\end{itemize}
-
-\newpage
-
-\Huge
-\begin{center}
 {\bf LECTURE SERIES MATERIALS}
 \end{center} $\quad$ \newline
 \huge
@@ -433,6 +415,35 @@ After logging into you home directory on impact1, type: \newline
 \end{verbatim} $\quad$ \newline
 
 into the command line to download all the course materials.
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Why GPU computing?
+\item Computer processors
+\begin{itemize}
+\item CPUs
+\item GPUs
+\end{itemize}
+\item Parallel computing
+\item Our GPU cluster
+\end{itemize}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf TENTATIVE SYLLABUS}
+\end{center} 
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/syll} 
+
 
 
 \newpage
