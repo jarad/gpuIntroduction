@@ -188,7 +188,7 @@ Things on the new API but not the old:
 
 \Huge
 \begin{center}
-{\bf EXAMPLE1: CODE WITH CUBLAS}
+{\bf  \huge EXAMPLE1: CODE WITH CUBLAS}
 \end{center} $\quad$ \newline
 
 
@@ -199,10 +199,10 @@ Things on the new API but not the old:
 
 \Huge
 \begin{center}
-{\bf simpleCUBLAS: MORE CODE WITH CUBLAS}
-\end{center} $\quad$ \newline
+{\bf \huge simpleCUBLAS: MORE CODE WITH CUBLAS}
+\end{center} 
 
-\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{4} \newpage
+\setkeys{Gin}{width=.925\textwidth} \includegraphics[scale=0.25,angle=0]{4} \newpage
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{5} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{6} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{7} \newpage
