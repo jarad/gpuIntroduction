@@ -47,6 +47,8 @@
 /* Includes, cuda */
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
+//#include <cublas.h>
+//#include <shrQATest.h>
 #include "../../../shared/inc/shrQATest.h"
 
 /* Matrix size */
