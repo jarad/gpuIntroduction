@@ -1,0 +1,216 @@
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{Sweave}
+\usepackage{SASnRdisplay}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf THE CUBLAS LIBRARY}
+\end{center} $\quad$ \newline
+
+\LARGE
+
+\begin{center}
+Will Landau, Prof. Jarad Niemi
+\end{center}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf WHAT IS CUBLAS?}
+\end{center} $\quad$ \newline \huge
+
+CUBLAS library is a CUDA C implementation of the C/Fortran library, BLAS (Basic Linear Algebra Subprograms). \newline
+
+3 ``levels of functionality": \newline
+
+\begin{enumerate}[Level 1: ]
+\item ${\bf y} \mapsto \alpha {\bf x} + {\bf y} \qquad \quad \ \ \ $ and other vector-vector routines
+\item ${\bf y} \mapsto \alpha A {\bf x} + {\bf \beta y} \qquad \ \ $ and other vector-matrix routines
+\item $C \mapsto \alpha AB + \beta C \qquad$ and other matrix-matrix routines
+\end{enumerate} $\quad$ \newline
+
+where $\alpha$ and $\beta$ are scalars, ${\bf x}$ and ${\bf y}$ are vectors, and $A$, $B$, and $C$ are matrices.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf CAUTION}
+\end{center} $\quad$ \newline \Large
+
+\begin{enumerate}[1. ]
+\item Like Fortran, CUBLAS uses column-major order.
+\item Unlike C, CUBLAS uses 1-based indexing.
+\end{enumerate} $\quad$ \newline
+
+To avoid confusion in your own code, you can implement column-major order matrices as one-dimensional arrays. \newline
+
+ Let {\tt i} be a 0-based row index, {\tt j} be a 0-based column index, and {\tt ld} be the number of rows. Then you can calculate the  1D array index of matrix entry {\tt (i,j)} by:
+ 
+\begin{align*}
+\text{{\tt \#define IDX2C(i,j,ld) ( ( j * ld ) + i )}}
+\end{align*} $\quad$ \newline
+
+For 1-based row and column indices:
+
+\begin{align*}
+\text{{\tt \#define IDX2F(i,j,ld) ( ( (j - 1) * ld ) + (  i  - 1 ) )}}
+\end{align*} $\quad$ \newline
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf INCLUDING CUBLAS: WHICH HEADER TO USE}
+\end{center} $\quad$ \newline \Large
+
+CUBLAS version 4.0 and above has a different API, which is supposed to be better. \newline
+
+Include ``cublas\_v2.h", for the new API. Use this one for new programs. \newline
+Include ``cublas.h" for the old API. Use this one for programs that depend on the old API. \newline
+
+Things on the new API but not the old:
+
+\begin{itemize}
+\item {\tt cublasCreate} initializes the handle to the CUBLAS library context, allowing more user control. 
+\item Scalars $\alpha$ and $\beta$ can be passed by reference to host and device functions in addition to by value.
+\item Scalars can be returned by reference in addition to by value.
+\item All CUBLAS functions return an error status, {\tt cublasStatus\_t}.  
+\item {\tt cublasAlloc()} and {\tt cublasFree()} are deprecated. Use {\tt cudaMalloc()} and {\tt cudaFree()} instead.
+\item {\tt cublasSetKernelStream()} was renamed {\tt cublasSetStream()}.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf EXAMPLE1: CODE WITH CUBLAS}
+\end{center} $\quad$ \newline
+
+
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{2} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{3} \newpage
+
+
+\Huge
+\begin{center}
+{\bf simpleCUBLAS: MORE CODE WITH CUBLAS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{4} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{5} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{6} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{7} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{8} \newpage
+\setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{9} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{10} \newpage
+
+
+
+\end{flushleft}
+\end{document}
