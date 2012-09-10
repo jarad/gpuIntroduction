@@ -31,12 +31,12 @@ gpu_function = function(arg){
 }
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor((seq(from = 4, by = 5, length.out = 8))^2) # nrows of each matrix arg
-ncols = 11
+nrows = 10^(1:12) # nrows of each matrix arg
+ncols = rep(11, length(nrows))
 sizes = nrows * ncols
-xs = nrows # plotted on horizontal axis
+xs = log(nrows, base = 10) # plotted on horizontal axis
 ys = list() # plotted on vertical axis
-xlab = "Number of Observations (model has 10 parameters)"
+xlab = "Base 10 Log of Number of Observations (model has 10 parameters)"
 title = "lm() vs gpuLm()"
 plot.name = "performance_gpuLm"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")

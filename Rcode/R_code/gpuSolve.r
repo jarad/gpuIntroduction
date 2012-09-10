@@ -26,12 +26,12 @@ cpu_function = solve
 gpu_function = gpuSolve
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor((seq(from = 2, by = 8, length.out = 8))^2) # nrows of each matrix arg
+nrows = 10^(1:6)
 ncols = nrows # use square matrices here
 sizes = nrows * ncols
-xs = sizes # plotted on horizontal axis
+xs = log(nrows, base = 10) # plotted on horizontal axis
 ys = list() # plotted on vertical axis
-xlab = "Number of Matrix Entries"
+xlab = "Base 10 Log of Number of Rows (all matrices are square)"
 title = "solve() vs gpuSolve()"
 plot.name = "performance_gpuSolve"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
@@ -46,7 +46,7 @@ for(i in 1:nargs){
   progress = paste("calculating arg ", i, " of ", nargs, sep = "")
   print(progress)
 
-  args[[i]] = matrix(rnorm(sizes[i]), nrow = nrows[i])
+  args[[i]] = matrix(rnorm(nrows[i]^2), nrow = nrows[i])
 }
 
 print("done.")
