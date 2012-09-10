@@ -188,6 +188,108 @@ Things on the new API but not the old:
 
 \Huge
 \begin{center}
+{\bf  CUBLAS CONTEXT}
+\end{center}  \huge
+
+For CUBLAS version 4.0 and beyond, you must wrap your code like this:
+
+\begin{verbatim}
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+
+    // your code
+
+    cublasDestroy(handle);
+\end{verbatim} $\quad$ \newline
+
+and pass {\tt handle} to every CUBLAS function in your code. \newline
+
+This approach allows the user to use multiple host threads and multiple GPUs.  \newpage
+
+\Huge
+\begin{center}
+{\bf STREAMS}
+\end{center} $\quad$ \newline
+
+Streams provide a way to run multiple \emph{ kernels} simultaneously on the GPU. \newline
+
+For more information, look up the following functions: \newline
+
+{\tt cudaStreamCreate()} \newline
+{\tt cublasSetStream()}
+ \newpage
+
+\Huge
+\begin{center}
+{\bf CUBLAS HELPER FUNCTIONS}
+\end{center} $\quad$ \newline \Large
+
+
+\begin{verbatim}
+cublasSetVector()
+cublasGetVector()
+cublasSetMatrix()
+cublasGetMatrix()
+\end{verbatim} $\quad$ \newline
+
+
+\newpage
+
+\begin{verbatim}
+cublasStatus_t cublasSetVector(int n, int elemSize,                               const void *x, int incx, void *devicePtr, int incy)
+\end{verbatim} $\quad$ \newline
+
+Copies a CPU vector {\tt x} to a GPU vector {\tt y} pointed to by {\tt devicePtr}. \newline
+
+\begin{itemize}
+\item {\tt n}: number of elements copied from {\tt x}
+\item {\tt elemSize}: size, in bytes, of each element copies
+\item {\tt incx}: storage spacing between consecutive elements of CPU vector,  {\tt x}.
+\item {\tt incy}: storage spacing between consecutive elements of GPU vector, {\tt y} (or {\tt devicePtr}).
+\end{itemize}
+
+\newpage
+
+
+\begin{verbatim}
+cublasStatus_t cublasGetVector(int n, int elemSize,                               const void *x, int incx, void *y, int incy)
+\end{verbatim} $\quad$ \newline
+
+Copies a GPU vector {\tt x} to a CPU vector {\tt y} pointed to by {\tt devicePtr}. \newline
+
+\begin{itemize}
+\item {\tt n}: number of elements copied from {\tt x}
+\item {\tt elemSize}: size, in bytes, of each element copies
+\item {\tt incx}: storage spacing between consecutive elements of CPU vector,  {\tt x}.
+\item {\tt incy}: storage spacing between consecutive elements of GPU vector, {\tt y} (or {\tt devicePtr}).
+\end{itemize}
+
+\newpage
+
+
+\begin{verbatim}
+cublasStatus_t cublasSetMatrix(int rows, int cols, int elemSize,                               const void *A, int lda, void *B, int ldb)
+\end{verbatim} $\quad$ \newline
+
+Copies a column-major CPU matrix A to a column-major GPU matrix B. \newline \newline \newline
+
+\begin{verbatim}
+cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,                               const void *A, int lda, void *B, int ldb)
+\end{verbatim} $\quad$ \newline
+
+Copies a column-major GPU matrix A to a column-major CPU matrix B. \newline \newline
+
+
+\begin{itemize}
+\item {\tt lda}: number of rows in {\tt A}
+\item {\tt ldv}: number of rows in {\tt B}
+\end{itemize} $\quad$ \newline
+
+
+
+\newpage
+\Huge
+\begin{center}
 {\bf  \huge EXAMPLE1: CODE WITH CUBLAS}
 \end{center} $\quad$ \newline
 
