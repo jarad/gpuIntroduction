@@ -236,7 +236,8 @@ cublasGetMatrix()
 \newpage
 
 \begin{verbatim}
-cublasStatus_t cublasSetVector(int n, int elemSize,                               const void *x, int incx, void *devicePtr, int incy)
+cublasStatus_t cublasSetVector(int n, int elemSize,
+                               const void *x, int incx, void *devicePtr, int incy)
 \end{verbatim} $\quad$ \newline
 
 Copies a CPU vector {\tt x} to a GPU vector {\tt y} pointed to by {\tt devicePtr}. \newline
@@ -252,7 +253,8 @@ Copies a CPU vector {\tt x} to a GPU vector {\tt y} pointed to by {\tt devicePtr
 
 
 \begin{verbatim}
-cublasStatus_t cublasGetVector(int n, int elemSize,                               const void *x, int incx, void *y, int incy)
+cublasStatus_t cublasGetVector(int n, int elemSize,
+                               const void *x, int incx, void *y, int incy)
 \end{verbatim} $\quad$ \newline
 
 Copies a GPU vector {\tt x} to a CPU vector {\tt y} pointed to by {\tt devicePtr}. \newline
@@ -268,13 +270,15 @@ Copies a GPU vector {\tt x} to a CPU vector {\tt y} pointed to by {\tt devicePtr
 
 
 \begin{verbatim}
-cublasStatus_t cublasSetMatrix(int rows, int cols, int elemSize,                               const void *A, int lda, void *B, int ldb)
+cublasStatus_t cublasSetMatrix(int rows, int cols, int elemSize,
+                               const void *A, int lda, void *B, int ldb)
 \end{verbatim} $\quad$ \newline
 
 Copies a column-major CPU matrix A to a column-major GPU matrix B. \newline \newline \newline
 
 \begin{verbatim}
-cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,                               const void *A, int lda, void *B, int ldb)
+cublasStatus_t cublasGetMatrix(int rows, int cols, int elemSize,
+                               const void *A, int lda, void *B, int ldb)
 \end{verbatim} $\quad$ \newline
 
 Copies a column-major GPU matrix A to a column-major CPU matrix B. \newline \newline
@@ -284,6 +288,450 @@ Copies a column-major GPU matrix A to a column-major CPU matrix B. \newline \new
 \item {\tt lda}: number of rows in {\tt A}
 \item {\tt ldv}: number of rows in {\tt B}
 \end{itemize} $\quad$ \newline
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf LEVEL 1 FUNCTIONS}
+\end{center}  \Large $\quad$ \newline
+
+\begin{tabular}{|p{4.5cm}|p{3.75cm}|p{3.75cm}|p{3.75cm}|p{4.75cm}|}
+\hline
+{\bf In R:} & {\bf float} & {\bf double} & {\bf cuComplex} & {\bf cuDoubleComplex} \\ \hline
+which.max({\bf x}) & {\tt cublasIsamax()} & {\tt cublasIdamax()}  & {\tt cublasIcamax()} & {\tt cublasIzamax()}  \\ \hline
+which.min({\bf x}) & {\tt cublasIsamin()} & {\tt cublasIdamin()}  & {\tt cublasIcamin()} & {\tt cublasIzamin()}  \\ \hline
+sum(abs({\bf x})) & {\tt cublasSasum()} & {\tt cublasDasum()}  & {\tt cublasScasum()}  & {\tt cublasDzasum()} \\ \hline
+{\tt $\alpha$*{\bf x} + {\bf y} -> {\bf y}} & {\tt cublasSaxpy()} &{\tt cublasDaxpy()} &{\tt cublasCaxpy()} & {\tt cublasZaxpy()}  \\ \hline
+{\tt {\bf x} -> {\bf y}}& {\tt cublasScopy()} & {\tt cublasDcopy()} & {\tt cublasCcopy()} & {\tt cublasZcopy()}  \\ \hline
+{\tt sum({\bf x} * {\bf y})}& {\tt cublasSdot()} & {\tt cublasDdot()}  & {\tt cublasCdotu()} {\tt cublasCdotc()} & {\tt cublasZdotu()} {\tt cublasZdotc()} \\ \hline
+{\tt sqrt(sum({\bf x}${}^2$))} & {\tt cublasSnrm2()} & {\tt cublasDnrm2()} & {\tt cublasScnrm2()} & {\tt cublasDznrm2()}\\ \hline
+{\tt G \%*\% {\bf x}; G \%*\% {\bf y}} & {\tt cublasSrot()} & {\tt cublasDrot()} & {\tt cublasCrot()}  {\tt cublasCsrot()} & {\tt cublasZrot()} {\tt cublasZdrot()}  \\ \hline
+ {\tt H \%*\% {\bf x}; H \%*\% {\bf y}} & {\tt cublasSrotm()} & {\tt cublasDotm()}  & & \\ \hline
+{\tt $\alpha$ * {\bf x} -> {\bf x}} & {\tt cublasSscal()} &{\tt cublasDscal()} & {\tt cublasCscal()} {\tt cublasCsscal()} & {\tt cublasZscal()} {\tt cublasZdscal()} \\ \hline
+{\bf x} -> {\bf m}; {\bf y} -> {\bf x}; {\bf m} -> {\bf y}& {\tt cublasSswap()} & {\tt cublasDswap()} & {\tt cublasCswap()} & {\tt cublasZswap()} \\ \hline
+\end{tabular} $\quad$ \newline \newline
+
+Where $\alpha$ is a scalar, {\bf \tt x} and {\bf \tt y} are vectors, {\tt G} = $\begin{bmatrix} c & s \\ -s & c \end{bmatrix}$, and {\tt H} is some $2 \times 2$ matrix. 
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LEVEL 2 FUNCTIONS}
+\end{center} \LARGE
+
+\begin{align*}
+\text{op}(A) {\bf x} \rt {\bf x}
+\end{align*}
+
+where: 
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+
+
+\begin{tabular}{|p{4cm}|c|c|c|c|}
+\hline
+type of matrix $A$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large triangular, banded} & cublasStbmv() & cublasDtbmv() & cublasCtbmv() & cublasZtbmv() \\ \hline
+{\large triangular, packed format} & cublasStpmv() & cublasDtpmv() & cublasCtpmv() & cublasZtpmv() \\ \hline
+{\large triangular, upper or lower mode} & cublasStrmv() & cublasDtrmv() & cublasCtrmv() & cublasZtrmv() \\ \hline
+\end{tabular}
+
+\newpage
+
+\begin{align*}
+\text{Solve $\quad$ op}(A) {\bf x} = {\bf b} \text{ $\quad$ for } {\bf x}
+\end{align*}
+where: 
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large triangular, banded} & cublasStbsv() & cublasDtbsv() & cublasCtbsv() & cublasZtbsv() \\ \hline
+{\large triangular, packed format} & cublasStpsv() & cublasDtpsv() & cublasCtpsv() & cublasZtpsv() \\ \hline
+{\large triangular, upper or lower mode} & cublasStrsv() & cublasDtrsv() & cublasCtrsv() & cublasZtrsv() \\ \hline
+\end{tabular}
+\newpage
+
+
+
+\begin{align*}
+\alpha {\bf x} {\bf x}^T + A \rt A
+\end{align*}
+
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & float & double \\ \hline
+{\large symmetric matrix}& cublasSsyr() & cublasDsyr() \\ \hline
+{\large symmetric matrix in packed format }& cublasSspr() & cublasDspr() \\ \hline
+\end{tabular} $\quad$ \newline \newline \newline
+
+\begin{align*}
+\alpha {\bf x} {\bf x}^H + A \rt A
+\end{align*}
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & cuComplex & cuDoubleComplex \\ \hline
+{\large Hermitian}& cublasCher() & cublasZher() \\ \hline
+{\large Hermitian, packed format}& cublasChpr() & cublasZhpr() \\ \hline
+\end{tabular}
+
+\newpage
+\begin{align*}
+\alpha {\bf x} {\bf y}^T + A \rt A
+\end{align*} $\quad$ \newline
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+any $m \times n$ matrix  & cublasSger() & cublasDger() & cublasCgeru() & cublasZgeru() \\ \hline
+\end{tabular} $\quad$ \newline \newline \newline
+
+\begin{align*}
+\alpha {\bf x} {\bf y}^H + A \rt A
+\end{align*} $\quad$ \newline
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & cuComplex & cuDoubleComplex \\ \hline
+any $m \times n$ matrix & cublasCgerc() & cublasZgerc() \\ \hline
+\end{tabular}
+
+
+\newpage
+
+
+\begin{align*}
+\alpha ( {\bf x} {\bf y}^T + {\bf y} {\bf x}^T) + A \rt A
+\end{align*} $\quad$ \newline
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & float & double \\ \hline
+{\large symmetric matrix }& cublasSsyr2() & cublasDsyr2() \\ \hline
+{\large symmetric matrix in packed format }& cublasSspr2() & cublasDspr2() \\ \hline
+\end{tabular} $\quad$ \newline \newline \newline
+
+
+\begin{align*}
+\alpha ( {\bf x} {\bf y}^H + {\bf y} {\bf x}^H) + A \rt A
+\end{align*} $\quad$ \newline
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+type of matrix $A$ & cuComplex & cuDoubleComplex \\ \hline
+{\large Hermitian }& cublasCher2() & cublasZher2() \\ \hline
+{\large Hermitian, packed format }& cublasChpr2() & cublasZhpr2() \\ \hline
+\end{tabular}
+
+
+\newpage
+\begin{align*}
+\alpha \cdot \text{op}(A) {\bf x} + \beta {\bf y} \rt {\bf y}
+\end{align*}
+where: 
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+\begin{tabular}{|p{5cm}|c|c|c|c|}
+\hline
+type of matrix $A$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large any $m \times n$} & cublasSgemv() & cublasDgemv() & cublasCgemv & cublasZgemv()   \\ \hline
+{\large $m \times n$, banded} & cublasSgbmv() & cublasDgbmv() & cublasCgbmv & cublasZgbmv()   \\ \hline
+{\large symmetric, banded \footnotemark}& cublasSsbmv() & cublasDsbmv() & - &-  \\ \hline
+{\large symmetric, packed format ${}^1$}& cublasSspmv() & cublasDspmv() & -& -\\ \hline
+{\large symmetric,  lower/upper mode ${}^1$}& cublasSsymv() & cublasDsymv() & -& -\\ \hline
+{\large Hermitian ${}^1$}& - & - &  cublasChemv() & cublasZhemv() \\ \hline
+{\large Hermitian, banded ${}^1$}& - & - &  cublasChbmv() & cublasZhbmv() \\ \hline
+\end{tabular}
+
+\footnotetext{Here, op($A$) = A with no {\tt transa} option.}
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\Huge
+\begin{center}
+{\bf LEVEL 3 FUNCTIONS}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{align*}
+\alpha \cdot \text{op}(A) \text{op}(B) + \beta C \rt C
+\end{align*}
+where: 
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large any with compatible sizes} & cublasSgemm() &cublasDgemm() & cublasCgemm() & cublasZgemm() \\ \hline
+\end{tabular}
+\newpage
+
+
+
+Batch of {\tt batchCount} matrices:
+\begin{align*}
+\alpha \cdot \text{op}(A[i]) \text{op} (B[i]) + \beta C[i] \rt C[i]
+\end{align*}
+
+where: 
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline \newline
+
+
+\begin{tabular}{|c|c|}
+\hline
+matrices types $A[i]$, $B[i]$, $C[i]$ & any with compatible sizes \\ \hline
+float function & cublasSgemmBatched() \\ \hline
+double function & cublasDgemmBatched() \\ \hline
+cuComplex function & cublasCgemmBatched() \\ \hline
+cuDoubleComplex function & cublasZgemmBatched() \\ \hline
+\end{tabular}
+\newpage
+
+
+\begin{displaymath}
+   \left.
+     \begin{array}{lr}
+       \alpha A B + \beta C & : \text{{\tt side == CUBLAS\_SIDE\_LEFT }}\\
+       \alpha B A + \beta C & : \text{{\tt side == CUBLAS\_SIDE\_RIGHT}}
+     \end{array}
+   \right \} \rt C
+\end{displaymath} $\quad$ \newline \newline
+
+
+
+\begin{tabular}{|p{4.5cm}|c|c|c|c|}
+\hline
+matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large A: symmetric, lower or upper mode} & cublasSsymm() &cublasDsymm() & cublasCsymm() & cublasZsymm() \\ \hline
+{\large A: Hermitian, lower or upper mode} &- & - & cublasChemm() & cublasZhemm() \\ \hline
+\end{tabular}
+\newpage
+
+
+\begin{displaymath}
+   \left.
+     \begin{array}{lr}
+       \alpha A A^T + \beta C & : \text{{\tt trans == CUBLAS\_OP\_N}}\\
+       \alpha A^T A + \beta C & : \text{{\tt trans == CUBLAS\_OP\_T}}
+     \end{array}
+   \right \} \rt C
+\end{displaymath} $\quad$ \newline \newline
+
+
+
+\begin{tabular}{|p{4.5cm}|c|c|c|c|}
+\hline
+matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large C: symmetric, lower or upper mode} & cublasSsyrk() &cublasDsyrk() & cublasCsyrk() & cublasZsyrk() \\ \hline
+\end{tabular}
+
+\newpage
+
+
+
+
+\begin{displaymath}
+   \left.
+     \begin{array}{lr}
+       \alpha (A B^T + B A^T)+ \beta C & : \text{{\tt trans == CUBLAS\_OP\_N}}\\
+       \alpha(A^T B + B^T A) + \beta C & : \text{{\tt trans == CUBLAS\_OP\_T}}
+     \end{array}
+   \right \} \rt C
+\end{displaymath} $\quad$ \newline \newline
+
+
+
+\begin{tabular}{|p{4.5cm}|c|c|c|c|}
+\hline
+matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large C: symmetric, lower or upper mode} & cublasSsyr2k() &cublasDsyr2k() & cublasCsyr2k() & cublasZsyr2k() \\ \hline
+\end{tabular}
+\newpage
+
+
+\begin{displaymath}
+   \left.
+     \begin{array}{lr}
+       \alpha \text{op}(A)B & : \text{{\tt trans == CUBLAS\_SIDE\_LEFT }}\\
+       \alpha B \text{op}(A) & : \text{{\tt trans == CUBLAS\_SIDE\_RIGHT}}
+     \end{array}
+   \right \} \rt C
+\end{displaymath}  
+
+where:
+
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+
+\begin{tabular}{|p{4.5cm}|c|c|c|c|}
+\hline
+matrices $A$, $B$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large A: triangular, lower or upper mode} & cublasStrmm() &cublasDtrmm() & cublasCtrmm() & cublasZtrmm() \\ \hline
+\end{tabular}
+\newpage
+
+
+Solve for $X$:
+\begin{displaymath}
+   \left\{
+     \begin{array}{lr}
+       \text{op}(A)X = \alpha B& : \text{{\tt trans == CUBLAS\_SIDE\_LEFT }}\\
+       X \text{op}(A) = \alpha B& : \text{{\tt trans == CUBLAS\_SIDE\_RIGHT}}
+     \end{array}
+   \right.
+\end{displaymath}  
+
+where:
+
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^T & : \text{{\tt transa == CUBLAS\_OP\_T}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+
+\begin{tabular}{|p{4.5cm}|c|c|c|c|}
+\hline
+matrices $A$, $B$, $X$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large A: triangular, lower or upper mode} & cublasStrsm() &cublasDtrsm() & cublasCtrsm() & cublasZtrsm() \\ \hline
+\end{tabular}
+\newpage
+
+
+\begin{align*}
+\alpha \cdot \text{op}(A) \text{op}(A)^H + \beta C \rt C
+\end{align*}
+where: 
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline
+
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large C: Hermitian, lower or upper mode} & - & - & cublasCherk() & cublasZherk() \\ \hline
+\end{tabular}
+\newpage
+
+
+\begin{align*}
+\alpha \cdot \text{op}(A) \text{op}(B)^H + \ov{\alpha}\text{op}(B) \text{op}(A)^H + \beta \cdot C \rt C
+\end{align*}
+where:
+\begin{displaymath}
+   \text{op}(A) = \left\{
+     \begin{array}{lr}
+       A & : \text{{\tt transa == CUBLAS\_OP\_N}}\\
+       A^H & : \text{{\tt transa == CUBLAS\_OP\_C}}
+     \end{array}
+   \right.
+\end{displaymath} $\quad$ \newline \newline
+
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
+{\large C: Hermitian, lower or upper mode} & - & - & cublasCher2k() & cublasZher2k() \\ \hline
+\end{tabular}
+\newpage
+
+
+
+
 
 
 
