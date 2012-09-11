@@ -31,12 +31,12 @@ gpu_function = function(arg){
 }
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor((seq(from = 2, by = 5, length.out = 8))^2) # nrows of each matrix arg
-ncols = nrows # use square matrices here
+nrows = 10^(seq(from = 2, to = 4, length.out = 4)) # nrows of each matrix arg
+ncols = rep(101, length(nrows))
 sizes = nrows * ncols
-xs = sizes # plotted on horizontal axis
+xs = log(nrows, base = 10) # plotted on horizontal axis
 ys = list() # plotted on vertical axis
-xlab = "Number of Matrix Entries"
+xlab = "Base 10 Log of Number of Observations (model has 10 parameters)"
 title = "lm() vs gpuLm()"
 plot.name = "performance_gpuLm"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
@@ -144,7 +144,9 @@ times = list(cpu = cpu.times,
 # format data to plot without confidence
 # regions. 
 for(time in c("user", "syst", "total")){
-  ys[[time]]$outlier.gpu = times$outlier.gpu[[time]]
+
+#  ys[[time]]$outlier.gpu = times$outlier.gpu[[time]]
+
   for(dev in c("cpu", "gpu")){
     ys[[time]][[dev]] = times[[dev]][[time]]
   }
@@ -200,11 +202,11 @@ for(time in c("user", "syst", "total")){
        pch= ".",
        col="white",
        xlab = xlab,
-       ylab = paste(c(time, "scheduled runtime", collapse = " ")),
-       main = paste(c(time, "scheduled runtime:", title, collapse = " ")))  
+       ylab = paste(c(time, "scheduled runtime (seconds)", collapse = " ")),
+       main = paste(c(time, "scheduled runtime (seconds):", title, collapse = " ")))  
 
   for(dev in c("cpu", "gpu")){
-    points(xs[1], ys[[time]]$outlier.gpu, col=cols$outlier.gpu)
+#    points(xs[1], ys[[time]]$outlier.gpu, col=cols$outlier.gpu)
     points(xs, ys[[time]][[dev]], col = cols[[dev]])
     lines(xs, ys[[time]][[dev]], col = cols[[dev]], lty=1)
 #    lines(xs, ys[[time]][[dev]]$upr, col = cols[[dev]], lty=1)
@@ -212,11 +214,11 @@ for(time in c("user", "syst", "total")){
 
   legend("topleft",
          legend = c("mean cpu runtime", 
-                    "mean gpu runtime", 
-                    "first gpu run (overhead, discarded from conf. region calculations)"),
+                    "mean gpu runtime"), 
+#                    "first gpu run (overhead, discarded from conf. region calculations)"),
          col = c(cols$cpu,
-                 cols$gpu,
-                 "black"),
+                 cols$gpu),
+#                 "black"),
          pch = c("o"))
 
   dev.off()
