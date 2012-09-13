@@ -383,11 +383,11 @@ Things to note: \newline
 {\bf nvidia-smi: CHECK GPU USAGE BEFORE {\tt chooseGpu()} }
 \end{center} 
 
-\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi1} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi2} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi3} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi4} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi5} \newpage
+\setkeys{Gin}{width=.85\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi2} \newpage
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi3} \newpage
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi4} \newpage
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi5} \newpage
 
 
 
