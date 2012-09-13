@@ -114,29 +114,16 @@ Will Landau, Prof. Jarad Niemi
 \end{center} $\quad$ \newline
 \newpage
 
-
-\huge
+\Huge
 \begin{center}
-{\bf GETTING UP AND RUNNING WITH gputools}
-\end{center}  \huge
+{\bf Outline}
+\end{center} $\quad$ \newline
 
 \begin{itemize}
-\item gputools is already installed on impact1.stat.iastate.edu, ready to load with {\tt library(gputools)} in R.
-\item For other GPU systems, download gputools from CRAN with a simple {\tt install.packages("gputools")} in R. 
-\begin{itemize}
-\item {\color{red} WARNING: installation will fail on non-GPU systems since the CUDA C compiler doesn't exist}
-\end{itemize}
-\item Documentation:
-\begin{itemize}
-\item http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/
-\item http://cran.r-project.org/web/packages/gputools/index.html
-\item http://cran.r-project.org/web/packages/gputools/gputools.pdf
-\end{itemize}
-\item Requirements:
-\begin{itemize}
-\item R (>= version 2.8.0)
-\item Nvidia's CUDA toolkit (>= version 2.3)
-\end{itemize}
+\item Contents of gputools
+\item Usage
+\item Performance
+\item Other R packages for the GPU
 \end{itemize}
 
 \newpage
@@ -194,12 +181,13 @@ gpuGlm.fit() & glm.fit() & yes \\
 \begin{tabular}{r|l|c}
  \bf gputools function & \bf CPU analog  & \bf Same exact usage? \\ \hline
 gpuTtest() & t.test() & no \\ 
+getAucEstimate() & ??? & ??? \\
 \end{tabular} $\quad$ \newline
 \end{center}
 
 
 \newpage
-\item Other useful algorithms: \newline
+\item Other routines: \newline
 
 \begin{center}
 \begin{tabular}{r|l|c}
@@ -218,13 +206,154 @@ gpuSvmTrain() & See www.jstatsoft.org/v15/i09/paper & no \\
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf getAucEstimate()}
+\end{center} $\quad$ \newline \huge
+
+Estimates the area under a receiver operating characteristic (ROC) curve. \newline
+
+Used to evaluate the performance of a hypothesis test in a multiple testing scenario. \newline
+
+Reference:  \newline
+
+Hand, David J. and Till, Robert J. (2001). A simple generalisation of the area under the ROC curve
+for multiple class classification problems. Machine Learning. 45, 171-186.
+
+\newpage
 
 \Huge
+\begin{center}
+{\bf gpuHclust()}
+\end{center} $\quad$ \newline
+
+Performs hierarchical clustering on a set of points.  \newline
+
+The distances among the points must be given in an bject of class "dist".
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf gpuDistClust()}
+\end{center} $\quad$ \newline
+
+Given a set of points, computes all pairwise distances and then performs hierarchical clustering on the points. \newline
+
+Both steps are done on the GPU.
+\newpage
+
+\Huge
+\begin{center}
+{\bf gpuFastICA}
+\end{center} $\quad$ \newline \LARGE
+
+Performs Independent Component Analysis (ICA) and Projection Pursuit. \newline
+
+ICA, like principle component analysis, is a linear decomposition of a design matrix. \newline
+
+The authors of fastICA claim that, unlike PCA, ICA ``unmixes" the underlying sources of variability in the data by assuming a non-Gaussian structure. \newline
+
+This function is exactly like the ICA implementation in the {\tt fastICA} package except that the {\tt gputools} version uses {\tt gpuSvd()} instead of {\tt svd()}. \newline
+
+\large
+References: \newline
+
+A. Hyvarinen and E. Oja (2000) Independent Component Analysis: Algorithms and Applications,
+Neural Networks, 13(4-5):411-430. http://www.cis.hut.fi/aapo/ \newline
+
+A. Hyvarinen. Independent Component Analysis: Recent Advances. Philosophical Transactions of the Royal Society A, in press. http://www.cs.helsinki.fi/u/ahyvarin/papers/PTRSA12.pdf.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf gpuGranger()}
+\end{center} $\quad$ \newline 
+
+Performs the Granger Causality Test, which tests how well one time series forecasts another. \newline
+
+Reference: \newline
+
+Hacker R.S. and Hatemi-J A. (2006) "Tests for causality between integrated variables using asymptotic and bootstrap distributions: theory and application", Applied Economics, Vol. 38(13), pp. 1489-1500.
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf gpuMi()}
+\end{center} $\quad$ \newline \huge
+
+Estimates the mutual information for pairs of vectors using a B spline approach. \newline
+
+Reference: \newline
+
+Carten O. Daub, Ralf Steuer, Joachim Selbig, and Sebastian Kloska. 2004. Estimating mutual information using B-spline functions - an improved similarity measure for analysing gene expression
+data. BMC Bioinformatics. 5:118. Available from http://www.biomedcentral.com/1471-2105/5/118
+\newpage
+
+\Huge
+\begin{center}
+{\bf gpuSvmPredict()}
+\end{center} $\quad$ \newline \huge
+
+Classifies points in a data set using a support vector machine. \newline
+
+In machine learning, support vector machine (SVM) is a learning model used for classification and regression. \newline
+
+Reference: \newline
+
+Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+http://patternsonascreen.net/cuSVM.html
+
+\newpage 
+
+\Huge
+\begin{center}
+{\bf gpuSvmTrain()}
+\end{center} $\quad$ \newline \huge
+
+Trains a support vector machine.  \newline
+
+Reference: \newline
+
+Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+http://patternsonascreen.net/cuSVM.html
+\newpage
+
+\huge
+\begin{center}
+{\bf USAGE}
+\end{center}  \huge
+
+\begin{itemize}
+\item gputools is already installed on impact1.stat.iastate.edu, ready to load with {\tt library(gputools)} in R.
+\item For other GPU systems, download gputools from CRAN with a simple {\tt install.packages("gputools")} in R. 
+\begin{itemize}
+\item {\color{red} WARNING: installation will fail on non-GPU systems since the CUDA C compiler doesn't exist}
+\end{itemize}
+\item Documentation:
+\begin{itemize}
+\item http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/
+\item http://cran.r-project.org/web/packages/gputools/index.html
+\item http://cran.r-project.org/web/packages/gputools/gputools.pdf
+\end{itemize}
+\item Requirements:
+\begin{itemize}
+\item R (>= version 2.8.0)
+\item Nvidia's CUDA toolkit (>= version 2.3)
+\end{itemize}
+\end{itemize}
+
+
+
+\newpage
+\huge
 \begin{center}
 {\bf MANAGING YOUR DEVICES: {\tt chooseGpu()} AND {\tt getGpuId()}}
 \end{center} $\quad$ \newline
 
-\color{red} Background: Impact1 has four GPUs, each with a unique index from 0 to 3. To see this for yourself, log into impact1 and run the following: \newline
+Impact1 has four GPUs, each with a unique index from 0 to 3. To see this for yourself, log into impact1 and run the following: \newline
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/0} \newline
 
@@ -246,6 +375,23 @@ Things to note: \newline
 \item ``Tesla M2070'' is the name of the model of the GPU. 
 \item Device 3 contains multiple cores, or ``sub-processors''. From the output, it has 448 CUDA-capable cores.
 \end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf nvidia-smi: CHECK GPU USAGE BEFORE {\tt chooseGpu()} }
+\end{center} 
+
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi1} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi2} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi3} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi4} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi5} \newpage
+
+
+
+
 
 \newpage
 \color{black}
@@ -284,6 +430,19 @@ Compare the run time to that of the analogous CPU run on impact1: \newline
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/10} \newpage
 
+
+
+\Huge
+\begin{center}
+
+$\quad$ \newline \newline \newline \newline \newline
+
+{\bf $\qquad \quad$ PERFORMANCE} \newline \newline
+
+\end{center} $\quad$ \newline
+\newpage
+
+\newpage
 \Huge
 \begin{center}
 {\bf A COMPARISON OF gpuQr() AND qr()}
@@ -292,20 +451,18 @@ Compare the run time to that of the analogous CPU run on impact1: \newline
 The R script, {\tt gpuQr.r}, compares the performance of {\tt gpuQr(arg)} and {\tt qr(arg)} for square matrices {\tt arg} of varying sizes. \newline
 
  See the results on the next few slides. \newline
- 
-  {\color{red} NOTE: ALL TIMES ARE IN SECONDS.}
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_small} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_small} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/qrsmall} \newpage
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_user_large} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_syst_large} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuQr_total_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/qrbig} \newpage
 
 % JBN: I think this final graph is sufficient
 
@@ -317,13 +474,13 @@ The R script, {\tt gpuQr.r}, compares the performance of {\tt gpuQr(arg)} and {\
 
 The R script, {\tt gpuSolve.r}, compares the performance of {\tt gpuSolve(arg)} and {\tt solve(arg)} for square matrices {\tt arg} of varying sizes. \newline
 
- See the results on the next few slides. \newline
+ See the results on the next slide. \newline
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_user_small} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_syst_small} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuSolve_total_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/solve} \newpage
 
 \newpage
 
@@ -358,46 +515,58 @@ The R script, {\tt gpuSolve.r}, compares the performance of {\tt gpuSolve(arg)} 
 {\bf A COMPARISON OF gpuLm() AND lm()}
 \end{center} $\quad$ \newline
 
-The R script, {\tt gpuLm.r}, compares the performance of {\tt gpuLm(y $\sim$ x)} and {\tt lm(y $\sim$ x)} for matrices {\tt y} and {\tt x} of varying sizes.  \newline
+The R script, {\tt gpuLm.r}, compares the performance of {\tt gpuLm(y $\sim$ X)} and {\tt lm(y $\sim$ X)}, where: \newline
 
-See the results on the next slide.
+\begin{itemize}
+\item {\tt y} is a random vector of observations. 
+\item {\tt X} is a random design matrix with {\tt length(y)} rows and 100 columns.
+\end{itemize}  $\quad$ \newline
+The script times each function with varying {\tt length(y)} and {\tt nrow(X)}. \newline
+
+See the results on the next slides.
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_user_small} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_syst_small} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_total_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/lmsmall} \newpage
 
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_user_large} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_syst_large} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuLm_total_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/lmbig} \newpage
 
 
 
 \Huge
 \begin{center}
 {\bf A COMPARISON OF gpuGlm() AND glm()}
-\end{center} $\quad$ \newline
+\end{center} $\quad$ \newline \huge
 
-The R script, {\tt gpuGlm.r}, compares the performance of {\tt gpuGlm(y $\sim$ x)} and {\tt glm(y $\sim$ x)} for matrices {\tt y} and {\tt x} of varying sizes. \newline
+The R script, {\tt gpuGlm.r}, compares the performance of {\tt gpuGlm(y $\sim$ X, family = poisson())} and {\tt glm(y $\sim$ X, family = poisson())}, where: \newline
 
-See the results on the next few slides.
+\begin{itemize}
+\item {\tt y} is a random vector of observations. 
+\item {\tt X} is a random design matrix with {\tt length(y)} rows and 100 columns.
+\end{itemize}  $\quad$ \newline
+The script times each function with varying {\tt length(y)} and {\tt nrow(X)}. \newline
+
+See the results on the next slides.
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_user_small} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_syst_small} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_total_small} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/glmsmall} \newpage
 
 
 \newpage
 
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_user_large} \newpage
 %\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_syst_large} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/performance_gpuGlm_total_large} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/glmbig} \newpage
 
 
 \Huge
@@ -445,10 +614,24 @@ See the results on the next few slides.
 
 \Huge
 \begin{center}
-{\bf LECTURE SERIES MATERIALS}
+{\bf Outline}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Contents of gputools
+\item Usage
+\item Performance
+\item Other R packages for the GPU
+\end{itemize}
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf GPU SERIES MATERIALS}
 \end{center} $\quad$ \newline
 \huge
-These lecture slides, a tentative syllabus for the whole lecture series, and code are available at: \newline
+These slides, a tentative syllabus for the whole series, and code are available at: \newline
 
 \begin{center}
  https://github.com/wlandau/gpu. 
@@ -461,7 +644,7 @@ After logging into you home directory on impact1, type: \newline
         git clone https://github.com/wlandau/gpu
 \end{verbatim} $\quad$ \newline
 
-into the command line to download all the course materials.
+into the command line to download all the materials.
 
 \newpage
 
@@ -472,7 +655,22 @@ into the command line to download all the course materials.
 
 Josh Buckner, Mark Seligman, Justin Wilson. ``R+GPU". http://brainarray.mbni.med.umich.edu/Brainarray/Rgpgpu/\#introduction. \newline
 
+Carten O. Daub, Ralf Steuer, Joachim Selbig, and Sebastian Kloska. 2004. Estimating mutual information using B-spline functions - an improved similarity measure for analysing gene expression data. BMC Bioinformatics. 5:118. Available from http://www.biomedcentral.com/1471-2105/5/118 \newline
+
+Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+http://patternsonascreen.net/cuSVM.html \newline
+
 Dirk Eddelbuettel. ``Package gcbd". http://cran.r-project.org/web/packages/gcbd/gcbd.pdf. \newline
+
+Hacker R.S. and Hatemi-J A. (2006) "Tests for causality between integrated variables using asymptotic and bootstrap distributions: theory and application", Applied Economics, Vol. 38(13), pp. 1489-1500. \newline
+
+Hand, David J. and Till, Robert J. (2001). A simple generalisation of the area under the ROC curve
+for multiple class classification problems. Machine Learning. 45, 171-186. \newline
+
+A. Hyvarinen and E. Oja (2000) Independent Component Analysis: Algorithms and Applications,
+Neural Networks, 13(4-5):411-430. http://www.cis.hut.fi/aapo/ \newline
+
+A. Hyvarinen. Independent Component Analysis: Recent Advances. Philosophical Transactions of the Royal Society A, in press. http://www.cs.helsinki.fi/u/ahyvarin/papers/PTRSA12.pdf. \newline
 
 Mark Seligman, Chris Fraley. ``Package WideLM". http://cran.r-project.org/web/packages/WideLM/WideLM.pdf. \newline
 
