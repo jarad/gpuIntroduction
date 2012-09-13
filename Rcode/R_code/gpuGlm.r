@@ -31,8 +31,8 @@ gpu_function = function(arg){
 }
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = 10^(1:12)
-ncols = rep(11, length(nrows)) 
+nrows = 10^(seq(from = 2, to = 4, length.out = 4)) # nrows of each matrix arg
+ncols = rep(101, length(nrows)) 
 sizes = nrows * ncols
 xs = log(nrows, base = 10) # plotted on horizontal axis
 ys = list() # plotted on vertical axis
@@ -146,7 +146,9 @@ times = list(cpu = cpu.times,
 # format data to plot without confidence
 # regions. 
 for(time in c("user", "syst", "total")){
-  ys[[time]]$outlier.gpu = times$outlier.gpu[[time]]
+
+#  ys[[time]]$outlier.gpu = times$outlier.gpu[[time]]
+
   for(dev in c("cpu", "gpu")){
     ys[[time]][[dev]] = times[[dev]][[time]]
   }
@@ -202,8 +204,8 @@ for(time in c("user", "syst", "total")){
        pch= ".",
        col="white",
        xlab = xlab,
-       ylab = paste(c(time, "scheduled runtime", collapse = " ")),
-       main = paste(c(time, "scheduled runtime:", title, collapse = " ")))  
+       ylab = paste(c(time, "scheduled runtime (seconds)", collapse = " ")),
+       main = paste(c(time, "scheduled runtime (seconds):", title, collapse = " ")))  
 
   for(dev in c("cpu", "gpu")){
     points(xs[1], ys[[time]]$outlier.gpu, col=cols$outlier.gpu)
@@ -214,11 +216,11 @@ for(time in c("user", "syst", "total")){
 
   legend("topleft",
          legend = c("mean cpu runtime", 
-                    "mean gpu runtime", 
-                    "first gpu run (overhead, discarded from conf. region calculations)"),
+                    "mean gpu runtime"), 
+ #                   "first gpu run (overhead, discarded from conf. region calculations)"),
          col = c(cols$cpu,
-                 cols$gpu,
-                 "black"),
+                 cols$gpu),
+ #                "black"),
          pch = c("o"))
 
   dev.off()
