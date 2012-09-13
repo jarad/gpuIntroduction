@@ -217,7 +217,11 @@ Used to evaluate the performance of a hypothesis test in a multiple testing scen
 
 Reference:  \newline
 
+<<<<<<< HEAD
 Hand, David J. and Till, Robert J. (2001). A simple generalisation of the area under the ROC curve
+=======
+Hand, David J. and Till, Robert J. (2001). A simple generalisation of the area under the ROC curve
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 for multiple class classification problems. Machine Learning. 45, 171-186.
 
 \newpage
@@ -232,6 +236,7 @@ Performs hierarchical clustering on a set of points.  \newline
 The distances among the points must be given in an bject of class "dist".
 
 \newpage
+<<<<<<< HEAD
 
 \Huge
 \begin{center}
@@ -268,6 +273,44 @@ A. Hyvarinen. Independent Component Analysis: Recent Advances. Philosophical Tra
 
 \Huge
 \begin{center}
+=======
+
+\Huge
+\begin{center}
+{\bf gpuDistClust()}
+\end{center} $\quad$ \newline
+
+Given a set of points, computes all pairwise distances and then performs hierarchical clustering on the points. \newline
+
+Both steps are done on the GPU.
+\newpage
+
+\Huge
+\begin{center}
+{\bf gpuFastICA}
+\end{center} $\quad$ \newline \LARGE
+
+Performs Independent Component Analysis (ICA) and Projection Pursuit. \newline
+
+ICA, like principle component analysis, is a linear decomposition of a design matrix. \newline
+
+The authors of fastICA claim that, unlike PCA, ICA ``unmixes" the underlying sources of variability in the data by assuming a non-Gaussian structure. \newline
+
+This function is exactly like the ICA implementation in the {\tt fastICA} package except that the {\tt gputools} version uses {\tt gpuSvd()} instead of {\tt svd()}. \newline
+
+\large
+References: \newline
+
+A. Hyvarinen and E. Oja (2000) Independent Component Analysis: Algorithms and Applications,
+Neural Networks, 13(4-5):411-430. http://www.cis.hut.fi/aapo/ \newline
+
+A. Hyvarinen. Independent Component Analysis: Recent Advances. Philosophical Transactions of the Royal Society A, in press. http://www.cs.helsinki.fi/u/ahyvarin/papers/PTRSA12.pdf.
+
+\newpage
+
+\Huge
+\begin{center}
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 {\bf gpuGranger()}
 \end{center} $\quad$ \newline 
 
@@ -288,7 +331,11 @@ Estimates the mutual information for pairs of vectors using a B spline approach.
 
 Reference: \newline
 
+<<<<<<< HEAD
 Carten O. Daub, Ralf Steuer, Joachim Selbig, and Sebastian Kloska. 2004. Estimating mutual information using B-spline functions - an improved similarity measure for analysing gene expression
+=======
+Carten O. Daub, Ralf Steuer, Joachim Selbig, and Sebastian Kloska. 2004. Estimating mutual information using B-spline functions - an improved similarity measure for analysing gene expression
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 data. BMC Bioinformatics. 5:118. Available from http://www.biomedcentral.com/1471-2105/5/118
 \newpage
 
@@ -303,7 +350,11 @@ In machine learning, support vector machine (SVM) is a learning model used for c
 
 Reference: \newline
 
+<<<<<<< HEAD
 Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+=======
+Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 http://patternsonascreen.net/cuSVM.html
 
 \newpage 
@@ -317,7 +368,11 @@ Trains a support vector machine.  \newline
 
 Reference: \newline
 
+<<<<<<< HEAD
 Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+=======
+Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 http://patternsonascreen.net/cuSVM.html
 \newpage
 
@@ -375,6 +430,23 @@ Things to note: \newline
 \item ``Tesla M2070'' is the name of the model of the GPU. 
 \item Device 3 contains multiple cores, or ``sub-processors''. From the output, it has 448 CUDA-capable cores.
 \end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf nvidia-smi: CHECK GPU USAGE BEFORE {\tt chooseGpu()} }
+\end{center} 
+
+\setkeys{Gin}{width=.85\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi2} \newpage
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi3} \newpage
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi4} \newpage
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{picts/nvidia-smi5} \newpage
+
+
+
+
 
 \newpage
 \color{black}
@@ -527,6 +599,7 @@ See the results on the next slides.
 \begin{center}
 {\bf A COMPARISON OF gpuGlm() AND glm()}
 \end{center} $\quad$ \newline \huge
+<<<<<<< HEAD
 
 The R script, {\tt gpuGlm.r}, compares the performance of {\tt gpuGlm(y $\sim$ X, family = poisson())} and {\tt glm(y $\sim$ X, family = poisson())}, where: \newline
 
@@ -536,6 +609,17 @@ The R script, {\tt gpuGlm.r}, compares the performance of {\tt gpuGlm(y $\sim$ X
 \end{itemize}  $\quad$ \newline
 The script times each function with varying {\tt length(y)} and {\tt nrow(X)}. \newline
 
+=======
+
+The R script, {\tt gpuGlm.r}, compares the performance of {\tt gpuGlm(y $\sim$ X, family = poisson())} and {\tt glm(y $\sim$ X, family = poisson())}, where: \newline
+
+\begin{itemize}
+\item {\tt y} is a random vector of observations. 
+\item {\tt X} is a random design matrix with {\tt length(y)} rows and 100 columns.
+\end{itemize}  $\quad$ \newline
+The script times each function with varying {\tt length(y)} and {\tt nrow(X)}. \newline
+
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 See the results on the next slides.
 
 \newpage
@@ -640,17 +724,28 @@ Josh Buckner, Mark Seligman, Justin Wilson. ``R+GPU". http://brainarray.mbni.med
 
 Carten O. Daub, Ralf Steuer, Joachim Selbig, and Sebastian Kloska. 2004. Estimating mutual information using B-spline functions - an improved similarity measure for analysing gene expression data. BMC Bioinformatics. 5:118. Available from http://www.biomedcentral.com/1471-2105/5/118 \newline
 
+<<<<<<< HEAD
 Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+=======
+Carpenter, Austin. cuSVM: a cuda implementation of support vector classification and regression.
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 http://patternsonascreen.net/cuSVM.html \newline
 
 Dirk Eddelbuettel. ``Package gcbd". http://cran.r-project.org/web/packages/gcbd/gcbd.pdf. \newline
 
 Hacker R.S. and Hatemi-J A. (2006) "Tests for causality between integrated variables using asymptotic and bootstrap distributions: theory and application", Applied Economics, Vol. 38(13), pp. 1489-1500. \newline
 
+<<<<<<< HEAD
 Hand, David J. and Till, Robert J. (2001). A simple generalisation of the area under the ROC curve
 for multiple class classification problems. Machine Learning. 45, 171-186. \newline
 
 A. Hyvarinen and E. Oja (2000) Independent Component Analysis: Algorithms and Applications,
+=======
+Hand, David J. and Till, Robert J. (2001). A simple generalisation of the area under the ROC curve
+for multiple class classification problems. Machine Learning. 45, 171-186. \newline
+
+A. Hyvarinen and E. Oja (2000) Independent Component Analysis: Algorithms and Applications,
+>>>>>>> e97cf4f0013ee97908938ed57415be64199fcadc
 Neural Networks, 13(4-5):411-430. http://www.cis.hut.fi/aapo/ \newline
 
 A. Hyvarinen. Independent Component Analysis: Recent Advances. Philosophical Transactions of the Royal Society A, in press. http://www.cs.helsinki.fi/u/ahyvarin/papers/PTRSA12.pdf. \newline
