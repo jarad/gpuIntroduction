@@ -1,5 +1,3 @@
-//Example 1. Application Using C and CUBLAS: 1−based indexing 
-//−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−−
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <math.h> 
