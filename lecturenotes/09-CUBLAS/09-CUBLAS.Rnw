@@ -873,6 +873,35 @@ To go from matrix coordinates to the corresponding memory array index. \footnote
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{2} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{3} \newpage
 
+\Huge
+\begin{center}
+{\bf GPU SERIES MATERIALS}
+\end{center} $\quad$ \newline
+\huge
+These slides, a tentative syllabus for the whole series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the materials.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline \large
+
+CUDA Toolkit 4.2 CUBLAS Library. February 2012. http://developer.download.nvidia.com/compute/DevZone/docs/html/CUDALibraries/doc/CUBLAS\_Library.pdf
+
 
 
 
