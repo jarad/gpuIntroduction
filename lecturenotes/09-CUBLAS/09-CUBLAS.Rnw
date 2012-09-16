@@ -139,29 +139,73 @@ where $\alpha$ and $\beta$ are scalars, ${\bf x}$ and ${\bf y}$ are vectors, and
 
 \Huge
 \begin{center}
-{\bf CAUTION}
+{\bf IMPLEMENTATION OF MATRICES}
 \end{center} $\quad$ \newline \Large
 
-\begin{enumerate}[1. ]
-\item Like Fortran, CUBLAS uses column-major order.
-\item Unlike C, CUBLAS uses 1-based indexing.
-\end{enumerate} $\quad$ \newline
+Matrices are implemented as linear arrays of memory. For example, CUBLAS thinks of this memory array: \newline
 
-To avoid confusion in your own code, you can implement column-major order matrices as one-dimensional arrays. \newline
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+1 & 1 & 2 & 3 & 5 & 8 & 13 & 21 & 34 & 55 & 89 & 144 \\ \hline
+\end{tabular} $\quad$ \newline
 
- Let {\tt i} be a 0-based row index, {\tt j} be a 0-based column index, and {\tt ld} be the number of rows. Then you can calculate the  1D array index of matrix entry {\tt (i,j)} by:
- 
-\begin{align*}
-\text{{\tt \#define IDX2C(i,j,ld) ( ( j * ld ) + i )}}
-\end{align*} $\quad$ \newline
-
-For 1-based row and column indices:
+as this matrix: \newline
 
 \begin{align*}
-\text{{\tt \#define IDX2F(i,j,ld) ( ( (j - 1) * ld ) + (  i  - 1 ) )}}
-\end{align*} $\quad$ \newline
+\begin{bmatrix}
+1 & 2 & 5 & 13 & 34 & 89 \\ 
+1 & 3 & 8 & 21 & 55 & 144 \\ 
+\end{bmatrix} \qquad \text{or this matrix:} \qquad
+\begin{bmatrix}
+1 & 5 & 34 \\
+1 & 8 & 55 \\
+2 & 13 & 89 \\
+3 & 21 & 144
+\end{bmatrix}
+\end{align*}
+
+$\quad$ \newline
+
+depending on the number of rows and columns you specify. \newline
+
+NOTE: CUBLAS indexes matrices in column major format.
+
 \newpage
 
+Let: \newline
+
+ $A = $ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+1 & 1 & 2 & 3 & 5 & 8 & 13 & 21 & 34 & 55 & 89 & 144 \\ \hline
+\end{tabular} $\quad$ \newline
+\begin{align*}
+B = \begin{bmatrix}
+1 & 5 & 34 \\
+1 & 8 & 55 \\
+2 & 13 & 89 \\
+3 & 21 & 144
+\end{bmatrix}
+\end{align*}
+
+Then:
+
+\begin{align*}
+B[\text{row }i, \text{ col }j] = A[j \cdot ld + i]
+\end{align*} $\quad$ \newline
+
+Where $ld$ stands for ``lead dimension". For column major order matrices, the lead dimension of a matrix is the number of elements in a column. $\quad$ \newline
+
+For indexing in your code, use a function or macro such as:
+
+\begin{verbatim}
+                       #define IDX2F(i, j, ld) j * ld + i 
+\end{verbatim} $\quad$ \newline
+
+To go from matrix coordinates to the corresponding memory array index. \footnote{Note: use {\tt \#define IDX2F(i, j, ld) (j - 1) * ld + i-1 } for 1-bases matrix coordinates}
+
+
+
+\newpage
 
 \Huge
 \begin{center}
@@ -735,21 +779,9 @@ matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
 
 
 
-\newpage
 \Huge
 \begin{center}
-{\bf  \huge EXAMPLE1: CODE WITH CUBLAS}
-\end{center} $\quad$ \newline
-
-
-\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
-\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{2} \newpage
-\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{3} \newpage
-
-
-\Huge
-\begin{center}
-{\bf \huge simpleCUBLAS: MORE CODE WITH CUBLAS}
+{\bf \huge simpleCUBLAS: EXAMPLE CUBLAS CODE} 
 \end{center} 
 
 \setkeys{Gin}{width=.925\textwidth} \includegraphics[scale=0.25,angle=0]{4} \newpage
@@ -759,6 +791,88 @@ matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{8} \newpage
 \setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{9} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{10} \newpage
+
+
+\Huge
+\begin{center}
+{\bf QUICK REVIEW: IMPLEMENTATION OF MATRICES}
+\end{center} $\quad$ \newline \Large
+
+Matrices are implemented as linear arrays of memory. For example, CUBLAS thinks of this memory array: \newline
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+1 & 1 & 2 & 3 & 5 & 8 & 13 & 21 & 34 & 55 & 89 & 144 \\ \hline
+\end{tabular} $\quad$ \newline
+
+as this matrix: \newline
+
+\begin{align*}
+\begin{bmatrix}
+1 & 2 & 5 & 13 & 34 & 89 \\ 
+1 & 3 & 8 & 21 & 55 & 144 \\ 
+\end{bmatrix} \qquad \text{or this matrix:} \qquad
+\begin{bmatrix}
+1 & 5 & 34 \\
+1 & 8 & 55 \\
+2 & 13 & 89 \\
+3 & 21 & 144
+\end{bmatrix}
+\end{align*}
+
+$\quad$ \newline
+
+depending on the number of rows and columns you specify. \newline
+
+NOTE: CUBLAS indexes matrices in column major format.
+
+\newpage
+
+Let: \newline
+
+ $A = $ \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+1 & 1 & 2 & 3 & 5 & 8 & 13 & 21 & 34 & 55 & 89 & 144 \\ \hline
+\end{tabular} $\quad$ \newline
+\begin{align*}
+B = \begin{bmatrix}
+1 & 5 & 34 \\
+1 & 8 & 55 \\
+2 & 13 & 89 \\
+3 & 21 & 144
+\end{bmatrix}
+\end{align*}
+
+Then:
+
+\begin{align*}
+B[\text{row }i, \text{ col }j] = A[j \cdot ld + i]
+\end{align*} $\quad$ \newline
+
+Where $ld$ stands for ``lead dimension". For column major order matrices, the lead dimension of a matrix is the number of elements in a column. $\quad$ \newline
+
+For indexing in your code, use a function or macro such as:
+
+\begin{verbatim}
+                       #define IDX2F(i, j, ld) j * ld + i 
+\end{verbatim} $\quad$ \newline
+
+To go from matrix coordinates to the corresponding memory array index. \footnote{Note: use {\tt \#define IDX2F(i, j, ld) (j - 1) * ld + i-1 } for 1-bases matrix coordinates}
+
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf  \huge EXAMPLE2: MORE CUBLAS CODE}
+\end{center} $\quad$ \newline
+
+
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{2} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{3} \newpage
+
 
 
 
