@@ -137,6 +137,50 @@ where $\alpha$ and $\beta$ are scalars, ${\bf x}$ and ${\bf y}$ are vectors, and
 
 \newpage
 
+
+\Huge
+\begin{center}
+{\bf BEFORE COMPILING WITH CULBAS, CHOOSE WHICH .h FILE TO USE}
+\end{center} $\quad$ \newline \Large
+
+CUBLAS version 4.0 and above has a different API, which is supposed to be better. \newline
+
+Include ``cublas\_v2.h", for the new API. Use this one for new programs. \newline
+Include ``cublas.h" for the old API. Use this one for programs that depend on the old API. \newline
+
+Things on the new API but not the old:
+
+\begin{itemize}
+\item {\tt cublasCreate} initializes the handle to the CUBLAS library context, allowing more user control. 
+\item Scalars $\alpha$ and $\beta$ can be passed by reference to host and device functions in addition to by value.
+\item Scalars can be returned by reference in addition to by value.
+\item All CUBLAS functions return an error status, {\tt cublasStatus\_t}.  
+\item {\tt cublasAlloc()} and {\tt cublasFree()} are deprecated. Use {\tt cudaMalloc()} and {\tt cudaFree()} instead.
+\item {\tt cublasSetKernelStream()} was renamed {\tt cublasSetStream()}.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf COMPILING WITH CUBLAS}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{enumerate}[1. ]
+\item Include either ``cublas\_v2.h" or ``cublas.h" in your source.
+\item Compile with: {\tt \bf mvcc -lcublas your\_source.cu -o your\_binary}
+\end{enumerate} $\quad$ \newline
+Example: \newline
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{compile} \newline
+
+Then I can run the binary: \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{run} 
+
+
+\newpage
+
 \Huge
 \begin{center}
 {\bf IMPLEMENTATION OF MATRICES}
@@ -204,29 +248,6 @@ For indexing in your code, use a function or macro such as:
 To go from matrix coordinates to the corresponding memory array index. \footnote{Note: use {\tt \#define IDX2F(i, j, ld) (j - 1) * ld + i-1 } for 1-bases matrix coordinates}
 
 
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf INCLUDING CUBLAS: WHICH HEADER TO USE}
-\end{center} $\quad$ \newline \Large
-
-CUBLAS version 4.0 and above has a different API, which is supposed to be better. \newline
-
-Include ``cublas\_v2.h", for the new API. Use this one for new programs. \newline
-Include ``cublas.h" for the old API. Use this one for programs that depend on the old API. \newline
-
-Things on the new API but not the old:
-
-\begin{itemize}
-\item {\tt cublasCreate} initializes the handle to the CUBLAS library context, allowing more user control. 
-\item Scalars $\alpha$ and $\beta$ can be passed by reference to host and device functions in addition to by value.
-\item Scalars can be returned by reference in addition to by value.
-\item All CUBLAS functions return an error status, {\tt cublasStatus\_t}.  
-\item {\tt cublasAlloc()} and {\tt cublasFree()} are deprecated. Use {\tt cudaMalloc()} and {\tt cudaFree()} instead.
-\item {\tt cublasSetKernelStream()} was renamed {\tt cublasSetStream()}.
-\end{itemize}
 
 \newpage
 
@@ -771,14 +792,10 @@ where:
 matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
 {\large C: Hermitian, lower or upper mode} & - & - & cublasCher2k() & cublasZher2k() \\ \hline
 \end{tabular}
+
+
+
 \newpage
-
-
-
-
-
-
-
 \Huge
 \begin{center}
 {\bf \huge simpleCUBLAS: EXAMPLE CUBLAS CODE} 
@@ -900,8 +917,7 @@ into the command line to download all the materials.
 {\bf REFERENCES}
 \end{center} $\quad$ \newline \large
 
-CUDA Toolkit 4.2 CUBLAS Library. February 2012. http://developer.download.nvidia.com/compute/DevZone/docs/html/CUDALibraries/doc/CUBLAS\_Library.pdf
-
+"CULA Programmer's Guide". CULA Tools. http://www.culatools.com/cula\_dense\_programmers\_guide/
 
 
 
