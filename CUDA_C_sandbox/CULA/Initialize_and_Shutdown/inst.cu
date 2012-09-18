@@ -1,4 +1,6 @@
 #include <cula.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 int main(){
 
@@ -7,7 +9,7 @@ int main(){
   s = culaInitialize();
   if(s != culaNoError)
   {
-    printf("%s\n", culaGetErrorString(s));
+    printf("%s\n", culaGetErrorInfo());
   }
 
   /* ... Your code ... */
