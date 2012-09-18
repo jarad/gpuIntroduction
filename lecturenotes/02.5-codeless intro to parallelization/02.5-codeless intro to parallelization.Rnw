@@ -114,7 +114,23 @@ $\quad$ \newline \newline \newline \newline \newline
 {\Large Will Landau, Prof. Jarad Niemi} 
 %JBN: I don't think you need to put Matt's name on here and mine is also optional
 \end{center}
+\newpage
 
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{enumerate}[A. ]
+\item A review of GPU parallelism
+\item How to GPU-parallelize the following:
+\begin{enumerate}[1. ]
+\item vector addition
+\item the pairwise (cascading) sum 
+\item matrix multiplication
+\item the QR factorization
+\end{enumerate}
+\end{enumerate}
 
 \newpage
 
@@ -123,7 +139,7 @@ $\quad$ \newline \newline \newline \newline \newline
 {\bf HOW THE CPU AND GPU WORK TOGETHER }
 \end{center}  \huge
 
-A GPU can't run a whole computer on its own because it can't do control flow and it doesn't have access to all the system hardware. \newline
+A GPU can't run a whole computer on its own because it doesn't have access to all the system hardware. \newline
 
 In a GPU-capable computer, the CPU is the main processor, and the GPU is an optional hardware add-on. \newline
 
@@ -144,8 +160,8 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 \item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
 \item The GPU core multitasks to execute the command: \newline
 \begin{enumerate}[a. ]
-\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
-\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The GPU makes $B \cdot T$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $B \cdot T$ threads are partitioned into $B$ groups, called {\bf blocks}, of $T$ threads each. \newline
 \item The sum total of all the threads from a kernel call is a {\bf grid}. 
 \end{enumerate} 
 \end{enumerate}
@@ -155,22 +171,6 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 \setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{picts/imng.jpg} \newpage
 
 \newpage
-
-\color{red}
-\Huge
-\begin{center}
-{\bf IMPORTANT REMARKS:}
-\end{center} $\quad$ \newline
-
-\begin{itemize}
-\item With one grid per kernel, GRIDS are executed SEQUENTIALLY.
-\item Blocks within the same grid are executed SIMULTANEOUSLY (unless otherwise specified).
-\item Threads within the same grid are executed SIMULTANEOUSLY (unless otherwise specified), whether they share a block or not.
-\end{itemize}
-% JBN: Although this is the way to think about what is going on, it is not technically accurate.
-%          Some blocks are executed simultaneously while others have already executed or are waiting to execute.
-%          Threads within a grid get executed simultaneously within a warp. 
-%          The bottom line here is that this might be the way to thinking about what is going on. Don't count on blocks or threads actually being executed simultaneously.
 
 \color{black}
 
@@ -184,15 +184,14 @@ Another analogy: the CPU uses the GPU in the same way that a human uses a hand-h
 
 Calculations you want to parallelize: \newline
 \begin{itemize}
-\item Repeated floating point arithmetic procedures that can all be done simultaneously.
-\item Anything that can be broken down into or framed as such. 
+\item Highly repetitive floating point arithmetic procedures that can all be done simultaneously.
 \end{itemize} $\quad$ \newline
   
 Calculations you don't want to parallelize: \newline
 
 \begin{itemize}
 \item Inherently sequential calculations, such as recursions.
-\item Control flow: if-then statements, etc. 
+\item Lengthy control flow: if-then statements, etc. 
 \item CPU system routines, such as printing to the console. %JBN: that would be funny
 \end{itemize}
 
@@ -209,7 +208,7 @@ I will showcase: \newline
 
 \begin{enumerate}[1. ]
 \item vector addition
-\item the pairwise (cascading) sum %JBN: the vector sum example fits right here and is simpler to understand than the cascading sum
+\item the pairwise (cascading) sum 
 \item matrix multiplication
 \item the QR factorization
 \end{enumerate}
@@ -428,12 +427,31 @@ Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot 
 \setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{picts/bl3} \newpage
 
 
+
 \Huge
 \begin{center}
-{\bf LECTURE SERIES MATERIALS}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{enumerate}[A. ]
+\item A review of GPU parallelism
+\item How to GPU-parallelize the following:
+\begin{enumerate}[1. ]
+\item vector addition
+\item the pairwise (cascading) sum 
+\item matrix multiplication
+\item the QR factorization
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf MATERIALS}
 \end{center} $\quad$ \newline
 \huge
-These lecture slides, a tentative syllabus for the whole lecture series, and code are available at: \newline
+These slides, a tentative syllabus for the whole lecture series, and code are available at: \newline
 
 \begin{center}
  https://github.com/wlandau/gpu. 
@@ -446,7 +464,7 @@ After logging into you home directory on impact1, type: \newline
         git clone https://github.com/wlandau/gpu
 \end{verbatim} $\quad$ \newline
 
-into the command line to download all the course materials.
+into the command line to download all the materials.
 
 
 
