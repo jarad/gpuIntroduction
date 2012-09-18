@@ -115,7 +115,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf THE CUBLAS LIBRARY}
+{\bf THE CUBLAS LIBRARY: VERSION R15}
 \end{center} $\quad$ \newline
 
 \LARGE
@@ -164,7 +164,7 @@ Its routines include:
 \item Activate by including the header, ``cula\_lapack\_device.h"
 \end{itemize}
 \end{itemize} $\quad$ \newline
-
+There's also a ``convenience header" called ``cula.h". \newline
 
 {\color{red} Note: although convenient, the standard interface is often slow because every single function writes back and forth between the CPU and the GPU.}
 \newpage
@@ -177,7 +177,7 @@ Its routines include:
 \end{center} $\quad$ \newline
 
 \begin{enumerate}[1. ]
-\item Include the header file in your source: ``cula\_lapack.h" for the standard interface, ``cula\_lapack\_device.h" for the device interface. \newline
+\item Include the header file in your source: ``cula\_lapack.h" for the standard interface, ``cula\_lapack\_device.h" for the device interface, or ``cula.h". \newline
 \item Enter in the command line:
 \begin{verbatim}
 nvcc -lcula_core -lcula_lapack 
@@ -213,6 +213,40 @@ $\quad$ \newline
 \setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
 
 \setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes2} \newpage
+
+\newpage
+
+
+\Huge
+\begin{center}
+{\bf FRAMEWORK FUNCTIONS}
+\end{center} $\quad$ \newline \Large
+\begin{tabular}{|c|p{15cm}|}
+\hline
+{\tt culaInitialize} & Initializes CULA. Must be called before using any other function. \\ \hline
+{\tt culaShutdown} & Shuts down CULA. Must be called to deallocate CULA internal data. \\ \hline
+{\tt culaGetLastStatus} & Returns the last status code returned from a CULA function. \\ \hline
+{\tt culaGetStatusString} & Given a culaStatus number, returns a readable error string. \\ \hline
+{\tt culaGetStatusAsString} & Returns the culaStatus name as a string. \\ \hline
+{\tt culaGetErrorInfo} & Returns extended information about the last error or zero if it is unavailable \\ \hline
+{\tt culaGetErrorInfoString} & Associates a culaStatus and culaInfo with a readable error string. \\ \hline
+{\tt culaFreeBuffers} & Releases any memory buffers stored internally by CULA \\ \hline
+{\tt culaGetVersion} & Reports the version number of CULA. \\ \hline
+{\tt culaGetCudaMinimumVersion} & Reports the CUDA\_VERSION that the running version of CULA was compiled against, which indicates the minimum version of CUDA that is required to use this library. \\ \hline
+{\tt culaGetCudaRuntimeVersion} & Reports the version of the CUDA runtime that the operating system linked against when the program was loaded. \\ \hline
+{\tt culaGetCudaDriverVersion} & Reports the version of the CUDA driver installed on the system. \\ \hline
+{\tt culaGetCublasMinimumVersion} & Reports the CUBLAS\_VERSION that the running version of CULA was compiled against, which indicates the mini- mum version of CUBLAS that is required to use this library. \\ \hline
+\end{tabular} \newpage
+\begin{tabular}{|c|p{15cm}|} \hline
+{\tt culaGetCublasRuntimeVersion} & Reports the version of the CUBLAS runtime that operating system linked against when the program was loaded. \\ \hline
+{\tt culaGetDeviceCount} & Reports the number of GPU devices Can be called before {\tt culaInitialize} \\ \hline
+{\tt culaSelectDevice} & Selects a device with which CULA will operate. Must go after {\tt culaInitialize} \\ \hline
+{\tt culaGetExecutingDevice} & Returns a pointer to the id of the GPU device executing CULA. \\ \hline
+{\tt culaGetOptimalPitch} & Calculates a pitch that is optimal for CULA when using the device interfaceparameters. \\ \hline
+{\tt culaGetDeviceInfo} & Prints information to a buffer about a specified device. \\ \hline
+{\tt culaDeviceMalloc} & Allocates memory on the device. \\ \hline
+{\tt culaDeviceFree} & Frees memory that has been allocated with {\tt culaDeviceMalloc}. \\ \hline
+\end{tabular}
 
 
 
@@ -279,6 +313,9 @@ $\quad$ \newline
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{nonsymmetriceigenproblems} \newpage
 
 
+\newpage
+
+
 
 
 
@@ -320,7 +357,10 @@ into the command line to download all the materials.
 {\bf REFERENCES}
 \end{center} $\quad$ \newline \large
 
-CUDA Toolkit 4.2 CUBLAS Library. February 2012. http://developer.download.nvidia.com/compute/DevZone/docs/html/CUDALibraries/doc/CUBLAS\_Library.pdf
+``CULA Programmer's Guide". CULA Tools. http://www.hpc-sol.co.jp/products/cula/doc/CULA\_dense\_R15/CULAProgrammersGuide\_R15.pdf \newline
+
+``CULA Reference Manual". CULA Tools. http://www.hpc-sol.co.jp/products/cula/doc/CULA\_dense\_R15/CULAReferenceManual\_R15.pdf
+
 
 
 \end{flushleft}
