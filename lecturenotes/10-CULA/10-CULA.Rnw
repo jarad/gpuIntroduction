@@ -387,6 +387,40 @@ in-place matrix transpose + conjugate all elements & SgeTransposeConjugateInplac
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{nonsymmetriceigenproblems} \newpage
 
 
+
+
+
+
+
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: deviceInterface}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{di1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{di2} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{di3} \newpage
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{di4} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{di5}  \newpage
+
+Compile: {\tt make build64} \newline
+
+Execute: {\tt ./deviceInterface}. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \newpage
 
 \Huge
