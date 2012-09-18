@@ -196,13 +196,18 @@ Note:
 
 \newpage
 
-\Huge
+\huge
 \begin{center}
-{\bf EXAMPLE}
-\end{center} $\quad$ \newline
+{\bf EXAMPLE: SAY I WANT TO COMPILE inst.cu:}
+\end{center} 
+
+\setkeys{Gin}{width=.6\textwidth} \includegraphics[scale=0.25,angle=0]{inst_s} \newpage
 
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{compilecula} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{inst_r} \newpage
+
+
+
 
 
 \Huge
