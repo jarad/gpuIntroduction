@@ -128,7 +128,6 @@ $\quad$ \newline \newline \newline \newline \newline
 \item vector addition
 \item the pairwise (cascading) sum 
 \item matrix multiplication
-\item the QR factorization
 \end{enumerate}
 \end{enumerate}
 \newpage
@@ -206,7 +205,6 @@ I will showcase: \newline
 \item vector addition
 \item the pairwise (cascading) sum 
 \item matrix multiplication
-\item the QR factorization
 \end{enumerate}
 
 \newpage
@@ -436,7 +434,6 @@ Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot 
 \item vector addition
 \item the pairwise (cascading) sum 
 \item matrix multiplication
-\item the QR factorization
 \end{enumerate}
 \end{enumerate}
 
