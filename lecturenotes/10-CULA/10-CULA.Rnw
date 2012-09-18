@@ -1,0 +1,327 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+# this is equivalent to \SweaveOpts{...}
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=90)
+@
+
+
+\begin{flushleft}
+
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf THE CUBLAS LIBRARY}
+\end{center} $\quad$ \newline
+
+\LARGE
+
+\begin{center}
+Will Landau, Prof. Jarad Niemi
+\end{center}
+\newpage
+
+\Huge
+\begin{center}
+{\bf WHAT IS CULA}
+\end{center} $\quad$ \newline \Large
+
+CULA is another set of gpu-accelerated linear algebra libraries. Essentially, it's the CUDA equivalent of LAPACK. \newline
+
+Its routines include:
+
+\begin{itemize}
+\item Utilities for initializing matrices, copying them, scaling them, etc. 
+\item Matrix multiplication
+\item Factorizations: LU, QR, RQ, QL, SVD, and Cholesky
+\item Solving systems of linear equations (which gives you matrix inversion)
+\item Solving least squares problems
+\item Eigenproblem solvers
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf CULA INTERFACES}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{itemize}
+\item {\bf Standard}
+\begin{itemize}
+\item Each CULA function micromanages GPU resources so the user doesn't have to. 
+\item Matrix arguments of CULA functions are pointers to CPU memory.
+\item Activate by including the header, ``cula\_lapack.h". 
+\end{itemize}
+\item {\bf Device}:
+\begin{itemize}
+\item The user micromanages GPU resources as with CUBLAS. 
+\item Matrix arguments of CULA functions are pointers to GPU memory.
+\item Activate by including the header, ``cula\_lapack\_device.h"
+\end{itemize}
+\end{itemize} $\quad$ \newline
+
+
+{\color{red} Note: although convenient, the standard interface is often slow because every single function writes back and forth between the CPU and the GPU.}
+\newpage
+
+
+
+\Huge
+\begin{center}
+{\bf COMPILING WITH CULA}
+\end{center} $\quad$ \newline
+
+\begin{enumerate}[1. ]
+\item Include the header file in your source: ``cula\_lapack.h" for the standard interface, ``cula\_lapack\_device.h" for the device interface. \newline
+\item Enter in the command line:
+\begin{verbatim}
+nvcc -lcula_core -lcula_lapack 
+   your_source.cu -o your_binary
+\end{verbatim} 
+\end{enumerate} \newpage
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf WHAT'S IN CULA?}
+\end{center} \newpage
+
+\Huge
+\begin{center}
+{\bf FIRST: NAMING CONVENTIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{dtypes} \newpage
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes} \newpage
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes2} \newpage
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf AUXILIARY FUNCTIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{auxiliary} \newline
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf MATRIX MULTIPLICATIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{multiply} \newpage
+
+\Huge
+\begin{center}
+{\bf FACTORIZATIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{factor} \newpage
+
+\Huge
+\begin{center}
+{\bf ORTHOGONAL FACTORIZATIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{orthogonalfactorizations} \newpage
+
+
+\Huge
+\begin{center}
+{\bf SINGULAR VALUE DECOMPOSITIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{svd} \newpage
+
+\Huge
+\begin{center}
+{\bf LEAST SQUARES}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{leastsquaresproblems} \newpage
+
+
+\Huge
+\begin{center}
+{\bf SYMMETRIC EIGENPROBLEMS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{symmetriceigenproblemsolver} \newpage
+
+
+\Huge
+\begin{center}
+{\bf NON-SYMMETRIC EIGENPROBLEMS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{nonsymmetriceigenproblems} \newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf GPU SERIES MATERIALS}
+\end{center} $\quad$ \newline
+\huge
+These slides, a tentative syllabus for the whole series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the materials.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline \large
+
+CUDA Toolkit 4.2 CUBLAS Library. February 2012. http://developer.download.nvidia.com/compute/DevZone/docs/html/CUDALibraries/doc/CUBLAS\_Library.pdf
+
+
+\end{flushleft}
+\end{document}
