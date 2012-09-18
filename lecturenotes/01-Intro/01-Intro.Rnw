@@ -213,13 +213,11 @@ The whole point is to use new hardware (the GPU) in order to make long, repetiti
 {\bf HOW THE CPU AND GPU WORK TOGETHER }
 \end{center} 
 
-A GPU can't run a whole computer on its own because it can't do logic or control flow. \newline
+A GPU can't run a whole computer on its own because it doesn't have access to all the computer's hardware. \newline
 
 In a GPU-capable computer, the CPU is the main processor, and the GPU is an optional hardware add-on. \newline
 
-The CPU is the ``master" of the computer, and it can delegate its highest-throughput parallelizable arithmetic load to the GPU ``minion".  \newline
-
-Another analogy: the CPU uses the GPU in the same way that a human uses a hand-held calculator.
+The CPU uses the GPU like a human would use a hand-held calculator: the CPU does all the main thinking and the GPU does the most cumbersome bits and pieces of number-crunching.
 \newpage \huge
 
 
@@ -267,8 +265,8 @@ I will only focus on GPU parallelism, which does not completely generalize to ot
 \item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
 \item The GPU core multitasks to execute the command: \newline
 \begin{enumerate}[a. ]
-\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
-\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The GPU makes $B \cdot T$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $B \cdot T$ threads are partitioned into $B$ groups, called {\bf blocks}, of $T$ threads each. \newline
 \item The sum total of all the threads from a kernel call is a {\bf grid}. 
 \end{enumerate} 
 \end{enumerate}

@@ -131,23 +131,19 @@ $\quad$ \newline \newline \newline \newline \newline
 \item the QR factorization
 \end{enumerate}
 \end{enumerate}
-
 \newpage
 
 \Huge
 \begin{center}
 {\bf HOW THE CPU AND GPU WORK TOGETHER }
-\end{center}  \huge
+\end{center} 
 
-A GPU can't run a whole computer on its own because it doesn't have access to all the system hardware. \newline
+A GPU can't run a whole computer on its own because it doesn't have access to all the computer's hardware. \newline
 
 In a GPU-capable computer, the CPU is the main processor, and the GPU is an optional hardware add-on. \newline
 
-The CPU is the ``master" of the computer, and it can delegate its highest-throughput parallelizable arithmetic load to the GPU ``minion".  \newline
-
-Another analogy: the CPU uses the GPU in the same way that a human uses a hand-held calculator.
+The CPU uses the GPU like a human would use a hand-held calculator: the CPU does all the main thinking and the GPU does the most cumbersome bits and pieces of number-crunching.
 \newpage \huge
-
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/Lee4.png} 
 \newpage
