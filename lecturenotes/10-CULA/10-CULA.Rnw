@@ -389,9 +389,27 @@ in-place matrix transpose + conjugate all elements & SgeTransposeConjugateInplac
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf EXAMPLE: systemSolve}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sss1} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sss2} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sss3} \newpage
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{sss4} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sss5} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sss6} \newpage
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sss7} \newpage
 
 
 
+Compile and run as follows: \newline
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{ss1} \newline
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{ss2} \newline
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{ss3} 
 
 
 
