@@ -164,8 +164,9 @@ Its routines include:
 \item Activate by including the header, ``cula\_lapack\_device.h"
 \end{itemize}
 \end{itemize} $\quad$ \newline
-There's also a ``convenience header" called ``cula.h". \newline
+There's also a ``convenience header" called ``cula.h", which includes both ``cula\_lapack.h and ``cula\_lapack\_device.h". \newline
 
+\Huge
 {\color{red} Note: although convenient, the standard interface is often slow because every single function writes back and forth between the CPU and the GPU.}
 \newpage
 
@@ -177,11 +178,11 @@ There's also a ``convenience header" called ``cula.h". \newline
 \end{center} $\quad$ \newline \Large
 
 \begin{enumerate}[1. ]
-\item Include the header file in your source: ``cula\_lapack.h" for the standard interface, ``cula\_lapack\_device.h" for the device interface, or ``cula.h". \newline
+\item Include the header file in your source: ``cula\_lapack.h" for the standard interface, ``cula\_lapack\_device.h" for the device interface, or ``cula.h" for both. \newline
 \item Enter in the command line:
 \begin{verbatim}
-nvcc -I /usr/local/cula/include -L /usr/local/cula/lib64 -lcula_core -lcula_lapack -lcublas -lcudart 
-         your_source.cu -o your_binary
+nvcc -I /usr/local/cula/include -L /usr/local/cula/lib64 -lcula_core -lcula_lapack 
+         -lcublas -lcudart your_source.cu -o your_binary
 \end{verbatim}
 \end{enumerate} $\quad$ \newline
 
@@ -191,7 +192,74 @@ Note:
 \item {\tt  -I /usr/local/cula/include} tells the compiler, {\tt nvcc}, where to find the {\tt .h} files.
 \item {\tt -L /usr/local/cula/lib64} tells {\tt nvcc} to use the 64-bit version of the CULA library.
 \item {\tt -lcula\_core -lcula\_lapack -lcublas -lcudart} tells {\tt nvcc} to link the CULA library to your binary. 
-\end{itemize}
+\end{itemize} 
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf EXAMPLE}
+\end{center} $\quad$ \newline
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{compilecula} \newpage
+
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf FUNCTION NAME CONVENTIONS}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newpage
+
+
+\Huge
+\begin{center}
+{\bf CULAPACK PREFIX}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline \newline
+
+\begin{tabular}{|c|c|c|}
+\hline
+\bf Interface & \bf Culapack Prefix & \bf Example function  \\ \hline
+Standard & {\tt cula} & {\tt culaSgeqrf}  \\ \hline
+Device & {\tt culaDevice} & {\tt culaDeviceSgeqrf}  \\ \hline
+\end{tabular}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf DATA TYPE}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{dtypes} \newpage
+
+\Huge
+\begin{center}
+{\bf MATRIX TYPE}
+\end{center}
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes} \newpage
+
+
+\Huge
+\begin{center}
+{\bf COMPUTATIONAL ROUTINE}
+\end{center} 
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
+
+\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes2} \newpage
+
+\newpage
+
 
 \Huge
 \begin{center}
@@ -205,25 +273,7 @@ $\quad$ \newline
 {\bf WHAT'S IN CULA?}
 \end{center} \newpage
 
-\Huge
-\begin{center}
-{\bf FIRST: NAMING CONVENTIONS}
-\end{center} $\quad$ \newline
-
-\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
-
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{dtypes} \newpage
-
-\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
-
-\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes} \newpage
-
-\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{convention} \newline
-
-\setkeys{Gin}{width=.75\textwidth} \includegraphics[scale=0.25,angle=0]{mtypes2} \newpage
-
 \newpage
-
 
 \Huge
 \begin{center}
@@ -263,9 +313,24 @@ parameters. \\ \hline
 \Huge
 \begin{center}
 {\bf AUXILIARY FUNCTIONS}
-\end{center} $\quad$ \newline
+\end{center} $\quad$ \newline 
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{auxiliary} \newline
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{auxiliary} \newpage
+\Large
+
+\begin{tabular}{|p{10cm}|p{10cm}|}
+\hline
+Conjugate (general matrix) & CgeConjugate, ZgeConjugate  \\ \hline
+Conjugates either the upper or lower triangle of a matrix, with the option to include the diagonal or not & CtrConjugate, ZtrConjugate \\ \hline
+Check a matrix for invalid values & SgeNancheck, DgeNancheck, CgeNancheck, ZgeNancheck \\ \hline
+out-of-place matrix transpose: $A^T \mapsto B$ & SgeTranspose, DgeTranspose, CgeTranspose, ZgeTranspose \\ \hline
+in-place matrix transpose: $A^T \mapsto A$ & SgeTransposeInplace, DgeTransposeInplace, CgeTransposeInplace, ZgeTransposeInplace \\ \hline
+out-of-place matrix transpose + conjugate all elements & SgeTransposeConjugate, DgeTransposeConjugate, CgeTransposeConjugate, ZgeTransposeConjugate \\ \hline
+in-place matrix transpose + conjugate all elements & SgeTransposeConjugateInplace, DgeTransposeConjugateInplace, CgeTransposeConjugateInplace, ZgeTransposeConjugateInplace \\ \hline
+\end{tabular}
+
+
+
 
 \newpage
 
