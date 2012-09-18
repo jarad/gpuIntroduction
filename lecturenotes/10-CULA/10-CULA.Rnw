@@ -387,6 +387,57 @@ in-place matrix transpose + conjugate all elements & SgeTransposeConjugateInplac
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{nonsymmetriceigenproblems} \newpage
 
 
+\Huge
+\begin{center}
+{\bf EXAMPLE: INITIALIZATION AND SHUTDOWN}
+\end{center} $\quad$ \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{inst_s} \newpage
+
+Compile and run: \newline
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{inst_r} \newpage
+
+
+
+\huge
+\begin{center}
+{\bf EXAMPLE: CATCHING ARGUMENT ERRORS}
+\end{center} 
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{ae_s} \newpage
+
+Compile and run: \newline
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{ae_r} \newpage
+
+
+
+\huge
+\begin{center}
+{\bf EXAMPLE: CATCHING DATA ERRORS}
+\end{center} 
+
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{de_s} \newpage
+
+Compile and run: \newline
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{de_r} \newpage
+
+
+
+\huge
+\begin{center}
+{\bf EXAMPLE: CHECK THAT LIBRARIES ARE LINKED PROPERLY}
+\end{center} 
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{ll_s} \newpage
+
+Compile and run: \newline
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{ll_r} \newpage
+
+
 
 
 
