@@ -174,16 +174,24 @@ There's also a ``convenience header" called ``cula.h". \newline
 \Huge
 \begin{center}
 {\bf COMPILING WITH CULA}
-\end{center} $\quad$ \newline
+\end{center} $\quad$ \newline \Large
 
 \begin{enumerate}[1. ]
 \item Include the header file in your source: ``cula\_lapack.h" for the standard interface, ``cula\_lapack\_device.h" for the device interface, or ``cula.h". \newline
 \item Enter in the command line:
 \begin{verbatim}
-nvcc -lcula_core -lcula_lapack 
-   your_source.cu -o your_binary
-\end{verbatim} 
-\end{enumerate} \newpage
+nvcc -I /usr/local/cula/include -L /usr/local/cula/lib64 -lcula_core -lcula_lapack -lcublas -lcudart 
+         your_source.cu -o your_binary
+\end{verbatim}
+\end{enumerate} $\quad$ \newline
+
+Note:
+
+\begin{itemize}
+\item {\tt  -I /usr/local/cula/include} tells the compiler, {\tt nvcc}, where to find the {\tt .h} files.
+\item {\tt -L /usr/local/cula/lib64} tells {\tt nvcc} to use the 64-bit version of the CULA library.
+\item {\tt -lcula\_core -lcula\_lapack -lcublas -lcudart} tells {\tt nvcc} to link the CULA library to your binary. 
+\end{itemize}
 
 \Huge
 \begin{center}
@@ -242,7 +250,8 @@ $\quad$ \newline
 {\tt culaGetDeviceCount} & Reports the number of GPU devices Can be called before {\tt culaInitialize} \\ \hline
 {\tt culaSelectDevice} & Selects a device with which CULA will operate. Must go after {\tt culaInitialize} \\ \hline
 {\tt culaGetExecutingDevice} & Returns a pointer to the id of the GPU device executing CULA. \\ \hline
-{\tt culaGetOptimalPitch} & Calculates a pitch that is optimal for CULA when using the device interfaceparameters. \\ \hline
+{\tt culaGetOptimalPitch} & Calculates a pitch that is optimal for CULA when using the device interface
+parameters. \\ \hline
 {\tt culaGetDeviceInfo} & Prints information to a buffer about a specified device. \\ \hline
 {\tt culaDeviceMalloc} & Allocates memory on the device. \\ \hline
 {\tt culaDeviceFree} & Frees memory that has been allocated with {\tt culaDeviceMalloc}. \\ \hline
