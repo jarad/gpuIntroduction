@@ -1,6 +1,8 @@
 #include <stdio.h> 
 #include <stdlib.h> 
-#include <math.h> 
+#include <math.h>
+#include <cuda.h>
+#include <cuda_runtime.h> 
 
 /*
  * This program computes A * B and stores the result as C, where:
@@ -9,23 +11,25 @@
  *   C is an M x P matrix (ld = M)
  */
 
-#define M 6 
-#define N 8 
-#define P 5
+#define M 4 
+#define N 4 
+#define P 4
 #define M2A(i, j , ld) i * ld + j 
 
 void mfill(float* A, int nrow, int ncol){
-  for(i = 0; i < nrow; i++;){
+  int i, j;
+  for(i = 0; i < nrow; i++){
     for(j = 0; j < ncol; j++){
-      A[M2A(i, j, ncol)] = M2A(i, j, ncol);
+      A[M2A(i, j, ncol)] = (float) M2A(i, j, ncol);
     }
   } 
 }
 
 void mprint(float* A, int nrow, int ncol){
+  int i,j;
   for (i = 0; i < nrow; i++) {
     for (j = 0; j < ncol; j++) {
-      printf ("%7.3f", A[M2A(i, j, ncol)]);
+      printf ("%7.0f\t", A[M2A(i, j, ncol)]);
     }
     printf ( "\n" );
   }
@@ -37,9 +41,9 @@ __global__ void mmul(float* A, float* B, float* C){
   int k = threadIdx.x; // (k = 1, ..., N)
   __shared__ float c_ij[N];
   
-  c_ij[k] = A[M2A(i, k)] * B[M2A(k, j)];
+  c_ij[k] = A[M2A(i, k, N)] * B[M2A(k, j, P)];
   
-  __synchThreads();
+  __syncthreads();
   
   int t = blockDim.x / 2;
   while (t != 0) {
@@ -49,23 +53,23 @@ __global__ void mmul(float* A, float* B, float* C){
     t /= 2; 
   }
   
-  C[M2A(i, j)] = c_ij[0];
+  C[M2A(i, j, P)] = c_ij[0];
 }
 
 int main (void){ 
   
-  float* A_h, B_h, C_h; // matrices A, B, and C on the host (CPU)
-  float* A_d, B_d, C_d; // matrices A, B, and C on the device (GPU)
+  float *A_h, *B_h, *C_h; // matrices A, B, and C on the host (CPU) 
+  float *A_d, *B_d, *C_d; // matrices A, B, and C on the device (GPU)
   
   // dynamically allocate memory on the host for A, B, and C
-  A_h = (float*) malloc(M * N * sizeof(float); 
-  B_h = (float*) malloc(N * P * sizeof(float); 
-  C_h = (float*) malloc(M * P * sizeof(float); 
+  A_h = (float*) malloc(M * N * sizeof(*A_h)); 
+  B_h = (float*) malloc(N * P * sizeof(*B_h)); 
+  C_h = (float*) malloc(M * P * sizeof(*C_h)); 
   
   // dynamically allocate memory on the device for A, B, and C
-  cudaMalloc ((void**) &A_d, M * N *sizeof(float)); 
-  cudaMalloc ((void**) &B_d, N * P *sizeof(float));
-  cudaMalloc ((void**) &C_d, M * P *sizeof(float));
+  cudaMalloc ((float**) &A_d, M * N *sizeof(*A_h)); 
+  cudaMalloc ((float**) &B_d, N * P *sizeof(*B_h));
+  cudaMalloc ((float**) &C_d, M * P *sizeof(*C_h));
   
   // Fill A_h and B_h on the host
   mfill(A_h, M, N);
@@ -73,20 +77,20 @@ int main (void){
   
   // Print A_h and B_h to the console
   printf("A: \n");
-  mprint(A_h, N, P);
+  mprint(A_h, M, N);
   printf("B: \n");
   mprint(B_h, N, P);
   
   // Write the contents of A_h and B_h to the device matrices, A_d and B_d
-  cudaMemcpy( A_d, A_h, M * N * sizeof(float), cudaMemcpyHostToDevice );
-  cudaMemcpy( B_d, B_h, N * P * sizeof(float), cudaMemcpyHostToDevice );
+  cudaMemcpy( &A_d, A_h, M * N * sizeof(float), cudaMemcpyHostToDevice );
+  cudaMemcpy( &B_d, B_h, N * P * sizeof(float), cudaMemcpyHostToDevice );
   
   // Multiply matrices A_d and B_d on the device and store result as C_d on the device.
   dim3 grid(M, P);
   mmul<<< grid, N >>>(A_d, B_d, C_d);
   
   // Write the contents of C_d to the host matrix, C_h.
-  cudaMemcpy( &C_h, C_d, M * P * sizeof(float), cudaMemcpyDeviceToHost );
+  cudaMemcpy(C_h, C_d, M * P * sizeof(float), cudaMemcpyDeviceToHost );
   
   // print C_h to the console
   printf("C: \n");
@@ -98,7 +102,7 @@ int main (void){
   free(C_h);
 
   // Free dynamically-allocated device memory    
-  cudaFree(A_d);
-  cudaFree(B_d);
-  cudaFree(C_d);
+  cudaFree(&A_d);
+  cudaFree(&B_d);
+  cudaFree(&C_d);
 }
