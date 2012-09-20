@@ -11,9 +11,9 @@
  *   C is an M x P matrix (ld = M)
  */
 
-#define M 6 
-#define N 8 
-#define P 5
+#define M 4 
+#define N 4 
+#define P 4
 #define M2A(i, j , ld) i * ld + j 
 
 void mfill(float* A, int nrow, int ncol){
@@ -29,7 +29,7 @@ void mprint(float* A, int nrow, int ncol){
   int i,j;
   for (i = 0; i < nrow; i++) {
     for (j = 0; j < ncol; j++) {
-      printf ("%7.3f", A[M2A(i, j, ncol)]);
+      printf ("%7.0f\t", A[M2A(i, j, ncol)]);
     }
     printf ( "\n" );
   }
