@@ -256,18 +256,6 @@ c = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}  =  \begin{bmatrix
 
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psum2} \newline
 
-
-\newpage
-\huge
-\begin{center}
-{\bf \LARGE ASIDE: COMPARE TO THE SEQUENTIAL VERSION}
-\end{center} 
-
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/sequential} 
-
-The pairwise sum requires only $\log_2(n)$ sequential steps, whereas the sequential sum requires $n - 1$ steps.
-
-
 \newpage
 
 \Huge
@@ -293,16 +281,23 @@ Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 1)}$
 
 
 \newpage
+\huge
+\begin{center}
+{\bf \LARGE ASIDE: COMPARE TO THE SEQUENTIAL VERSION}
+\end{center} 
 
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/sequential} 
 
+The pairwise sum requires only $\log_2(n)$ sequential steps, whereas the sequential sum requires $n - 1$ steps.
 
+\newpage
 
 \Huge
 \begin{center}
 {\bf PARALLELIZING THE PAIRWISE SUM}
 \end{center} $\quad$ \newline
 
-Spawn one grid with a single block and $n = 2^m$ threads. Starting with $i = 1$, do the following: \newline
+Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with $i = 1$, do the following: \newline
 
 \begin{enumerate}[1. ]
 \item Assign thread $j$ to compute: 
@@ -427,6 +422,7 @@ Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot 
 \setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{picts/bl3} \newpage
 
 
+\newpage
 
 \Huge
 \begin{center}
