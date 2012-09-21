@@ -441,6 +441,14 @@ Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot 
 
 \newpage
 
+\Large
+\begin{center}
+{\bf PREVIEW OF COMING ATTRACTIONS: A BARE BONES CUDA C WORKFLOW}
+\end{center} 
+\setkeys{Gin}{width=.8\textwidth} \includegraphics[scale=0.25,angle=0]{picts/skeleton}
+
+\newpage
+
 \Huge
 \begin{center}
 {\bf MATERIALS}
@@ -461,10 +469,7 @@ After logging into you home directory on impact1, type: \newline
 
 into the command line to download all the materials.
 
-
-
 \newpage
-
 \Huge
 \begin{center}
 {\bf REFERENCES}
