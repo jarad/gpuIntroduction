@@ -1,3 +1,6 @@
 all:
-	nvcc vectorsums.cu -o vectorsums.o
+	nvcc vectorsums.cu -o vectorsums
+
+clean:
+	rm vectorsum
 
