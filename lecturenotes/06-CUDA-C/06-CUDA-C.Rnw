@@ -120,6 +120,30 @@ Will Landau, Prof. Jarad Niemi
 
 \Huge
 \begin{center}
+{\bf OUTLINE} 
+\end{center} $\quad$ \newline \Large
+\begin{itemize}
+\item Defining and calling kernels and other device functions
+\item CPU-GPU communication
+\item Built-in CUDA C variables
+\item Synchronizing threads
+\item Respecting the SIMD paradigm
+\end{itemize} $\quad$ \newline
+
+Featured examples: \newline
+\begin{itemize}
+\item {\tt skeleton.cu}
+\item {\tt simple.cu}
+\item {\tt vector\_sums.cu}
+\item {\tt pairwise\_sum.cu}
+\item {\tt sisd.cu}
+\end{itemize}
+
+
+\newpage
+
+\Huge
+\begin{center}
 {\bf BASIC C PROGRAM}
 \end{center} $\quad$ \newline
 
@@ -604,6 +628,30 @@ int main(){
 All the threads are trying to write to the same variable at the same time.  \newline
 
 Hence, the value of {\tt a} will correspond to the thread that finished last.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE} 
+\end{center} $\quad$ \newline \Large
+\begin{itemize}
+\item Defining and calling kernels and other device functions
+\item CPU-GPU communication
+\item Built-in CUDA C variables
+\item Synchronizing threads
+\item Respecting the SIMD paradigm
+\end{itemize} $\quad$ \newline
+
+Featured examples: \newline
+\begin{itemize}
+\item {\tt skeleton.cu}
+\item {\tt simple.cu}
+\item {\tt vector\_sums.cu}
+\item {\tt pairwise\_sum.cu}
+\item {\tt sisd.cu}
+\end{itemize}
+
 
 \newpage
 \Huge
