@@ -120,6 +120,32 @@ Will Landau, Prof. Jarad Niemi
 
 \Huge
 \begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item  Events
+\item Race conditions and atomics
+\item CUDA C built-in atomic functions
+\item Locks and mutex
+\item Warps
+\end{itemize} $\quad$ \newline
+
+Featured examples: \newline
+
+\begin{itemize}
+\item {\tt time.cu}
+\item {\tt race\_condition.cu}
+\item {\tt blockCounter.cu}
+\end{itemize} $\quad$ \newline
+
+
+
+\newpage
+
+
+\Huge
+\begin{center}
 {\bf EVENTS: MEASURING PERFORMANCE ON THE GPU}
 \end{center} $\quad$ \newline
 
@@ -129,15 +155,22 @@ Use events to measure the amount of time the GPU spends on a task. \newline
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf TEMPLATE: {\tt time.cu}}
+\end{center} 
 
-
-\LARGE
+\Large
 
 \begin{verbatim}
+#include <stdlib.h>
+#include <stdio.h>
+#include <cuda.h>
+#include <cuda_runtime.h>
+
 int main(){
   float   elapsedTime;
   cudaEvent_t start, stop;
-
   cudaEventCreate(&start);
   cudaEventCreate(&stop);
   cudaEventRecord( start, 0 );
@@ -147,10 +180,8 @@ int main(){
   cudaEventRecord( stop, 0 );
   cudaEventSynchronize( stop );
   cudaEventElapsedTime( &elapsedTime, start, stop );
-
   cudaEventDestroy( start );
-  cudaEventDestroy( stop ); 
-
+  cudaEventDestroy( stop );
   printf("GPU Time elapsed: %f\n", elapsedTime);
 }
 \end{verbatim}  \newpage
@@ -590,6 +621,28 @@ $\quad$ \newline
 {\bf BEWARE THE CATCH-22!}
 \end{center} $\quad$ \newline
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item  Events
+\item Race conditions and atomics
+\item CUDA C built-in atomic functions
+\item Locks and mutex
+\item Warps
+\end{itemize} $\quad$ \newline
+
+Featured examples: \newline
+
+\begin{itemize}
+\item {\tt time.cu}
+\item {\tt race\_condition.cu}
+\item {\tt blockCounter.cu}
+\end{itemize} $\quad$ \newline
 
 
 \newpage
