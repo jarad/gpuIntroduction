@@ -174,44 +174,18 @@ int main ( void ) {
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2d} \newpage
 
-\Huge
-\begin{center}
-{\bf REVIEW OF PARALLELISM}
-\end{center} $\quad$ \newline 
 
-{\bf Parallelism}: Running different calculations simultaneously.  \newline
-
-{\bf Kernel}: An instruction set executed on the GPU. (All others are executed on the CPU.)  \newline
-
-In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_\_}. For example: \newline
-
-\setkeys{Gin}{width=.85\textwidth} \includegraphics[scale=0.25,angle=0]{kernel1} 
-
-
-\newpage
 
 \Huge
 \begin{center}
-{\bf PARALLELISM AND THE SIMD PARADIGM}
-\end{center} $\quad$ \newline 
-
-{\bf SIMD}: Single Instruction Multiple Data. The paradigm works like this: \newline
-\begin{enumerate}[1. ]
-\item The CPU sends a kernel (a SINGLE INSTRUCTION set) to the GPU.
-\item The GPU executes the kernel MULTIPLE times simultaneously in {\bf PARALLEL}. Each such execution of the kernel is called a {\bf thread}, and each thread is executed on different parts of a giant data set.  
-\end{enumerate}
-\newpage
-
-\Huge
-\begin{center}
-{\bf PARALLELIZING A WORKLOAD ON A GPU}
+{\bf GPU PARALLELISM}
 \end{center}  \huge
 \begin{enumerate}[1. ]
 \item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
 \item The GPU core multitasks to execute the command: \newline
 \begin{enumerate}[a. ]
-\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
-\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
+\item The GPU makes $B \cdot T$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
+\item The $B \cdot T$ threads are partitioned into $B$ groups, called {\bf blocks}, of $T$ threads each. \newline
 \item The sum total of all the threads from a kernel call is a {\bf grid}. 
 \end{enumerate} 
 \end{enumerate}
@@ -221,21 +195,6 @@ In CUDA C, a kernel is any function prefixed with the keyword, {\tt \_\_global\_
 \setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{imng.jpg}
 
 \newpage
-
-\Huge
-\begin{center}
-{\bf ORGANIZATION OF THREADS}
-\end{center} $\quad$ \newline
-
-% JBN: Can't you have multiple grids with the same kernel call?
-
-{\bf Grid}; The collection of all the threads that are spawned when the CPU sends a kernel to the GPU. \newline
-
-{\bf Block}: A collection of threads within a grid that share memory quickly and easily.  
-
-\newpage
-
-\setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{imng.jpg} \newpage
 
 \Huge
 \begin{center}
@@ -316,33 +275,72 @@ int main ( void ) {
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf \LARGE BEYOND HELLO WORLD: {\tt skeleton.cu}}
+\end{center} $\quad$ \newline \normalsize
+\begin{verbatim}
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <cuda.h>
+#include <cuda_runtime.h> 
+
+__global__ void some_kernel(...){...}
+
+int main (void){ 
+  // Declare all variables.
+  ...
+  // Dynamically allocate host memory.
+  ...
+  // Dynamically allocate device memory.
+  ...
+  // Write to host memory.
+  ... 
+  // Copy host memory to device memory.
+  ...
+  // Execute kernel on the device.
+  some_kernel<<< num_blocks, num_theads_per_block >>>(...);
+  
+  // Write device memory back to host memory.
+  ...
+  // Free dynamically-allocated host memory
+  ...
+  // Free dynamically-allocated device memory    
+  ...
+}
+\end{verbatim} $\quad$ \newline
+
+\newpage
+
 \LARGE
 \begin{center}
-{\bf PASSING DATA TO AND FROM THE GPU: simple1.cu}
+{\bf PASSING DATA TO AND FROM THE GPU: simple.cu}
 \end{center}  \Large
 
 % JBN: perhaps decrease font size to get the code all on the same page
 \begin{verbatim}                                                                                                         
 #include <stdio.h>
 #include <stdlib.h>
+#include <cuda.h>
+#include <cuda_runtime.h> 
 
-__global__ void colonel(int *dev_a){
-  *dev_a = 1;
+__global__ void colonel(int *a_d){
+  *a_d = 2;
 }
 
 int main(){
 
-  // Declare variables and allocate memory on the GPU.
-  int a[1], *dev_a;
-  cudaMalloc((void**) &dev_a, sizeof(int));
+  int a = 0, *a_d;
+  
+  cudaMalloc((void**) &a_d, sizeof(int));
+  cudaMemcpy(a_d, &a, sizeof(int), cudaMemcpyHostToDevice);
 
-  // Execute kernel and copy the result to CPU memory.
-  colonel<<<1,1>>>(dev_a);
-  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
+  colonel<<<100,100>>>(a_d); 
+  
+  cudaMemcpy(&a, a_d, sizeof(int), cudaMemcpyDeviceToHost);
 
-  // Print result and free dynamically allocated memory.
-  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaFree(dev_a);
+  printf("a = %d\n", a);
+  cudaFree(a_d);
 
 }
 \end{verbatim} $\quad$ \newline
@@ -351,147 +349,263 @@ int main(){
 
 \newpage
 
-\LARGE
-\begin{center}
-{\bf PASSING DATA TO AND FROM THE GPU: simple2.cu}
-\end{center}  \Large
-
-% JBN: why can't *dev_a be changed after the line you mentioned in the code below?
-\begin{verbatim}
-#include <stdio.h>
-#include <stdlib.h>
-
-__global__ void colonel(int *dev_a){
-  *dev_a = *dev_a + 1;
-}
-
-int main(){
-  // Declare variables and allocate memory on the GPU.
-  int a[1], *dev_a;
-  cudaMalloc((void**) &dev_a, sizeof(int));
-
-  // Intitialize argument a, executed kernel, and store result back in a.
-  a[0] = 1; // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaMemcpy(dev_a, a, sizeof(int), cudaMemcpyHostToDevice);
-  colonel<<<1,1>>>(dev_a);
-  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
-
-  // Print result and free dynamically allocated memory.
-  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaFree(dev_a);
-}
-
-\end{verbatim} $\quad$ \newline
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{simple2} \newpage
-
 \Huge
 \begin{center}
-{\bf threadIdx.x AND blockIdx.x}
-\end{center} $\quad$ \newline \huge 
+{\bf BUILT-IN CUDA C VARIABLES}
+\end{center}  $\quad$ \newline
 
-Say the CPU sends a kernel to the GPU with $B$ blocks and $T$ threads per block. \newline
+\Large 
 
- The following CUDA C variables are available for use in the kernel: \newline
+\begin{itemize}
+\item {\bf maxThreadsPerBlock}: exactly that: 1024 on an impact1 core. \newline
+\end{itemize}
 
-{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
+Also, within a kernel call with $B$ blocks and $T$ threads per block, you can use: \newline
 
-{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
+\begin{itemize}
+\item{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
 
-{\color{red}NOTE: there are also variables like blockIdx.y and threadIdx.y, but those are only useful if you deliberately organize your blocks and threads in two-dimensional arrays (which can be done).} 
+\item{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
 
+\item{\bf gridDim.x}: $B$, the number of blocks in the grid. \newline
 
-
+\item {\bf blockDim.x}: $T$, the number of threads per block. \newline
+\end{itemize}
+\newpage
 
 
 \Huge
 \begin{center}
-{\bf USING blockIdx.x AND threadIdx.x: identify.cu}
-\end{center} $\quad$ \newline \LARGE
+{\bf VECTOR ADDITION: {\tt vectorsums.cu}}
+\end{center} $\quad$ \newline \large
 
 \begin{verbatim}
 #include <stdio.h>
 #include <stdlib.h>
+#include <cuda.h>
+#include <cuda_runtime.h> 
 
-__global__ void isExecuted(int *dev_a, int blockid, int threadid){
+#define N 10
 
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
+__global__ void add(int *a, int *b, int *c){
+  int bid = blockIdx.x;
+  if(bid < N)
+    c[bid] = a[bid] + b[bid];
+}
 
+int main(void) {
+  int i, a[N], b[N], c[N];
+  int *dev_a, *dev_b, *dev_c;
+
+  cudaMalloc((void**) &dev_a, N*sizeof(int));
+  cudaMalloc((void**) &dev_b, N*sizeof(int));
+  cudaMalloc((void**) &dev_c, N*sizeof(int));
+
+  for(i=0; i<N; i++){
+    a[i] = -i;
+    b[i] = i*i;
+  }
+
+  cudaMemcpy(dev_a, a, N*sizeof(int), cudaMemcpyHostToDevice);
+  cudaMemcpy(dev_b, b, N*sizeof(int), cudaMemcpyHostToDevice);
+
+  add<<<N,1>>>(dev_a, dev_b, dev_c);
+
+  cudaMemcpy(c, dev_c, N*sizeof(int), cudaMemcpyDeviceToHost);
+
+  printf("\na + b = c\n");
+  for(i = 0; i<N; i++){
+    printf("%5d + %5d = %5d\n", a[i], b[i], c[i]);
+  }
+
+  cudaFree(dev_a);
+  cudaFree(dev_b);
+  cudaFree(dev_c);
+}
+\end{verbatim} $\quad$ \newpage
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{vectorsums} 
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf SYNCHRONIZING THREADS}
+\end{center} $\quad$ \newline
+
+Within a kernel call, whenever you need to synchronize all the threads in the current block, call: \newline \newline
+
+\begin{verbatim}
+__syncthreads();
+\end{verbatim} $\quad$ \newline
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: A RETURN TO THE PAIRWISE SUM}
+\end{center} $\quad$ \newline
+
+Let's take the pairwise sum of the vector, (5, 2, -3, 1, 1, 8, 2, 6): \newpage
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{pv1} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{pv2} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{pv3} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{pv} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{pv5} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{6} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{7} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{8} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{9} \newpage
+
+\Huge
+\begin{center}
+{\bf PAIRWISE SUM: pairwise\_sum.cu}
+\end{center} $\quad$ \newline \large
+
+\begin{verbatim}
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <math.h>
+#include <cuda.h>
+#include <cuda_runtime.h> 
+
+/*
+ * This program computes the sum of the elements of 
+ * vector v using the pairwise (cascading) sum algorithm.
+ */
+
+#define N 8 // length of vector v. MUST BE A POWER OF 2.
+
+// Fill the vector v with n random floating point numbers.
+void vfill(float* v, int n){
+  int i;
+  for(i = 0; i < n; i++){
+    v[i] = (float) rand() / RAND_MAX;
+  }
+}
+
+// Print the vector v.
+void vprint(float* v, int n){
+  int i;
+  printf("v = \n");
+  for(i = 0; i < n; i++){
+    printf("%7.3f\n", v[i]);
+  }
+  printf("\n");
+}
+
+// Pairwise-sum the elements of vector v and store the result in v[0]. 
+__global__ void psum(float* v){ 
+  int t = threadIdx.x; // Thread index.
+  int n = blockDim.x; // Should be half the length of v.
+
+  while (n != 0) {
+    if(t < n)
+      v[t] += v[t + n];  
+    __syncthreads();    
+    n /= 2; 
+  }
+}
+
+int main (void){ 
+  if(N % 2){
+    printf("\nERROR: N is not a power of 2. Exiting.\n");
+    exit(1);
+  }
+
+  float *v_h, *v_d; // host and device copies of our vector, respectively
+  
+  // dynamically allocate memory on the host for v_h
+  v_h = (float*) malloc(N * sizeof(*v_h)); 
+  
+  // dynamically allocate memory on the device for v_d
+  cudaMalloc ((float**) &v_d, N *sizeof(*v_d)); 
+  
+  // Fill v_h with N random floating point numbers.
+  vfill(v_h, N);
+  
+  // Print v_h to the console
+  vprint(v_h, N);
+  
+  // Write the contents of v_h to v_d
+  cudaMemcpy( v_d, v_h, N * sizeof(float), cudaMemcpyHostToDevice );
+  
+  // Compute the pairwise sum of the elements of v_d and store the result in v_d[0].
+  psum<<< 1, N/2 >>>(v_d);
+  
+  // Write the pairwise sum, v_d[0], to v_h[0].
+  cudaMemcpy(v_h, v_d, sizeof(float), cudaMemcpyDeviceToHost );
+  
+  // Print the pairwise sum.
+  printf("Pairwise sum = %7.3f\n", v_h[0]);
+  
+  // Free dynamically-allocated host memory
+  free(v_h);
+
+  // Free dynamically-allocated device memory    
+  cudaFree(&v_d);
+}
+\end{verbatim} $\quad$ \newpage
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf THE SIMD PARADIGM}
+\end{center} $\quad$ \newline
+
+{\bf SIMD}: Single Instruction Multiple Data \newline
+
+Each thread uses the same code, but applies it to different data.  \newline
+
+Try to respect this paradigm in you code. If multiple threads access the same data, problems could arise.
+
+\newpage
+\Huge
+\begin{center}
+{\bf EXAMPLE: {\tt sisd.cu}}
+\end{center} \large
+
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+#include <cuda.h>
+#include <cuda_runtime.h> 
+
+__global__ void colonel(int *a_d){
+  *a_d = blockDim.x * blockIdx.x + threadIdx.x;
 }
 
 int main(){
 
-  // Declare variables and allocate memory on the GPU.
-  int init[1], a[1], *dev_a;
-  cudaMalloc((void**) &dev_a, sizeof(int));
+  int a = 0, *a_d;
+  
+  cudaMalloc((void**) &a_d, sizeof(int));
+  cudaMemcpy(a_d, &a, sizeof(int), cudaMemcpyHostToDevice);
 
-  // Initialize dev_a, execute kernel, and copy the result to CPU memory.
-  init[1] = 0;
-  cudaMemcpy(dev_a, init, sizeof(int), cudaMemcpyHostToDevice);
-  isExecuted<<<100,100>>>(dev_a, 2, 4); 
-        // NOTE: INDEXING OF THREADS AND BLOCKS STARTS FROM 0.
-  cudaMemcpy(a, dev_a, sizeof(int), cudaMemcpyDeviceToHost);
+  colonel<<<4,5>>>(a_d); 
+  
+  cudaMemcpy(&a, a_d, sizeof(int), cudaMemcpyDeviceToHost);
 
-  // Print result and free dynamically allocated memory.
-  printf("a[0] = %d\n", a[0]); // REMEMBER: INDEXING IN C STARTS FROM 0.
-  cudaFree(dev_a);
+  printf("a = %d\n", a);
+  cudaFree(a_d);
 
 }
 \end{verbatim} $\quad$ \newline
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{identify} \newpage
+{\color{red} If we run this program, what will be the output?} \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{sisd} \newline \newline
+
+\huge
+All the threads are trying to write to the same variable at the same time.  \newline
+
+Hence, the value of {\tt a} will correspond to the thread that finished last.
 
 \newpage
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{gallant}
-
-
-
-\newpage \huge
-
-You can verify that when the line, \newline
-
-\begin{verbatim}
-    isExecuted<<<1,1>>>(dev_a, 0, 0); 
-\end{verbatim} $\quad$ \newline
-is changed to: \newline
-
-\begin{verbatim}
-    isExecuted<<<1,1>>>(dev_a, 2, 4); 
-\end{verbatim} $\quad$ \newline
-the output of the program: \newline
-
-\begin{verbatim}
-    a[0] = 0
-\end{verbatim} $\quad$ \newline
-which makes sense because there was no block number 2 or thread number 4. \newpage
-
-
-\Huge
-\begin{center}
-{\bf ASIDE: AVOIDING PITFALLS IN PARALLELISM}
-\end{center} $\quad$ \newline \LARGE
-
-What problem would arise if I used the function, isExectued\_goofup(), instead of Executed(): \newline
-\color{red}
-\begin{verbatim}
-__global__ void isExecuted_goofup(int *dev_a, int blockid, 
-               int threadid){
-
-  if(blockIdx.x == blockid && threadIdx.x == threadid)
-    *dev_a = 1;
-  else
-    *dev_a = 0;
-
-}
-\end{verbatim} 
-\newpage
-\color{black}
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{goofus}
-
-\newpage
-
 \Huge
 \begin{center}
 {\bf LECTURE SERIES MATERIALS}

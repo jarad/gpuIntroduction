@@ -107,7 +107,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf MORE PROGRAMMING IN CUDA C: SHARED MEMORY AND THREAD COOPERATION}
+{\bf CUDA C: THE SIMD PARADIGM, SHARED MEMORY, AND THE DOT PRODUCT}
 \end{center} $\quad$ \newline
 
 \LARGE
@@ -120,258 +120,88 @@ Will Landau, Prof. Jarad Niemi
 
 \Huge
 \begin{center}
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-{\bf REVIEW}
-\end{center}  \newpage
-
-\newpage
-
-
-\Huge
-\begin{center}
-{\bf BASIC C PROGRAM}
+{\bf THE SIMD PARADIGM}
 \end{center} $\quad$ \newline
 
-% JBN: in the future I would suggest using a verbatim environment for code
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+{\bf SIMD}: Single Instruction Multiple Data \newline
 
-\Huge
-\begin{center}
-{\bf BASIC CUDA C PROGRAM}
-\end{center} $\quad$ \newline
+Each thread uses the same code, but applies it to different data.  \newline
 
-% JBN: the __global__ prefix doesn't say to me "do this on the GPU" but rather "only run this function on the GPU"
-%      the kernel<<<1,1>>> says "do this on the GPU"
-\setkeys{Gin}{width=0.9\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
-
-\Large
-\begin{verbatim} __global__: Call from CPU and run only on GPU.
-
-__device__: Call from GPU and run only on GPU.
-                               (More specifically, call only from within 
-                                a __global__ or another __device__ function.)
-
-__host__: Call from CPU and run only on CPU.
-                                (i.e., a traditional C function.)
- \end{verbatim}
-
-
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{fkeywords} \newpage
-
-\LARGE
-
-\begin{verbatim}
-__device__ int dev1( void ){
-}
-
-__device__ int dev2( void ){
-}
-
-__global__ void kernel ( void ) {
-  dev1();
-  dev2();
-}
-
-int main ( void ) {
-  kernel<<<1, 1>>>();
-  printf( "Hello, World!\n" );
-  return 0;
-}
-\end{verbatim}
+Try to respect this paradigm in you code. If multiple threads access the same data, problems could arise.
 
 
 
 \newpage
-
-
 \Huge
 \begin{center}
-{\bf PARALLELIZING A WORKLOAD ON A GPU}
-\end{center}  \huge
-\begin{enumerate}[1. ]
-\item The CPU sends a CPU-to-GPU command called a {\bf kernel} to a single GPU core.\newline
-\item The GPU core multitasks to execute the command: \newline
-\begin{enumerate}[a. ]
-\item The GPU makes $N \cdot M$ {\color{blue} copies} of the kernel's code, and then runs all those copies simultaneously. Those parallel copies are called {\bf threads}.  \newline
-\item The $N \cdot M$ threads are partitioned into $N$ groups, called {\bf blocks}, of $M$ threads each. \newline
-\item The sum total of all the threads from a kernel call is a {\bf grid}. 
-\end{enumerate} 
-\end{enumerate}
-
-
-\newpage
-
-\setkeys{Gin}{width=.65\textwidth} \includegraphics[scale=0.25,angle=0]{imng.jpg} \newpage
-
-
-\Huge
-\begin{center}
-{\bf USEFUL VARIABLES WITHIN A KERNEL CALL OF B BLOCKS AND T THREADS PER BLOCK}
-\end{center}  $\quad$ \newline
-
-\Large
-
-{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
-
-{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
-
-{\bf gridDim.x}: $B$, the number of blocks in the grid. \newline
-
-{\bf blockDim.x}: $T$, the number of threads per block. \newline
-
-{\bf maxThreadsPerBlock}: exactly that: 1024 on an impact1 core. \newline
-
-{\color{red} Note: the maximum number of blocks per grid is 65535 on an impact1 core.}
-
-
-
-
-\Huge
-\begin{center}
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-{\bf END OF REVIEW}
-\end{center} \newpage
-
-
-
-
-
-
-
-
-\Huge
-\begin{center}
-{\bf EXAMPLE: VECTOR SUMMATION (Sanders, et. al.)}
+{\bf EXAMPLE}
 \end{center} 
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum1p5} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum2} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum3} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum4} \newpage
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vsumex} \newline
-
-\LARGE
-You can download the code, along with other simple CUDA C examples, at https://github.com/jarad/gpuIntroduction/tree/master/CUDA\_C\_sandbox. \newpage
-
-
-\Huge
-\begin{center}
-{\bf VECTOR SUMMATION: MULTIPLE THREADS PER BLOCK}
-\end{center} $\quad$ \newline
-
-
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{vecsum5} \newline
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf USEFUL VARIABLES IN A CALL TO \begin{verbatim}add<<<B, T>>>(dev_a, dev_b, dev_c)\end{verbatim}}
-\end{center}  $\quad$ \newline
-
-\Large
-
-{\bf blockIdx.x}: the block ID corresponding to the current thread, an integer from 0 to $B - 1$ inclusive. \newline
-
-{\bf threadIdx.x}: the thread ID of the current thread within its block, an integer from 0 to $T - 1$ inclusive. \newline
-
-{\bf gridDim.x}: $B$, the number of blocks in the grid. \newline
-
-{\bf blockDim.x}: $T$, the number of threads per block. \newline
-
-{\bf maxThreadsPerBlock}: exactly that: 1024 on an impact1 core. \newline
-
-Note: the maximum number of blocks per grid is : 65535 on an impact1 core.
-
-
-
-
-
-\newpage
-
-
-\huge
-\begin{center}
-{\bf THREAD COOPERATION: SHARED MEMORY AND SYNCHRONIZATION}
-\end{center} $\quad$ \newline
-
-\setkeys{Gin}{width=0.75\textwidth} \includegraphics[scale=0.25,angle=0]{mem} \newpage
-
 
  \LARGE
 Let's say we have a kernel: \newline
 
 \begin{verbatim}
-    __global__ void kernel( void ){
-      int x;
-      x = threadIdx.x + blockIdx.x * blockDim.x;
+    __global__ void kernel(void){
+      int x = blockIdx.x;
     }
 \end{verbatim} $\quad$ \newline
-\setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{share} 
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{share} \newline
 
-{\color{red} \huge Remember: we don't know which thread finishes last!}
+What will be the final value of x?
 
 \newpage
 
 \huge
 
-All the threads will share the same copy of x in {\color{blue} GLOBAL MEMORY}: \newline
+All the threads in the grid share the same copy of {\tt a} in {\color{blue} GLOBAL MEMORY}.
+\newline
 
-If we call:
+Hence, the final value of {\tt x} is the block ID of the thread that finishes last.
 
-\begin{verbatim}
-    kernel<<3, 2>>();
-\end{verbatim}
 
-Then we would get: \newline
 
-\begin{tabular}{|c|c|c|c|}
-\hline
- &  Block 0 & Block 1 & Block 2 \\ \hline
-Thread 0 & x = 3 & x = 3 & x = 3 \\ \hline
-Thread 1 & x = 3 & x = 3 & x = 3 \\ \hline
-\end{tabular} $\quad$ \newline \newline
-
-If thread 1 block 1 finished last.
 
 
 \newpage
+\Huge
+\begin{center}
+{\bf GLOBAL VS SHARED MEMORY}
+\end{center} 
+\setkeys{Gin}{width=0.7\textwidth} \includegraphics[scale=0.25,angle=0]{mem} \newline
+\huge
+
+Why not give each block its own private copy of {\tt x} in shared memory? 
+\newpage
 \Large
-If, on the other hand, we define: \newline
-
-\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{k2} \newline
-
-then each BLOCK will have its own copy of x in {\color{blue} SHARED MEMORY}, shared by all the threads in the block.  \newline
-
-If we call:
+If we define: \newline
 
 \begin{verbatim}
-    kernel<<3, 2>>();
-\end{verbatim}
+    __global__ void kernel(void){
+      __shared__ int x = blockIdx.x;
+    }
+\end{verbatim} $\quad$ \newline
 
-Then we would get: \newline
+then each BLOCK will have its own copy of x in {\color{blue} SHARED MEMORY}, shared by all the threads in the block.  \newline \newline
 
-\begin{tabular}{|c|c|c|c|}
+If we call: \newline
+
+\begin{verbatim}
+    kernel<<6, 1>>();
+\end{verbatim} $\quad$ \newline
+
+Then the final values of $x$ will ALWAYS be: \newline
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
- &  Block 0 & Block 1 & Block 2 \\ \hline
-Thread 0 & x = 0 & x = 3 & x = 4 \\ \hline
-Thread 1 & x = 0 & x = 3 & x = 4 \\ \hline
+ &  Block 0 & Block 1 & Block 2 & Block 3 & Block 4 & Block 5 \\ \hline
+Thread 0 & x = 0 & x = 1 & x = 2 & x = 3 & x = 4 & x = 5 \\ \hline
 \end{tabular} $\quad$ \newline \newline
-
-If thread 0 finished last in block 0, thread 1 finished last in block 1, and thread 0 finished last in block 2.
 
 \newpage
 
 \huge
 \begin{center}
-{\bf NOW, WE'RE READY FOR AN EXAMPLE OF THREAD COOPERATION: THE DOT PRODUCT}
+{\bf NOW, WE'RE READY FOR THE DOT PRODUCT}
 \end{center} $\quad$ \newline
 
 \begin{align*}
