@@ -20,18 +20,22 @@ void mfill(float* A, int nrow, int ncol){
   int i, j;
   for(i = 0; i < nrow; i++){
     for(j = 0; j < ncol; j++){
-      A[M2A(i, j, ncol)] = (float) M2A(i, j, ncol);
+      A[M2A(i, j, ncol)] =  (float) rand() / RAND_MAX;
     }
   } 
 }
 
 void mprint(float* A, int nrow, int ncol){
   int i,j;
-  for (i = 0; i < nrow; i++) {
-    for (j = 0; j < ncol; j++) {
-      printf ("%7.0f\t", A[M2A(i, j, ncol)]);
+  printf("matrix(c(");
+  for (j = 0; j < ncol; j++) {
+    for (i = 0; i < nrow; i++) {
+      if(i == nrow - 1 && j == ncol - 1)
+        printf ("%7.3f), ncol = %d)", A[M2A(i, j, ncol)], ncol);
+      else  
+        printf ("%7.3f,", A[M2A(i, j, ncol)]);
     }
-    printf ( "\n" );
+    printf("\n");
   }
 }
 
@@ -76,14 +80,14 @@ int main (void){
   mfill(B_h, N, P);
   
   // Print A_h and B_h to the console
-  printf("A: \n");
+  printf("A = \n");
   mprint(A_h, M, N);
-  printf("B: \n");
+  printf("B = \n");
   mprint(B_h, N, P);
   
   // Write the contents of A_h and B_h to the device matrices, A_d and B_d
-  cudaMemcpy( &A_d, A_h, M * N * sizeof(float), cudaMemcpyHostToDevice );
-  cudaMemcpy( &B_d, B_h, N * P * sizeof(float), cudaMemcpyHostToDevice );
+  cudaMemcpy( A_d, A_h, M * N * sizeof(float), cudaMemcpyHostToDevice );
+  cudaMemcpy( B_d, B_h, N * P * sizeof(float), cudaMemcpyHostToDevice );
   
   // Multiply matrices A_d and B_d on the device and store result as C_d on the device.
   dim3 grid(M, P);
@@ -93,7 +97,7 @@ int main (void){
   cudaMemcpy(C_h, C_d, M * P * sizeof(float), cudaMemcpyDeviceToHost );
   
   // print C_h to the console
-  printf("C: \n");
+  printf("C = \n");
   mprint(C_h, M, P);
   
   // Free dynamically-allocated host memory
