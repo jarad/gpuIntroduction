@@ -1,0 +1,1423 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+# this is equivalent to \SweaveOpts{...}
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=50)
+@
+
+
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad \newline$ \newline \newline \newline \newline
+{\bf INTRODUCTION TO PYTHON (VERSION 2) FOR STATISTICIANS}
+\end{center} $\quad$ \newline
+
+\begin{center}
+\LARGE Will Landau, Prof. Jarad Niemi
+\end{center}
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{itemize}
+\item Basic elements
+\begin{itemize}
+\item Random preliminaries
+\item User-defined functions
+\item Code formatting: Indentation and line continuation
+\item Logic and control flow
+\item Data types: strings, lists, tuples, and dictionaries
+\item Iteration, looping, and generators
+\item Functional programming: list comprehensions, lambda functions, {\tt filter()}, {\tt map()}, and {\tt reduce()}
+\item File I/O
+\item Modules
+\end{itemize}
+\item The NumPy Module
+\item Other useful modules
+\end{itemize}
+
+\newpage
+\Huge
+\begin{center}
+{\bf RANDOM PRELIMINARIES}
+\end{center} 
+ \Large
+
+Like R, Python is an interpreted language. You can open the interpreter by typing {\tt python} into the command line: \newline
+
+\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{p1} \newline
+
+You can create variables and do arithmetic operations essentially like in R: \LARGE
+
+<<engine = "python", eval = F>>=
+>>> a = 1
+>>> b = 2
+>>> c = "goober"
+>>> c
+'goober'
+>>> a+b
+3
+>>> 
+@ \newpage
+
+You can also write a script and save it to a {\tt .py} file, such as hello\_world.py:
+
+<<engine = "python", eval = F>>=
+s = "Hello World"
+print(s)
+@
+
+And then run it in the command line like this: \newline
+
+\setkeys{Gin}{width=.7\textwidth} \includegraphics[scale=0.25,angle=0]{hw} \newline
+
+Denote single-line comments with the hash sign:
+
+<<eval = F>>=
+>>> # print("Hello world!")
+... 
+>>> 
+@
+
+Triple-quoted strings serve as multi-line comments:
+
+<<eval = F>>=
+# a.py
+"""
+This program
+does nothing. 
+"""
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+~/Desktop> 
+@
+
+
+You can format strings and print them to the console like this: \Large
+
+<<engine = "python">>=
+>>> s = "Today's date is {month}/{day}/{year}".format(month = 10, day = 22, \
+...       year = 2012)
+>>>       
+... print(s)
+Today's date is 10/22/2012
+>>> 
+@
+
+Every string has built-in methods such as {\tt format}, which can be accessed with the {\tt .} operator.  \newline
+
+You an also format your output like: \newline
+
+<<engine = "python", eval = F>>=
+>>> a = 3
+>>> b = 4.8878
+>>> s = format("sample %d: mass= %0.3fg" % (a, b))
+>>> print(s)
+sample 3: mass= 4.888g
+>>> 
+@
+
+or: \newline
+
+<<engine = "python", eval = F>>=
+>>> print("sample %d: mass= %0.3fg" % (a, b))
+sample 3: mass= 4.888g
+>>> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf USER-DEFINED FUNCTIONS}
+\end{center}  \Large
+
+I can define my own function like this:
+
+<<eval = F>>=
+>>> def f1(a):
+...   if a == 0:
+...     print("hi")
+...     return(0)
+...   elif a < 0:
+...     print("stop")
+...     return(1)
+...   else:
+...     return(5)
+... 
+>>> f1(0)
+hi
+0
+>>> f1(1)
+5
+>>> f1(-1)
+stop
+1
+>>> 
+@
+
+\Huge
+\begin{center}
+{\bf INDENTATION}
+\end{center}  \Large
+
+
+In python, indention is used to denote nested blocks of code (like \{ and \} in C). Thus, indentation has to be consistent.  \newline
+
+If I have a script like this:
+
+<<eval = F>>=
+# a.py
+def f1(a):
+  if a == 0:
+    print("hi")
+    return(0)
+  elif a < 0:
+    print("stop")
+    return(1)
+  else:
+  return(5)
+@
+
+I get the following error if I try to run it:
+
+<<eval = F>>=
+~/Desktop> python a.py
+  File "a.py", line 10
+    return(5)
+         ^
+IndentationError: expected an indented block
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LINE CONTINUATION}
+\end{center} \Large
+
+With the exception of multi-line quotes, you have to use the line continuation character, '\', when you want to wrap text in your code:
+
+<<eval = F>>=
+>>> 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
+29
+>>> 1+1+1+1+1+1+1+
+  File "<stdin>", line 1
+    1+1+1+1+1+1+1+
+                 ^
+SyntaxError: invalid syntax
+>>>
+>>> 1+1+1+1+1+1+1+ \
+... 1+1+1+1+1+1+1+1
+15
+>>> 
+@
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LOGIC AND CONTROL FLOW}
+\end{center} \Large
+
+<<eval = F>>=
+>>> 1 and 2
+2
+>>> 1 == 1
+True
+>>> 1 == 0
+False
+>>> 1 == 1 and 2 == 0
+False
+>>> 1 > 1 or 2 <= 5
+True
+>>> not True
+False
+>>> True and not False
+True
+>>> if True:
+...   print("yes")
+... else:
+...   print("no")
+... 
+yes
+>>> 
+>>> a = 1
+>>> if a == 2:
+...   print("two")
+... elif a < -1000:
+...   print("a is small")
+... elif a > 100 and not a % 2:
+...   print("a is big and even")
+... else:
+...   print("a is none of the above.")
+... 
+a is none of the above.
+>>> 
+@
+
+\newpage
+
+
+
+\Huge
+\begin{center}
+{\bf STRINGS}
+\end{center} $\quad$ \newline
+\Large
+You can use single, double, or triple quotes to denote string literals: \newline
+
+<<eval = F>>=
+>>> a = "Hello World"
+>>> b = 'Python is groovy'
+>>> c = """Computer says 'No'"""
+>>> 
+@
+
+Triple quotes can extend over multiple lines, but single and double quotes cannot.
+
+<<eval= F>>=
+>>> c = """Computer says 'no'
+... because another computer
+... says yes"""
+>>> a = "hello
+  File "<stdin>", line 1
+    a = "hello
+             ^
+SyntaxError: EOL while scanning string literal
+>>> 
+@\newpage
+
+
+Strings are stored as sequences of characters.
+
+<<eval=F>>=
+>>> a = "Hello World"
+>>> a[0]
+'H'
+>>> a[:5]
+'Hello'
+>>> a[6:]
+'World'
+>>> a[3:8]
+'lo Wo'
+>>> 
+@
+
+You can convert numeric types into strings and vice versa:
+
+<<eval=F>>=
+>>> z = "90"
+>>> z
+'90'
+>>> int(z)
+90
+>>> float(z)
+90.0
+>>> str(90.25)
+'90.25'
+>>> 
+@
+
+And you can concatenate strings
+
+<<eval = F>>=
+>>> "123" + "abc"
+'123abc'
+>>> "123" + str(123.45)
+'123123.45'
+>>> a = 1
+>>> b = "2"
+>>> str(a) + b
+'12'
+>>> 
+@
+
+There are several useful methods for strings. To demonstrate just a few:
+
+<<eval = F>>=
+>>> s = "Hello world!"
+>>> len(s)
+12
+>>>
+>>> s = "5, 4, 2, 9, 8, 7, 28"
+>>> s.count(",")
+6
+>>> s.find("9, ")
+9
+>>> s[9:12]
+'9, '
+>>> "abc123".isalpha()
+False
+>>> "abc123".isalnum()
+True
+>>> s.split(",")
+['5', ' 4', ' 2', ' 9', ' 8', ' 7', ' 28']
+>>> ", ".join(["ready", "set", "go"])
+'ready, set, go'
+>>> "ready\n set\n go".splitlines()
+['ready', ' set', ' go']
+>>> "ready set go".splitlines()
+['ready set go']
+>>> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LISTS}
+\end{center} 
+
+\Large
+In python, a list is an ordered sequence of objects, each of which can have any type:
+
+<<eval = F>>=
+>>> s = [1, 2, "Five!", ["Three, sir!", "Three!"]]
+>>> len(s)
+4
+>>> 
+>>> s[0:1]
+[1]
+>>> s[2]
+'Five!'
+>>> s[2][1]
+'i'
+>>> s[3]
+['Three, sir!', 'Three!']
+>>> s[3][0]
+'Three, sir!'
+>>> s[3][1]
+'Three!'
+>>> s[3][1][1]
+'h'
+>>> s.append("new element")
+>>> s
+[1, 2, 'Five!', ['Three, sir!', 'Three!'], 'new element']
+@
+\newpage
+
+I can append and remove list elements:
+
+<<eval = F>>=
+>>> l = ["a", "b", "c"]
+>>> l.append("d")
+>>> l.append("c")
+>>> l
+['a', 'b', 'c', 'd', 'c']
+>>> l.remove("a")
+>>> l
+['b', 'c', 'd', 'c']
+>>> l.remove("c")
+>>> l
+['b', 'd', 'c']
+>>> l.remove("c")
+>>> l
+['b', 'd']
+>>> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf TUPLES}
+\end{center} $\quad$ \newline \Large
+
+<<eval = F>>=
+>>> a = ()
+>>> b = (3,)
+>>> c = (3,4,"thousand")
+>>> len(c)
+3
+>>>
+>>> number1, number2, word = c
+>>> number1
+3
+>>> number2
+4
+>>> word
+'thousand'
+>>> values = ["Joe", "approved", 23425]
+>>> z = zip(keys, values)
+>>> z
+[('name', 'Joe'), ('status', 'approved'), ('ID', 23425)]
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf DICTIONARIES}
+\end{center} $\quad$ \newline \Large
+
+<<eval = F>>=
+>>> stock = {
+... "name" : "GOOG",
+... "shares" : 100,
+... "price" : 490.10 }
+>>> stock
+{'price': 490.1, 'name': 'GOOG', 'shares': 100}
+>>> stock["name"]
+'GOOG'
+>>> stock["date"] = "today"
+>>> stock
+{'date': 'today', 'price': 490.1, 'name': 'GOOG', 'shares': 100}
+>>> keys = ["name", "status", "ID"]
+>>> values = ["Joe", "approved", 23425]
+>>> zip(keys, values)
+[('name', 'Joe'), ('status', 'approved'), ('ID', 23425)]
+>>> d = dict(zip(keys, values))
+>>> d
+{'status': 'approved', 'name': 'Joe', 'ID': 23425}
+>>> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf ITERATION AND LOOPING}
+\end{center} $\quad$ \newline \Large
+
+There are many ways to iterate:
+
+<<eval = F>>=
+# a.py
+a = "Hello World"# Print out the individual characters in a 
+for c in a:  print c
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+H
+e
+l
+l
+o
+ 
+W
+o
+r
+l
+d
+~/Desktop> 
+@
+
+<<eval = F>>=
+# a.py
+b = ["Dave","Mark","Ann","Phil"] 
+# Print out the members of a list 
+for name in b:  print name
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+Dave
+Mark
+Ann
+Phil
+~/Desktop> 
+@
+
+<<eval = F>>=
+# a.py
+c = { 'GOOG' : 490.10, 'IBM' : 91.50, 'AAPL' : 123.15 } 
+# Print out all of the members of a dictionaryfor key in c:  print key, c[key]
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+GOOG 490.1
+AAPL 123.15
+IBM 91.5
+~/Desktop> 
+@
+
+<<eval = F>>=
+# a.py
+for n in [0, 1,2,3,4,5,6,7,8,9]:  print("2 to the %d power is %d" % (n, 2**n))
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+2 to the 0 power is 1
+2 to the 1 power is 2
+2 to the 2 power is 4
+2 to the 3 power is 8
+2 to the 4 power is 16
+2 to the 5 power is 32
+2 to the 6 power is 64
+2 to the 7 power is 128
+2 to the 8 power is 256
+2 to the 9 power is 512
+@
+
+<<eval = F>>=
+# a.py
+for n in range(9):
+  print("2 to the %d power is %d" % (n, 2**n))
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+2 to the 0 power is 1
+2 to the 1 power is 2
+2 to the 2 power is 4
+2 to the 3 power is 8
+2 to the 4 power is 16
+2 to the 5 power is 32
+2 to the 6 power is 64
+2 to the 7 power is 128
+2 to the 8 power is 256
+2 to the 9 power is 512
+@
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf {\tt range()} and {\tt xrange()}}
+\end{center} $\quad$ \newline \Large
+
+
+<<eval = F>>=
+>>> range(5)
+[0, 1, 2, 3, 4]
+>>> range(1,8)
+[1, 2, 3, 4, 5, 6, 7]
+>>> range(0, 14, 3)
+[0, 3, 6, 9, 12]
+>>> range(8, 1, -1)
+[8, 7, 6, 5, 4, 3, 2]
+>>> 
+@
+
+For lengthy iterations, don't use {\tt range()} because it fully populates a list and takes up a lot of memory. Instead, use {\tt xrange()}, which gives you your iteration indices on a need-to-know basis:
+
+<<eval = F>>=
+# a.py
+x = 0
+for n in xrange(999999999):
+  x = x + 1
+print(x)
+@
+
+<<eval = F>>=
+~/Desktop> python a.py
+99999
+~/Desktop> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf GENERATORS}
+\end{center} $\quad$ \newline \Large
+
+{\tt range} is a special case of a larger class of functions called generators:
+
+<<eval = F>>=
+>>> def countdown(n):
+...   print "Counting down!" 
+...   while n > 0:
+...     yield n # Generate a value (n) 
+...     n -= 1
+... 
+>>> c = countdown(5)
+>>> c.next()
+Counting down!
+5
+>>> c.next()
+4
+>>> c.next()
+3
+>>> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf LIST COMPREHENSIONS}
+\end{center}  \Large
+
+<<eval = F>>=
+>>> nums = [1, 2, 3, 4, 5]
+>>> squares = [n * n for n in nums]
+>>> squares
+[1, 4, 9, 16, 25]
+>>> a = [-3,5,2,-10,7,8]
+>>> b = 'abc'
+>>> [2*s for s in a]
+[-6, 10, 4, -20, 14, 16]
+>>> [s for s in a if s >= 0]
+[5, 2, 7, 8]
+>>> [(x,y) for x in a
+... for y in b if x > 0 ]
+[(5, 'a'), (5, 'b'), (5, 'c'), (2, 'a'), (2, 'b'), (2, 'c'), (7, 'a'), 
+(7, 'b'), (7, 'c'), (8, 'a'), (8, 'b'), (8, 'c')]
+>>> [(1,2), (3,4), (5,6)]
+[(1, 2), (3, 4), (5, 6)]
+>>> import math
+>>> [math.sqrt(x*x+y*y)
+... for x,y in f]
+[2.23606797749979, 5.0, 7.810249675906654]
+@ $\quad$ \newline \newline
+
+General syntax:
+
+\begin{verbatim}
+[expression for item1 in iterable1 if condition1 
+                      for item2 in iterable2 if condition2                      ...                      for itemN in iterableN if conditionN ]
+\end{verbatim} $\quad$ \newline
+
+\newpage
+
+\huge
+\begin{center}
+{\bf Lambda functions, {\tt filter()}, {\tt map()}, and {\tt reduce()}}
+\end{center} \Large
+
+\begin{itemize}
+\item {\bf Lambda function}: a compact way of writing a function. You can think of a lambda function as a``function literal".
+\item {\tt filter(fun, list)}: returns a list of all the elements e in list for which fun(e) is true.
+\item {\tt map(fun, list)}: applies fun to each element of list and returns the result in a new list
+\item {\tt reduce(fun, list)}: equivalent to the following (length of list is n):
+<<eval = F>>=
+value = fun(list[0], list[1])
+value = fun(value, list[2])
+value = fun(value, list[3])
+...
+value = fun(value, list[n])
+@
+\end{itemize}
+
+Examples:
+<<eval = F>>=
+>>> f = lambda x: x > 3 and x % 2 != 0
+>>> f(4)
+False
+>>> f(5)
+True
+>>> f(6)
+False
+>>> 
+>>> filter(lambda x: x > 3, [0, 1, 2, 3, 4, 5])
+[4, 5]
+>>>
+>>>
+>>> l = range(3)
+>>> map(str, l)
+['0', '1', '2']
+>>>
+>>> map(lambda x: x*x, l)
+[0, 1, 4]
+>>>
+>>> reduce(lambda x, y: x+y, range(1, 11)) # sum the numbers 1 through 10
+55
+>>>
+@
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf FILE I/O}
+\end{center}  \Large
+
+If I run:
+<<eval = F>>=
+# a.py
+import random
+
+f = open("data.txt", "w")
+f.write("x y\n")
+for i in xrange(10):
+  f.write("%0.3f %0.3f\n" % (random.random(), random.random()))
+@
+
+The file, {\tt data.txt}, is generated:
+
+<<eval = F>>=
+x y
+0.506 0.570
+0.887 0.792
+0.921 0.641
+0.894 0.664
+0.494 1.000
+0.745 0.734
+0.274 0.127
+0.075 0.381
+0.449 0.995
+0.355 0.807
+@
+
+I can read that file with:
+
+<<eval = F>>=
+>>> f = open("data.txt")
+>>> header = f.readline()
+>>> data = f.readlines()
+>>> 
+>>> header
+'x y\n'
+>>> data
+['0.506 0.570\n', '0.887 0.792\n', '0.921 0.641\n', '0.894 0.664\n', '0.494 1.000\n', 
+ '0.745 0.734\n', '0.274 0.127\n', '0.075 0.381\n', '0.449 0.995\n', '0.355 0.807\n']
+>>>
+>>> header = header.replace("\n","")
+>>> header
+'x y'
+>>>
+>>> d = [d.replace("\n","") for d in data]
+>>> d
+['0.506 0.570', '0.887 0.792', '0.921 0.641', '0.894 0.664', '0.494 1.000',
+ '0.745 0.734', '0.274 0.127', '0.075 0.381', '0.449 0.995', '0.355 0.807']
+>>> 
+@
+
+And then I can process it into a nicer format
+<<eval = F>>=
+>>> data = [d.split(" ") for d in data]
+>>> data
+[['0.506', '0.570'], ['0.887', '0.792'], ['0.921', '0.641'], ['0.894', '0.664'], 
+['0.494', '1.000'], ['0.745', '0.734'], ['0.274', '0.127'], ['0.075', '0.381'], 
+['0.449', '0.995'], ['0.355', '0.807']]
+>>> 
+>>> data = [map(float, d) for d in data]
+>>> data
+[[0.506, 0.57], [0.887, 0.792], [0.921, 0.641], [0.894, 0.664], [0.494, 1.0], 
+[0.745, 0.734], [0.274, 0.127], [0.075, 0.381], [0.449, 0.995], [0.355, 0.807]]
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf MODULES}
+\end{center} \Large
+
+Modules are Python libraries. You can use a library in your code with the {\tt import} command.
+
+<<eval = F>>=
+>>> sqrt(10)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'sqrt' is not defined
+>>> 
+>>> import math
+>>> sqrt(10)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'sqrt' is not defined
+>>> 
+>>> math.sqrt(10)
+3.1622776601683795
+>>> 
+@
+
+If you don't want to write {\tt math.sqrt()} every single time you want to compute a square root, you can use a shortcut:
+
+<<eval = F>>=
+>>> import math as m
+>>> m.sqrt(10)
+3.1622776601683795
+>>> 
+@
+
+Or better yet:
+
+<<eval = F>>=
+>>> from math import *
+>>> sqrt(10)
+3.1622776601683795
+>>> 
+@
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf {\tt sys} MODULE}
+\end{center} \Large
+
+{\tt sys} is a module of system-specific parameters and functions.
+
+<<eval = F>>=
+# a.py
+import sys
+
+for arg in sys.argv:
+  print arg
+@
+
+<<eval = F>>=
+~/Desktop> python a.py 1 2 3 4 5 3sir! 3!
+a.py
+1
+2
+3
+4
+5
+3sir!
+3!
+~/Desktop> 
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf {\tt NumPy} MODULE}
+\end{center} \Large
+
+Important module for arrays and matrices. Here is some example code demonstrating basic array creation and operations.
+
+<<eval = F>>=
+>>> from numpy  import *
+>>> a = arange(15)
+>>> a
+array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14])
+>>> a = a.reshape(3,5)
+>>> a
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>> a.transpose()
+>>> a.transpose()
+array([[ 0,  5, 10],
+       [ 1,  6, 11],
+       [ 2,  7, 12],
+       [ 3,  8, 13],
+       [ 4,  9, 14]])
+>>> a.shape
+(3, 5)
+>>> a.size
+15
+>>> type(a)
+<type 'numpy.ndarray'>
+>>> 
+>>> zeros( (3,4) )
+array([[0.,  0.,  0.,  0.],
+       [0.,  0.,  0.,  0.],
+       [0.,  0.,  0.,  0.]])
+>>>
+>>> ones( (2,3,4), dtype=int16 )                # dtype can also be specified
+array([[[ 1, 1, 1, 1],
+        [ 1, 1, 1, 1],
+        [ 1, 1, 1, 1]],
+       [[ 1, 1, 1, 1],
+        [ 1, 1, 1, 1],
+        [ 1, 1, 1, 1]]], dtype=int16)
+>>>
+>>> empty( (2,3) )
+array([[  3.73603959e-262,   6.02658058e-154,   6.55490914e-260],
+       [  5.30498948e-313,   3.14673309e-307,   1.00000000e+000]])
+>>>       
+>>> b = array( [ [1.5,2,3], [4,5,6] ] )
+>>> b
+array([[ 1.5,  2. ,  3. ],
+       [ 4. ,  5. ,  6. ]])
+>>> print(b)
+[[ 1.5  2.   3. ]
+ [ 4.   5.   6. ]]
+>>>
+>>> sum(b)
+21.5
+>>>
+>>> a = array( [20,30,40,50] )
+>>> b = arange( 4 )
+>>> b
+array([0, 1, 2, 3])
+>>> c = a-b
+>>> c
+array([20, 29, 38, 47])
+>>> b**2
+array([0, 1, 4, 9])
+>>> 10*sin(a)
+array([ 9.12945251, -9.88031624,  7.4511316 , -2.62374854])
+>>> a<35
+array([True, True, False, False], dtype=bool)
+@
+
+Elementwise product vs matrix product:
+
+<<eval = F>>=
+>>> A = array( [[1,1],
+...             [0,1]] )
+>>> B = array( [[2,0],
+...             [3,4]] )
+>>> A*B                         # elementwise product
+array([[2, 0],
+       [0, 4]])
+>>> dot(A,B)                    # matrix product
+array([[5, 4],
+       [3, 4]])
+@
+
+\newpage
+
+Array indexing and slicing;
+
+<<eval = F>>=
+>>> a
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>> a[0]
+array([0, 1, 2, 3, 4])
+>>> a[1]
+array([5, 6, 7, 8, 9])
+>>> a[0:2]
+array([[0, 1, 2, 3, 4],
+       [5, 6, 7, 8, 9]])
+>>>
+>>> a[0, 0]
+0
+>>> a[1, 2]
+7
+>>> a[0:2, 0:2]
+array([[0, 1],
+       [5, 6]])
+>>> 
+>>> a[:,:]
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>>
+>>> a[:, 0]
+array([ 0,  5, 10])
+>>> a[:, 0:1]
+array([[ 0],
+       [ 5],
+       [10]])
+>>> 
+@
+\newpage
+
+Iterating over an array:
+
+<<eval = F>>=
+>>> for row in a:
+...   print row
+... 
+[0 1 2 3 4]
+[5 6 7 8 9]
+[10 11 12 13 14]
+>>> 
+>>> for index in xrange(a.shape[1]):
+...   print a[:, index]
+... 
+[ 0  5 10]
+[ 1  6 11]
+[ 2  7 12]
+[ 3  8 13]
+[ 4  9 14]
+>>> 
+>>> for elt in a.flat:
+...   print elt,
+... 
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+>>> 
+@
+
+\newpage
+
+Array stacking:
+<<eval = F>>=
+>>> a = floor(10*random.random((2,2)))
+>>> a
+array([[ 1.,  1.],
+       [ 5.,  8.]])
+>>> b = floor(10*random.random((2,2)))
+>>> b
+array([[ 3.,  3.],
+       [ 6.,  0.]])
+>>> vstack((a,b))
+array([[ 1.,  1.],
+       [ 5.,  8.],
+       [ 3.,  3.],
+       [ 6.,  0.]])
+>>> hstack((a,b))
+array([[ 1.,  1.,  3.,  3.],
+       [ 5.,  8.,  6.,  0.]])
+@
+
+\newpage
+
+Shallow copying:
+<<eval = F>>=
+>>> c = a.view()
+>>> c == a
+array([[ True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True],
+       [ True,  True,  True,  True,  True]], dtype=bool)
+>>> c is a
+False
+>>> a[0,0] = 1000
+>>> a
+array([[1000,    1,    2,    3,    4],
+       [   5,    6,    7,    8,    9],
+       [  10,   11,   12,   13,   14]])
+>>> c
+array([[1000,    1,    2,    3,    4],
+       [   5,    6,    7,    8,    9],
+       [  10,   11,   12,   13,   14]])
+>>> 
+@
+
+The default copy is a shallow copy.
+
+<<eval = F>>=
+>>> a
+array([[1000,    1,    2,    3,    4],
+       [   5,    6,    7,    8,    9],
+       [  10,   11,   12,   13,   14]])
+>>> b = a
+>>> a[0,0] = 0
+>>> b
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>>
+@
+
+\newpage
+
+Deep copying:
+
+<<eval = F>>=
+>>> a
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>> b = a.copy()
+>>> b[0,0] = 1000
+>>> a
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>> b
+array([[1000,    1,    2,    3,    4],
+       [   5,    6,    7,    8,    9],
+       [  10,   11,   12,   13,   14]])
+>>> 
+@
+\newpage
+Logical arrays:
+
+<<eval = F>>=
+>>> a = arange(12).reshape(3,4)
+>>> b = a > 4
+>>> b                                          # b is a boolean with a's shape
+array([[False, False, False, False],
+       [False, True, True, True],
+       [True, True, True, True]], dtype=bool)
+>>> a[b]                                       # 1d array with the selected elements
+array([ 5,  6,  7,  8,  9, 10, 11])
+>>>
+>>> a[b] = 0                                   # All elements of 'a' higher than 4 become 0
+>>> a
+array([[0, 1, 2, 3],
+       [4, 0, 0, 0],
+       [0, 0, 0, 0]])
+@
+
+
+\newpage
+
+Simple linear algebra:
+
+<<eval = F>>=
+>>> from numpy import *
+>>> from numpy.linalg import *
+
+>>> a = array([[1.0, 2.0], [3.0, 4.0]])
+>>> print a
+[[ 1.  2.]
+ [ 3.  4.]]
+
+>>> a.transpose()
+array([[ 1.,  3.],
+       [ 2.,  4.]])
+
+>>> inv(a)
+array([[-2. ,  1. ],
+       [ 1.5, -0.5]])
+
+>>> u = eye(2) # unit 2x2 matrix; "eye" represents "I"
+>>> u
+array([[ 1.,  0.],
+       [ 0.,  1.]])
+>>> j = array([[0.0, -1.0], [1.0, 0.0]])
+
+>>> dot (j, j) # matrix product
+array([[-1.,  0.],
+       [ 0., -1.]])
+
+>>> trace(u)  # trace
+2.0
+
+>>> y = array([[5.], [7.]])
+>>> solve(a, y)
+array([[-3.],
+       [ 4.]])
+
+>>> eig(j)
+(array([ 0.+1.j,  0.-1.j]),
+array([[ 0.70710678+0.j,  0.70710678+0.j],
+       [ 0.00000000-0.70710678j,  0.00000000+0.70710678j]]))
+Parameters:
+    square matrix
+
+Returns
+    The eigenvalues, each repeated according to its multiplicity.
+
+    The normalized (unit "length") eigenvectors, such that the
+    column ``v[:,i]`` is the eigenvector corresponding to the
+    eigenvalue ``w[i]`` .
+@
+
+\newpage
+
+Matrices:
+
+<<eval = F>>=
+>>> A = matrix('1.0 2.0; 3.0 4.0')
+>>> A
+[[ 1.  2.]
+ [ 3.  4.]]
+>>> type(A)  # file where class is defined
+<class 'numpy.matrixlib.defmatrix.matrix'>
+
+>>> A.T  # transpose
+[[ 1.  3.]
+ [ 2.  4.]]
+
+>>> X = matrix('5.0 7.0')
+>>> Y = X.T
+>>> Y
+[[5.]
+ [7.]]
+
+>>> print A*Y  # matrix multiplication
+[[19.]
+ [43.]]
+
+>>> print A.I  # inverse
+[[-2.   1. ]
+ [ 1.5 -0.5]]
+
+>>> solve(A, Y)  # solving linear equation
+matrix([[-3.],
+        [ 4.]])
+@
+
+Beware: indexing and slicing are slightly different for matrices.
+<<eval = F>>=
+>>> A = arange(12).reshape(3,4)
+>>> M =  mat(A.copy())
+>>> 
+>>> print A[:,1]
+[1 5 9]
+>>> print M[:,1]
+[[1]
+ [5]
+ [9]]
+>>>
+@
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OTHER USEFUL MODULES}
+\end{center} 
+
+{\tt SciPy}: \newline
+
+\setkeys{Gin}{width=.6\textwidth} \includegraphics[scale=0.25,angle=0]{scipy}  \newline
+
+{\tt matplotlib}:  A popular graphics and plotting module. 
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{itemize}
+\item Basic elements
+\begin{itemize}
+\item Random preliminaries
+\item User-defined functions
+\item Code formatting: Indentation and line continuation
+\item Logic and control flow
+\item Data types: strings, lists, tuples, and dictionaries
+\item Iteration, looping, and generators
+\item Functional programming: list comprehensions, lambda functions, {\tt filter()}, {\tt map()}, and {\tt reduce()}
+\item File I/O
+\item Modules
+\end{itemize}
+\item The NumPy Module
+\item Other useful modules
+\end{itemize}
+
+\newpage
+
+\newpage
+\Huge
+\begin{center}
+{\bf GPU SERIES MATERIALS}
+\end{center} $\quad$ \newline
+\huge
+These slides, a tentative syllabus for the whole series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the materials.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline \LARGE
+
+David M. Beaz.ley. Python Essential Reference: Fourth Edition. Addison-Wesley, 2009. \newline
+
+Tentative NumPy Tutorial. http://www.scipy.org/Tentative\_NumPy\_Tutorial \newline
+
+SciPy Tutorial. http://docs.scipy.org/doc/scipy/reference/tutorial/general.html \newline
+
+Matplotlib. http://matplotlib.org/
+
+
+
+
+
+
+\end{flushleft}
+\end{document}

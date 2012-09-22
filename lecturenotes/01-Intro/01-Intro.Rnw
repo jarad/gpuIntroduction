@@ -442,7 +442,28 @@ into the command line to download all the course materials.
 \end{center} 
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/syll} 
 
+\newpage
 
+\newpage
+\Huge
+\begin{center}
+{\bf GPU SERIES MATERIALS}
+\end{center} $\quad$ \newline
+\huge
+These slides, a tentative syllabus for the whole series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the materials.
 
 \newpage
 \Huge
