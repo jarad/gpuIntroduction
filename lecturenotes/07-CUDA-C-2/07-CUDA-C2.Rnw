@@ -25,8 +25,9 @@
 \usepackage{multirow}
 \usepackage{subfig}
 \usepackage{color}
-\usepackage{Sweave}
-\usepackage{SASnRdisplay}
+% JBN: Including these two packages would not compile for me. Can you check to see if this file will compile for you as is? If it does, please leave these lines commented out. 
+%\usepackage{Sweave}
+%\usepackage{SASnRdisplay}
 
 \providecommand{\beq}{\begin{equation*}}
 \providecommand{\eeq}{\end{equation*}}
@@ -132,6 +133,7 @@ Featured examples: \newline
 \begin{itemize}
 \item {\tt dot\_product.cu}
 \end{itemize}
+% JBN: Last time we discussed providing pseudo-C-code. Perhaps it would make sense to included pseudo-C-code for the dot-product since you are going to be using it in this lecture. 
 
 \newpage
 
@@ -147,7 +149,7 @@ Featured examples: \newline
 
 Each thread uses the same code, but applies it to different data.  \newline
 
-Try to respect this paradigm in you code. If multiple threads access the same data, problems could arise.
+Try to respect this paradigm in your code. If multiple threads access the same data, problems could arise.
 
 
 
@@ -168,6 +170,10 @@ Let's say we have a kernel: \newline
 \setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{share} \newline
 
 What will be the final value of x?
+% JBN: x is shared in local memory and is specific to each thread, so this question is non-sensical. Perhaps instead you want something like 
+%     __global__ void kernel(int *x){
+%      *x = blockIdx.x;
+% where x has previously been allocated in global memory through a cudaMalloc statement. 
 
 \newpage
 
@@ -191,6 +197,9 @@ Hence, the final value of {\tt x} is the block ID of the thread that finishes la
 \huge
 
 Why not give each block its own private copy of {\tt x} in shared memory? 
+% JBN: As pointed out earlier. The previous copy of x is in local memory so it is private.
+
+
 \newpage
 \Large
 If we define: \newline
@@ -216,6 +225,7 @@ Then the final values of $x$ will ALWAYS be: \newline
  &  Block 0 & Block 1 & Block 2 & Block 3 & Block 4 & Block 5 \\ \hline
 Thread 0 & x = 0 & x = 1 & x = 2 & x = 3 & x = 4 & x = 5 \\ \hline
 \end{tabular} $\quad$ \newline \newline
+% JBN: This will have problems if you change blockIdx.x to threadIdx.x and have more than 1 thread in the block. Actually since the number of threads is always rounded up to the nearest warp,  I don't know if it will even work with 1 thread in the block.
 
 \newpage
 
@@ -235,9 +245,14 @@ First part of the code: \newline
 
 \setkeys{Gin}{width=.73\textwidth} \includegraphics[scale=0.25,angle=0]{c1} 
 \setkeys{Gin}{width=.47\textwidth} \includegraphics[scale=0.25,angle=0]{c2} \newpage
-
+% JBN: Why are these graphics files? Wouldn't it be better to have them as plain text? 
+% JBN: Why do we have the imin function?
+% JBN: Make sure to point out here that a and b are passed from the CPU. Each block will take a sub-vector of a and the associated subvector of b, calculate the dot-product of these sub-vectors, and return the scalar as one element of the vector c. 
+% JBN: Pedagogically, it is a big jump from do the dot product to this code. Perhaps it would be good to build the code up rather than starting with the entire code and deconstructing. 
+% JBN: I think you need another slide here describing the procedure you plan on implementing in pseudo-code. 
 What the code does: \newline \newline \newline
 
+% JBN: I don't see the dot<<2,4>>(a,b,c) line on the previous slide.
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w0} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w1} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w2} \newpage
@@ -250,6 +265,7 @@ What the code does: \newline \newline \newline
 
 
 We want to make sure that {\tt cache} is filled up for each block before we continue further. \newline
+% JBN: "filled up for each block" -> "filled up within each block"
 
 Hence, the next line of code is: \newline \newline
 
@@ -289,6 +305,7 @@ Next: \newline
 So now, c[0] = 123 and c[1] is 183. \newline
 
 We return c to the cpu, call it {\tt partial\_c} and then take a linear sum of the elements of {\tt partial\_c}: \newline
+% JBN: This is confusing because of the renaming. Why not just call it partial_c in the original code. Perhaps elaborate that c holds the dot product for the block's sub-vectors. 
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{final} \newline
 
@@ -311,6 +328,7 @@ Now, c is the final answer.
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp4} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp5} \newpage
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp6} \newpage
+% JBN: I was confusing by their comparison to the sum of squares formula because I forgot C is zero-based indexing. So I thought it should be sum_squares(N). Just wanted to point it out in case anybody else is confused. 
 
 \newpage
 
