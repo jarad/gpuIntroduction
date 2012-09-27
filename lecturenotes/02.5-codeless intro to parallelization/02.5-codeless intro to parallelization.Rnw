@@ -417,7 +417,7 @@ C = A \cdot B = \begin{bmatrix}
 
 We don't need to synchronize the blocks because they can do their jobs independently. \newpage
 
-Consider Block (1,1), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}$:
+Consider Block (0,0), which computes $\begin{bmatrix} 1 & 2 \end{bmatrix} \cdot \begin{bmatrix} 8 \\ 3 \end{bmatrix}$:
 
 
 
