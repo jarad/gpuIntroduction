@@ -599,7 +599,7 @@ void vprint(float* v, int n){
 // Pairwise-sum the elements of vector v and store the result in v[0]. 
 __global__ void psum(float* v){ 
   int t = threadIdx.x; // Thread index.
-  int n = blockDim.x / 2; // Should be half the length of v.
+  int n = blockDim.x; // Should be half the length of v.
 
   while (n != 0) {
     if(t < n)
