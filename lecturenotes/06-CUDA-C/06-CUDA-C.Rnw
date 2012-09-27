@@ -514,6 +514,51 @@ Let's take the pairwise sum of the vector, (5, 2, -3, 1, 1, 8, 2, 6): \newpage
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{8} \newpage
 \setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{9} \newpage
 
+
+
+\Huge
+\begin{center}
+{\bf A RIGOROUS DESCRIPTION OF THE PAIRWISE SUM}
+\end{center} \LARGE
+
+
+Suppose you have a vector $X_0 = (x_{(0,0)}, x_{(0,2)}, \ldots, x_{(0,n-1)})$, where $n = 2^m$ for some $m>0$. \newline
+
+ Compute $\sum_{i = 1}^n x_{(0,i)}$ in the following way:  \newline
+
+\begin{enumerate}[1. ]
+\item Create a new vector: $X_1 = ( \underbrace{x_{(0, \ 0)} + x_{(0, \ n/2)}}_{x_{(1, \ 0)}}, \  \underbrace{x_{(0,1)} + x_{(0, \ n/2 + 1)}}_{x_{(1,\ 1)}}, \ \ldots, \underbrace{x_{(0, \ n/2-1)} + x_{(0, \ n - 1)}}_{x_{(1, \ n/2 - 1)}})$
+
+\item Create another new vector: $X_2 = ( \underbrace{x_{(1, \ 0)} + x_{(1, \ n/4)}}_{x_{(2, \ 0)}}, \  \underbrace{x_{(1,\ 1)} + x_{(1, \ n/4 + 1)}}_{x_{(2, \ 1)}}, \ \ldots, \underbrace{x_{(1, n/4-1)} + x_{(1, \ n/2 - 1)}}_{x_{(2, \ n/4 - 1)}})$
+\item Continue this process until you get a singleton vector: $X_{m} =  ( \underbrace{x_{(m - 1, 0)} +  x_{(m - 1, 1)}}_{x_{(m, 0)}}  ) $
+\end{enumerate} $\quad$ \newline
+Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 0)}$
+
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf PARALLELIZING THE PAIRWISE SUM}
+\end{center} $\quad$ \newline
+
+Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with $i = 1$, do the following: \newline
+
+\begin{enumerate}[1. ]
+\item Set \text{offset} = $n/2^i$. 
+\item Assign thread $j$ to compute: 
+\begin{align*}
+x_{(i,j)} = x_{(i-1, \ j)} + x_{(i-1,\  j + \text{offset})}
+\end{align*} for $j = 0, 2, \cdots, \text{offset} - 1$.
+\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 2.
+\item Integer divide offset by 2. Repeat if offset $> 0$.  
+\end{enumerate}
+
+
+
+\newpage
+
 \Huge
 \begin{center}
 {\bf PAIRWISE SUM: pairwise\_sum.cu}

@@ -246,15 +246,43 @@ c = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}  =  \begin{bmatrix
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/vadd3} \newpage
 
 
-
-
-\newpage
 \Huge
 \begin{center}
-{\bf 2. THE PAIRWISE (CASCADING) SUM}
-\end{center}   \LARGE 
+{\bf THE PAIRWISE SUM}
+\end{center} $\quad$ \newline
 
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psum2} \newline
+Let's take the pairwise sum of the vector:
+
+\begin{align*}
+(5, \ 2, \ -3,\  1,\ 1,\ 8,\ 2,\ 6)
+\end{align*} $\quad$ \newline
+
+Using one block of 4 threads. \newpage
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv1} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv2} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv3} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv5} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv6} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv7} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv8} \newpage
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/pv9} \newpage
+
+
+\Huge
+\begin{center}
+{\bf AN ASIDE: SYNCHRONIZING THREADS}
+\end{center} $\quad$ \newline \Huge
+
+{\bf Synchronization}: Waiting for all parallel tasks to reach a checkpoint before allowing any of them to proceed. \newline
+
+
+\begin{itemize}
+\item Threads from the same block can be synchronized easily.
+\item  In general, do not try to synchronize threads from different blocks. It's possible, but extremely inefficient.
+\end{itemize}
+
 
 \newpage
 
@@ -264,16 +292,40 @@ c = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}  =  \begin{bmatrix
 \end{center} \LARGE
 
 
-Suppose you have a vector $X_0 = (x_{(0,1)}, x_{(0,2)}, \ldots, x_{(0,n)})$, where $n = 2^m$ for some $m>0$. \newline
+Suppose you have a vector $X_0 = (x_{(0,0)}, x_{(0,2)}, \ldots, x_{(0,n-1)})$, where $n = 2^m$ for some $m>0$. \newline
 
  Compute $\sum_{i = 1}^n x_{(0,i)}$ in the following way:  \newline
 
 \begin{enumerate}[1. ]
-\item Create a new vector: $X_1 = ( \underbrace{x_{(0,1)} + x_{(0,2)}}_{x_{(1, 1)}}, \  \underbrace{x_{(0,3)} + x_{(0,4)}}_{x_{(1,2)}}, \ \ldots, \underbrace{x_{(0, n-1)} + x_{(0,n)}}_{x_{(1, n/2)}})$
-\item Create another new vector: $X_2 = ( \underbrace{x_{(1,1)} + x_{(1,2)}}_{x_{(2, 1)}}, \  \underbrace{x_{(1,3)} + x_{(1,4)}}_{x_{(2,2)}}, \ \ldots, \underbrace{x_{(1, n/2-1)} + x_{(1,n/2)}}_{x_{(2, n/4)}})$
-\item Continue this process until you get a singleton vector: $X_{m} =  ( \underbrace{x_{(m - 1, 1)} +  x_{(m - 1, 2)}}_{x_{(m, 1)}}  ) $
+\item Create a new vector: $X_1 = ( \underbrace{x_{(0, \ 0)} + x_{(0, \ n/2)}}_{x_{(1, \ 0)}}, \  \underbrace{x_{(0,1)} + x_{(0, \ n/2 + 1)}}_{x_{(1,\ 1)}}, \ \ldots, \underbrace{x_{(0, \ n/2-1)} + x_{(0, \ n - 1)}}_{x_{(1, \ n/2 - 1)}})$
+
+\item Create another new vector: $X_2 = ( \underbrace{x_{(1, \ 0)} + x_{(1, \ n/4)}}_{x_{(2, \ 0)}}, \  \underbrace{x_{(1,\ 1)} + x_{(1, \ n/4 + 1)}}_{x_{(2, \ 1)}}, \ \ldots, \underbrace{x_{(1, n/4-1)} + x_{(1, \ n/2 - 1)}}_{x_{(2, \ n/4 - 1)}})$
+\item Continue this process until you get a singleton vector: $X_{m} =  ( \underbrace{x_{(m - 1, 0)} +  x_{(m - 1, 1)}}_{x_{(m, 0)}}  ) $
 \end{enumerate} $\quad$ \newline
-Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 1)}$
+Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 0)}$
+
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf PARALLELIZING THE PAIRWISE SUM}
+\end{center} $\quad$ \newline
+
+Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with $i = 1$, do the following: \newline
+
+\begin{enumerate}[1. ]
+\item Set \text{offset} = $n/2^i$. 
+\item Assign thread $j$ to compute: 
+\begin{align*}
+x_{(i,j)} = x_{(i-1, \ j)} + x_{(i-1,\  j + \text{offset})}
+\end{align*} for $j = 0, 2, \cdots, \text{offset} - 1$.
+\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 2.
+\item Integer divide offset by 2. Repeat if offset $> 0$.  
+\end{enumerate}
+
+
 %JBN:Perhaps compare this version of the algorithm to the sequential version.
 %       The sequential version has n-1 operations whereas the cascading sum has 
 %       n(1/2+1/4+1/8+...+1/2^m) \to n as n\to \infty and yet the cascading sum will be much quicker
@@ -289,54 +341,6 @@ Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 1)}$
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{picts/sequential} 
 
 The pairwise sum requires only $\log_2(n)$ sequential steps, whereas the sequential sum requires $n - 1$ steps.
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf PARALLELIZING THE PAIRWISE SUM}
-\end{center} $\quad$ \newline
-
-Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with $i = 1$, do the following: \newline
-
-\begin{enumerate}[1. ]
-\item Assign thread $j$ to compute: 
-\begin{align*}
-x_{(i,j)} = x_{(i-1, \ 2j - 1)} + x_{(i-1,\  2j)}
-\end{align*} for $j = 1, 2, \cdots, \frac{n}{2^i}$.
-\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 1.
-\item If $i < m$, set $i = i + 1$ and repeat.  
-\end{enumerate}
-\newpage
-\Huge
-\begin{center}
-{\bf EXAMPLE}
-\end{center} 
-
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt1} \newpage
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt2} \newpage
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt3} \newpage
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt4} \newpage
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{picts/psumt5} \newpage
-
-
-
-
-\newpage
-\Huge
-\begin{center}
-{\bf AN ASIDE: SYNCHRONIZING THREADS}
-\end{center} $\quad$ \newline \Huge
-
-{\bf Synchronization}: Waiting for all parallel tasks to reach a checkpoint before allowing any of them to proceed. \newline
-
-
-NOTE:
-
-\begin{itemize}
-\item Threads from the same block can be synchronized easily.
-\item  In general, do not try to synchronize threads from different blocks. It's possible, but extremely inefficient.
-\end{itemize}
 
 \newpage
 
