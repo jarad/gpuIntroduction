@@ -25,8 +25,9 @@
 \usepackage{multirow}
 \usepackage{subfig}
 \usepackage{color}
-\usepackage{Sweave}
-\usepackage{SASnRdisplay}
+\usepackage{listings}
+%\usepackage{Sweave}
+%\usepackage{SASnRdisplay}
 
 \providecommand{\beq}{\begin{equation*}}
 \providecommand{\eeq}{\end{equation*}}
@@ -148,8 +149,18 @@ Featured examples: \newline
 \end{center} $\quad$ \newline
 
 % JBN: in the future I would suggest using a verbatim environment for code
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
+%\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
 
+\begin{lstlisting}
+#include <stdio.h>
+
+int main(){
+  printf(''Hello, World!\n");
+  return 0;
+}
+\end{lstlisting} $\quad$ \newline
+
+\newpage
 \Huge
 \begin{center}
 {\bf BASIC CUDA C PROGRAM}
@@ -157,8 +168,25 @@ Featured examples: \newline
 
 % JBN: the __global__ prefix doesn't say to me "do this on the GPU" but rather "only run this function on the GPU"
 %      the kernel<<<1,1>>> says "do this on the GPU"
-\setkeys{Gin}{width=0.9\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
+\setkeys{Gin}{width=0.7\textwidth} \includegraphics[scale=0.25,angle=0]{2a} \newpage
+
+%\begin{lstlisting}
+%#include <stdio.h>
+
+%__global__ void kernel(){
+%}
+
+%int main(){
+ % kernel<<<1,1>>>();
+%  printf("Hello, World!\n");
+ % return 0;
+%}
+%\end{lstlisting}
+
+
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2b} \newpage
+
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
 
 \Large
 \begin{verbatim} __global__: Call from CPU and run only on GPU.
@@ -176,6 +204,8 @@ __host__: Call from CPU and run only on CPU.
 \LARGE
 
 \begin{verbatim}
+#include <stdio.h>
+
 __device__ int dev1( void ){
 }
 
@@ -195,7 +225,7 @@ int main ( void ) {
 \end{verbatim}
 
 \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2c} \newpage
+
 \setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{2d} \newpage
 
 
@@ -234,7 +264,7 @@ int main ( void ) {
 {\bf Here, the GPU runs {kernel()} one time:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
-#include <iostream>
+#include <stdio.h>
 
 __global__ void kernel ( void ) {
 }
@@ -252,7 +282,7 @@ int main ( void ) {
 {\bf Here, the GPU runs {kernel()} 5 times:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
-#include <iostream>
+#include <stdio.h>
 
 __global__ void kernel ( void ) {
 }
@@ -268,7 +298,7 @@ int main ( void ) {
 {\bf Here, the GPU runs {kernel()} 5 times:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
-#include <iostream>
+#include <stdio.h>
 
 __global__ void kernel ( void ) {
 }
@@ -285,7 +315,7 @@ int main ( void ) {
 {\bf Here, the GPU runs {kernel()} 20 times:}
 \end{center} $\quad$ \newline
 \begin{verbatim}
-#include <iostream>
+#include <stdio.h>
 
 __global__ void kernel ( void ) {
 }
