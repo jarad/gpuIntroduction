@@ -29,6 +29,43 @@
 %\usepackage{Sweave}
 %\usepackage{SASnRdisplay}
 
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  language=C,                % the language of the code
+  basicstyle=\LARGE,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{white},  % the style that is used for the line-numbers
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=n,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+\captionsetup{labelformat=empty,labelsep=none}
+
 \providecommand{\beq}{\begin{equation*}}
 \providecommand{\eeq}{\end{equation*}}
 \providecommand{\bs}{\backslash}
@@ -122,10 +159,9 @@ Will Landau, Prof. Jarad Niemi
 \Huge
 \begin{center}
 {\bf OUTLINE} 
-\end{center} $\quad$ \newline \Large
+\end{center} $\quad$ \newline 
 \begin{itemize}
-\item Respecting the SIMD paradigm
-\item Shared memory
+\item Global vs. local vs. shared memory
 \item Implementing the dot product
 \end{itemize} $\quad$ \newline
 
@@ -135,122 +171,124 @@ Featured examples: \newline
 \end{itemize}
 % JBN: Last time we discussed providing pseudo-C-code. Perhaps it would make sense to included pseudo-C-code for the dot-product since you are going to be using it in this lecture. 
 
+
 \newpage
 
 
-
-
-\Huge
-\begin{center}
-{\bf THE SIMD PARADIGM}
-\end{center} $\quad$ \newline
-
-{\bf SIMD}: Single Instruction Multiple Data \newline
-
-Each thread uses the same code, but applies it to different data.  \newline
-
-Try to respect this paradigm in your code. If multiple threads access the same data, problems could arise.
-
+\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{mem} 
 
 
 \newpage
 \Huge
 \begin{center}
-{\bf EXAMPLE}
+{\bf EXAMPLE: USING GLOBAL, SHARED, AND LOCAL MEMORY}
 \end{center} 
 
  \LARGE
 Let's say we have a kernel: \newline
 
 \begin{verbatim}
-    __global__ void kernel(void){
-      int x = blockIdx.x;
-    }
-\end{verbatim} $\quad$ \newline
-\setkeys{Gin}{width=.5\textwidth} \includegraphics[scale=0.25,angle=0]{share} \newline
-
-What will be the final value of x?
-% JBN: x is shared in local memory and is specific to each thread, so this question is non-sensical. Perhaps instead you want something like 
-%     __global__ void kernel(int *x){
-%      *x = blockIdx.x;
-% where x has previously been allocated in global memory through a cudaMalloc statement. 
-
-\newpage
-
-\huge
-
-All the threads in the grid share the same copy of {\tt a} in {\color{blue} GLOBAL MEMORY}.
-\newline
-
-Hence, the final value of {\tt x} is the block ID of the thread that finishes last.
-
-
-
-
-
-\newpage
-\Huge
-\begin{center}
-{\bf GLOBAL VS SHARED MEMORY}
-\end{center} 
-\setkeys{Gin}{width=0.7\textwidth} \includegraphics[scale=0.25,angle=0]{mem} \newline
-\huge
-
-Why not give each block its own private copy of {\tt x} in shared memory? 
-% JBN: As pointed out earlier. The previous copy of x is in local memory so it is private.
-
-
-\newpage
-\Large
-If we define: \newline
-
-\begin{verbatim}
-    __global__ void kernel(void){
-      __shared__ int x = blockIdx.x;
+    __global__ void kernel(int *a){
+      *a = blockIdx.x * blockDim.x + threadIdx.x;
+      int b  =  blockIdx.x * blockDim.x + threadIdx.x;
+      __shared__ int c = blockIdx.x * blockDim.x + threadIdx.x;
     }
 \end{verbatim} $\quad$ \newline
 
-then each BLOCK will have its own copy of x in {\color{blue} SHARED MEMORY}, shared by all the threads in the block.  \newline \newline
+What are *a, b, and c after a call to {\tt kernel<<<3, 2>>>(a)}?
 
-If we call: \newline
+\newpage
 
-\begin{verbatim}
-    kernel<<6, 1>>();
-\end{verbatim} $\quad$ \newline
-
-Then the final values of $x$ will ALWAYS be: \newline
+\begin{description}
+\item[{\tt *a}: ] There is one copy of {\tt*a} in GLOBAL MEMORY common to all threads and blocks. Hence, the value of {\tt*a} depends on which thread finishes last. \newline
+\item[{\tt b}: ] There are 3$\cdot$2 = 6 copies of {\tt b} in LOCAL MEMORY, one for each of the six threads. The values of {\tt b} will be: \newline
 
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
- &  Block 0 & Block 1 & Block 2 & Block 3 & Block 4 & Block 5 \\ \hline
-Thread 0 & x = 0 & x = 1 & x = 2 & x = 3 & x = 4 & x = 5 \\ \hline
-\end{tabular} $\quad$ \newline \newline
-% JBN: This will have problems if you change blockIdx.x to threadIdx.x and have more than 1 thread in the block. Actually since the number of threads is always rounded up to the nearest warp,  I don't know if it will even work with 1 thread in the block.
+(Block ID, Thread ID) &  (0, 0) & (0, 1) & (1, 0) & (1, 1) & (2, 0) & (2, 1) \\ \hline
+Value of {\tt b} & 0 & 1 & 2 & 3 & 4 & 5  \\ \hline
+\end{tabular} $\quad$ \newline
+
+\item[{\tt c}: ] There are three copies of c in SHARED MEMORY, one for each block. The values of {\tt c} might be: \newline
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+(Block ID, Thread ID) &  (0, 0) & (0, 1) & (1, 0) & (1, 1) & (2, 0) & (2, 1) \\ \hline
+Value of {\tt b} & 0 & 0 & 3 & 3 & 4 & 4  \\ \hline
+\end{tabular} $\quad$ \newline
+
+depending on which thread finishes last within each block.  
+\end{description}
+
 
 \newpage
 
 \huge
 \begin{center}
 {\bf NOW, WE'RE READY FOR THE DOT PRODUCT}
-\end{center} $\quad$ \newline
+\end{center}
+\begin{align*}
+(a_0, \ a_1, \ldots ,\  a_{15}) \bullet (b_0, \ b_1, \ldots , \ b_{15}) = a_0 b_0 + a_1 b_1 + \cdots + a_{15} b_{15}
+\end{align*} $\quad$ \newline
+The basic workflow is: \newline
+
+\begin{itemize}
+\item Pass vectors {\tt a} and {\tt b} to the GPU. \newline
+\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}, For example: 
 
 \begin{align*}
-(x_1, \ x_2, \ x_3,\  x_4) \bullet (y_1, \ y_2, \ y_3, \ y_4) = x_1 y_1 + x_2 y_2 + x_3 y_3 + x_4 y_4
-\end{align*} $\quad$ \newline
+\intertext{Block 0 works on:}
+&(a_0, \ a_1,\  \ldots,\  a_7) \\
+&(b_0, \ b_1,\  \ldots,\ b_7)
+\intertext{Block 1 works on:}
+&(a_8, \ a_9,\  \ldots,\  a_{15}) \\
+&(b_8, \ b_9,\  \ldots,\ b_{15})
+\end{align*}$\quad$ \newline
 
+\item Within each block, compute a vector of pairwise products:
+
+\begin{align*}
+\intertext{Block 0:}
+\text{\tt cache} &= (a_0 \cdot b_0, \ a_1 \cdot b_1, \ \ldots, \  a_7 \cdot b_7)
+\intertext{Block 1:}
+\text{\tt cache} &= (a_8 \cdot b_8, \ a_9 \cdot b_9, \ \ldots, \  a_{15} \cdot b_{15})
+\end{align*}
+
+where {\tt cache} is an array in shared memory. \newline
+\item Within each block, compute the pairwise sum of {\tt cache} and write it to {\tt cache[0]}. In our example: 
+\begin{align*}
+\intertext{Block 0:}
+\text{\tt cache[0]} &= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +  a_7 \cdot b_7
+\intertext{Block 1:}
+\text{\tt cache[0]} &= a_8 \cdot b_8 + a_9 \cdot b_9 + \cdots +  a_{15} \cdot b_{15}
+\end{align*} $\quad$ \newline
+\item Fill a new vector in global memory, {\tt partial\_c}, with these partial dot products: 
+\begin{align*}
+\text{ \tt partial\_c} = (\text{\tt block 0 cache[0]}, \ \text{\tt block 1 cache[0]})
+\end{align*} $\quad$ \newline
+\item Return to the CPU and compute the linear sum of \text{ \tt partial\_c} and write it to {\tt partial\_sum[0]}. Then:
+
+\begin{align*}
+\text{\tt partial\_sum[0] }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
+\end{align*}
+
+\end{itemize}
 
 \newpage
 
 First part of the code: \newline
 
-\setkeys{Gin}{width=.73\textwidth} \includegraphics[scale=0.25,angle=0]{c1} 
-\setkeys{Gin}{width=.47\textwidth} \includegraphics[scale=0.25,angle=0]{c2} \newpage
+
+\lstinputlisting[language = C]{dot_product1.cu}
+
 % JBN: Why are these graphics files? Wouldn't it be better to have them as plain text? 
 % JBN: Why do we have the imin function?
 % JBN: Make sure to point out here that a and b are passed from the CPU. Each block will take a sub-vector of a and the associated subvector of b, calculate the dot-product of these sub-vectors, and return the scalar as one element of the vector c. 
 % JBN: Pedagogically, it is a big jump from do the dot product to this code. Perhaps it would be good to build the code up rather than starting with the entire code and deconstructing. 
 % JBN: I think you need another slide here describing the procedure you plan on implementing in pseudo-code. 
-What the code does: \newline \newline \newline
+\newpage
+
+What the code would do in a call to {\tt dot<<<2, 4>>>(a, b, c)} with $N$ = 16: \newline \newline
 
 % JBN: I don't see the dot<<2,4>>(a,b,c) line on the previous slide.
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w0} \newpage
@@ -264,27 +302,27 @@ What the code does: \newline \newline \newline
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{w8} \newpage
 
 
-We want to make sure that {\tt cache} is filled up for each block before we continue further. \newline
+We want to make sure that each block's copy of {\tt cache} is filled up before we continue further. \newline
 % JBN: "filled up for each block" -> "filled up within each block"
 
 Hence, the next line of code is: \newline \newline
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{synch} 
+\lstinputlisting[language = C]{dot_product2.cu}
 
 \newpage
 
-\Huge
+\huge
 \begin{center}
 {\bf NEXT, WE EXECUTE A PAIRWISE SUM ON {\tt cache} FOR EACH BLOCK}
 \end{center} $\quad$ \newline
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{step2} \newpage
+\lstinputlisting[language = C]{dot_product3.cu} \newpage
 
 
 
 \Huge
 \begin{center}
-{\bf WHAT'S GOING ON}
+{\bf WHAT'S GOING ON IN OUR CALL TO {\tt dot<<<2, 4>>>(a, b, c)}}
 \end{center} $\quad$ \newline
 
 
@@ -293,25 +331,21 @@ Hence, the next line of code is: \newline \newline
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s3} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s4} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s5} \newpage
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s6} 
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{s6} $\quad$ \newline
 
-Similarly, the contribution of block 1 to the dot product is 183.
-
+Similarly, {\tt cache[0]} for block 1 is 183. \newpage
+\huge
 Next: \newline
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{mess} \newline
+\lstinputlisting[language = C]{dot_product4.cu} $\quad$ \newline
 
+So now, {\tt partial\_c[0]} = 123 and {\tt partial\_c[1]} is 183. \newpage \LARGE
 
-So now, c[0] = 123 and c[1] is 183. \newline
+We return from the kernel, {\tt dot()}, and compute the linear sum of the elements of {\tt partial\_c}: \newline
 
-We return c to the cpu, call it {\tt partial\_c} and then take a linear sum of the elements of {\tt partial\_c}: \newline
-% JBN: This is confusing because of the renaming. Why not just call it partial_c in the original code. Perhaps elaborate that c holds the dot product for the block's sub-vectors. 
+\lstinputlisting[language = C]{psum.cu} $\quad$ \newline
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{final} \newline
-
-
-
-Now, c is the final answer.
+Now, {\tt partial\_c[0]} is the final answer.
 
 \newpage
 
@@ -320,15 +354,8 @@ Now, c is the final answer.
 {\bf COMPLETE CODE}
 \end{center}
 
-
-
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp1} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp2} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp3} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp4} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp5} \newpage
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{comp6} \newpage
-% JBN: I was confusing by their comparison to the sum of squares formula because I forgot C is zero-based indexing. So I thought it should be sum_squares(N). Just wanted to point it out in case anybody else is confused. 
+\lstset{basicstyle = \Large}
+\lstinputlisting[language = C]{dot_product.cu}
 
 \newpage
 
