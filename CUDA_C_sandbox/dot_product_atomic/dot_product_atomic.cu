@@ -12,7 +12,7 @@ const int blocksPerGrid =
   imin( 32, (N+threadsPerBlock-1) / threadsPerBlock );
   
 __global__ void dot( Lock lock, float *a, 
-                     float *b, float *c ) {
+                     float *b, float *partial_c ) {
                      
   __shared__ float cache[threadsPerBlock];
   int tid = threadIdx.x + blockIdx.x * blockDim.x; 
@@ -42,7 +42,7 @@ __global__ void dot( Lock lock, float *a,
   
   // Here's where locks come in:
   if (cacheIndex == 0) { lock.lock();
-        *c += cache[0];
+        *partial_c += cache[0];
         lock.unlock();
   }
 }
