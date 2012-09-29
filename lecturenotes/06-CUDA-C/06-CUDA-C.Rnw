@@ -155,7 +155,7 @@ Featured examples: \newline
 #include <stdio.h>
 
 int main(){
-  printf(''Hello, World!\n");
+  printf("Hello, World!\n");
   return 0;
 }
 \end{lstlisting} $\quad$ \newline
@@ -344,9 +344,9 @@ __global__ void some_kernel(...){...}
 int main (void){ 
   // Declare all variables.
   ...
-  // Dynamically allocate host memory.
+  // Allocate host memory.
   ...
-  // Dynamically allocate device memory.
+  // Dynamically allocate device memory for GPU results.
   ...
   // Write to host memory.
   ... 

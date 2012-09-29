@@ -1,0 +1,577 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{listings}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  language=C,                % the language of the code
+  basicstyle=\LARGE,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{white},  % the style that is used for the line-numbers
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=n,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+\captionsetup{labelformat=empty,labelsep=none}
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+# this is equivalent to \SweaveOpts{...}
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=50)
+@
+
+
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf POINTERS AND DYNAMIC ALLOCATION IN C}
+\end{center} $\quad$ \newline
+
+\LARGE
+
+\begin{center}
+Will Landau
+\end{center}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Pointers
+\item Arrays
+\item Bus errors and segmentation faults
+\item Dynamic allocation
+\end{itemize}
+
+\newpage
+
+\Huge
+{\bf Pointer}: An address in memory of a stored C object. \newline \newline
+
+
+\begin{tabular}{|c|c|}
+\hline
+Address (in bytes) & Stored Value  \\ \hline 
+24399440  & 3   \\ \hline
+24399444  & 5 \\ \hline
+24399448  & 28 \\ \hline
+24399452  & 7 \\ \hline
+24399456  & -2 \\ \hline
+$\vdots$ & $\vdots$
+\end{tabular}
+
+\newpage
+
+ex1.c:
+\lstinputlisting[language = C]{ex1.c}
+
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex1.c -o ex1
+~/Desktop> ./ex1
+a = 0
+&a = 1355533180
+~/Desktop> 
+\end{lstlisting} $\quad$ \newpage
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{1.png} \newpage
+
+
+ex2.c:
+\lstinputlisting[language = C]{ex2.c}
+\newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex2.c -o ex2
+~/Desktop> ./ex2
+a = 0
+*pa = 1
+pa = 1458113424
+~/Desktop> 
+\end{lstlisting} $\quad$ \newpage
+
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{2.png}
+\newpage
+
+
+ex3.c:
+\lstinputlisting[language = C]{ex3.c}
+\newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex3.c -o ex3
+~/Desktop> ./ex3
+a = 1
+*pa = 1
+pa = 1444219772
+~/Desktop> 
+\end{lstlisting} $\quad$ \newpage
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{3.png} \newline
+
+\Huge
+\begin{center}
+{\bf PASSING BY ARGUMENTS BY VALUE AND BY REFERENCE}
+\end{center} 
+
+
+ex4.c:
+\lstinputlisting[language = C]{ex4.c}
+\newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex4.c -o ex4
+~/Desktop> ./ex4
+a = 0
+~/Desktop> \end{lstlisting} $\quad$ \newline
+
+{\tt a} was passed to {\tt fun()} by value. \newpage
+
+
+
+\Huge
+\begin{center}
+{\bf PASSING ARGUMENTS  BY REFERENCE}
+\end{center} 
+
+ex5.c:
+\lstinputlisting[language = C]{ex5.c}
+\newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex5.c -o ex5
+~/Desktop> ./ex5
+a = 1
+~/Desktop> 
+\end{lstlisting} $\quad$ \newline
+
+{\tt a} was passed to {\tt fun()} by reference. \newpage
+
+
+ex6.c:
+\lstinputlisting[language = C]{ex6.c}
+\newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex6.c -o ex6
+~/Desktop> ./ex6
+a = 0
+*pa = 1
+~/Desktop> 
+\end{lstlisting} $\quad$ \newline
+
+The value pointed to by {\tt pa} was passed to {\tt fun()} by reference, while {\tt a} was left alone. \newpage
+
+ex7.c:
+\lstinputlisting[language = C]{ex7.c}
+\newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ex7.c -o ex7
+~/Desktop> ./ex7
+a = 1
+*pa = 1
+~/Desktop> 
+\end{lstlisting} $\quad$ \newline
+
+Since {\tt pa} points to {\tt a}, {\tt *pa} and {\tt a} are the same object. {\tt a} was passed to {\tt fun()} by reference. \newpage
+
+\Huge
+\begin{center}
+{\bf ARRAYS}
+\end{center}
+\lstset{basicstyle = \Large}
+ar1.c:
+\lstinputlisting[language = C]{ar1.c} 
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ar1.c -o ar1
+~/Desktop> ./ar1
+a[0] = 1
+a[1] = 23
+a[2] = 17
+a[3] = 4
+a[4] = -5
+a[5] = 100
+
+Modifying...
+
+a[0] = 0
+a[1] = 1
+a[2] = 2
+a[3] = 3
+a[4] = 4
+a[5] = 5
+\end{lstlisting} \newpage
+
+ar2.c:
+\lstinputlisting[language = C]{ar2.c} 
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ar2.c -o ar2
+~/Desktop> ./ar2
+a[0] = 1
+a[1] = 2
+a[2] = 5
+a[3] = 10
+a[4] = 17
+a[5] = 26
+
+Modifying...
+
+a[0] = 0
+a[1] = 1
+a[2] = 2
+a[3] = 3
+a[4] = 4
+a[5] = 5
+~/Desktop> 
+\end{lstlisting} \newpage
+
+ar3.c:
+\lstinputlisting[language = C]{ar3.c} 
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ar3.c -o ar3
+~/Desktop> ./ar3
+*(a + 0) = 1
+*(a + 1) = 2
+*(a + 2) = 5
+*(a + 3) = 10
+*(a + 4) = 17
+*(a + 5) = 26
+
+Modifying...
+
+*(a + 0) = 0
+*(a + 1) = 1
+*(a + 2) = 2
+*(a + 3) = 3
+*(a + 4) = 4
+*(a + 5) = 5
+~/Desktop> 
+\end{lstlisting} \newpage
+
+
+ar4.c:
+\lstinputlisting[language = C]{ar4.c} 
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc ar4.c -o ar4
+~/Desktop> ./ar4
+a[0] = 1
+a[1] = 2
+a[2] = 5
+a[3] = 10
+a[4] = 17
+a[5] = 26
+
+Modifying...
+
+a[0] = 0
+a[1] = 1
+a[2] = 2
+a[3] = 3
+a[4] = 4
+a[5] = 5
+~/Desktop> 
+\end{lstlisting} \newpage
+
+\Huge
+\begin{center}
+{\bf CAUTION}
+\end{center}  \huge
+
+Without dynamic allocation, assign {\tt *a} by copying from named variables instead of using literals. \newline
+
+caution1.c:
+\lstinputlisting[language = C]{caution1.c} $\quad$ \newline
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc caution1.c -o caution1
+~/Desktop> ./caution1
+Bus error: 10
+~/Desktop> 
+\end{lstlisting} $\quad$ \newline
+
+The value of {\tt a} is a memory address that does not exist! 
+\newpage
+
+\Huge
+\begin{center}
+{\bf CAUTION}
+\end{center}  \huge
+
+Every (statically allocated) array has a set length. Do not reference beyond this length. \newline
+
+caution2.c:
+\lstinputlisting[language = C]{caution2.c} 
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc caution2.c -o caution2
+~/Desktop> ./caution2
+*a = 0
+Segmentation fault: 11
+~/Desktop> 
+\end{lstlisting} $\quad$ \newline
+
+It is illegal to reference the object at memory address, {\tt (a + 10000)}.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf DYNAMIC ALLOCATION}
+\end{center} $\quad$ \newline
+
+{\bf Static memory allocation}: Acquiring a fixed, unchangeable piece of memory for a fixed-size data object at compile-time. \newline
+
+{\bf Dynamic memory allocation}: Acquiring a variable-length piece of memory for an variable-size object during runtime. \newline
+
+For dynamic allocation, use the function {\tt malloc()}, which is in {\tt stdlib.h}.
+
+\newpage
+
+dy1.c:
+\lstinputlisting[language = C]{dy1.c} 
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc dy1.c -o dy1
+~/Desktop> ./dy1
+a[0] = 10
+a[1] = 11
+a[2] = 14
+a[3] = 19
+a[4] = 26
+a[5] = 35
+a[6] = 46
+a[7] = 59
+a[8] = 74
+a[9] = 91
+~/Desktop> 
+\end{lstlisting} $\quad$ \newpage
+
+
+dy2.c:
+\lstinputlisting[language = C]{dy2.c} \newpage
+output:
+\begin{lstlisting}[language = bash]
+~/Desktop> gcc dy2.c -o dy2
+~/Desktop> ./dy2
+a[0] = 10.250000
+a[1] = 11.250000
+a[2] = 14.250000
+a[3] = 19.250000
+a[4] = 26.250000
+a[5] = 35.250000
+a[6] = 46.250000
+a[7] = 59.250000
+a[8] = 74.250000
+a[9] = 91.250000
+
+b[0] = 10.250000
+b[1] = 11.250000
+b[2] = 14.250000
+b[3] = 19.250000
+b[4] = 26.250000
+b[5] = 35.250000
+b[6] = 46.250000
+b[7] = 59.250000
+b[8] = 74.250000
+b[9] = 91.250000
+b[10] = 110.250000
+b[11] = 131.250000
+b[12] = 154.250000
+b[13] = 179.250000
+b[14] = 206.250000
+~/Desktop> 
+\end{lstlisting} $\quad$ \newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Pointers
+\item Arrays
+\item Bus errors and segmentation faults
+\item Dynamic allocation
+\end{itemize}
+\newpage
+
+\Huge
+\begin{center}
+{\bf LECTURE SERIES MATERIALS}
+\end{center} $\quad$ \newline
+\huge
+These lecture slides, a tentative syllabus for the whole lecture series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the course materials.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline \LARGE
+
+Ted Jensen. "A Tutorial on Pointers and Arrays in C". http://pw1.netcom.com/$\sim$tjensen/ptr/pointers.htm \newline
+
+Brian W. Kernighan and Dennis M. Ritchie. "The ANSI C Programming Language". 2nd Ed. \newline
+
+Walter Savitch. "Absolute C++". 3rd Ed.
+
+
+
+
+
+
+\end{flushleft}
+\end{document}
