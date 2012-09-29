@@ -39,7 +39,7 @@
  
 \lstset{ %
   language=C,                % the language of the code
-  basicstyle=\LARGE,           % the size of the fonts that are used for the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
   numbers=left,                   % where to put the line-numbers
   numberstyle=\tiny\color{white},  % the style that is used for the line-numbers
 %  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
@@ -145,7 +145,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf CUDA C: THE SIMD PARADIGM, SHARED MEMORY, AND THE DOT PRODUCT}
+{\bf CUDA C: PERFORMANCE MEASUREMENT AND TYPES OF MEMORY }
 \end{center} $\quad$ \newline
 
 \LARGE
@@ -161,28 +161,115 @@ Will Landau, Prof. Jarad Niemi
 {\bf OUTLINE} 
 \end{center} $\quad$ \newline 
 \begin{itemize}
+\item Measuring GPU performance
 \item Global vs. local vs. shared memory
 \item Implementing the dot product
 \end{itemize} $\quad$ \newline
 
 Featured examples: \newline
 \begin{itemize}
+\item {\tt time.cu}
 \item {\tt dot\_product.cu}
 \end{itemize}
 % JBN: Last time we discussed providing pseudo-C-code. Perhaps it would make sense to included pseudo-C-code for the dot-product since you are going to be using it in this lecture. 
 
 
+
+\Huge
+\begin{center}
+{\bf EVENTS: MEASURING PERFORMANCE ON THE GPU}
+\end{center} $\quad$ \newline
+
+{\bf Event}: a time stamp for the GPU. \newline
+
+Use events to measure the amount of time the GPU spends on a task. \newline
+
 \newpage
 
+\Huge
+\begin{center}
+{\bf TEMPLATE: {\tt time.cu}}
+\end{center} 
 
-\setkeys{Gin}{width=1\textwidth} \includegraphics[scale=0.25,angle=0]{mem} 
+\Large
+
+\begin{lstlisting}[language = C]
+#include <stdlib.h>
+#include <stdio.h>
+#include <cuda.h>
+#include <cuda_runtime.h>
+
+int main(){
+  float   elapsedTime;
+  cudaEvent_t start, stop;
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord( start, 0 );
+
+  // SOME GPU KERNEL YOU WANT TIMED HERE
+
+  cudaEventRecord( stop, 0 );
+  cudaEventSynchronize( stop );
+  cudaEventElapsedTime( &elapsedTime, start, stop );
+  cudaEventDestroy( start );
+  cudaEventDestroy( stop );
+  printf("GPU Time elapsed: %f\n", elapsedTime);
+}
+\end{lstlisting}  \newpage
+
+\Huge
+
+The variable, {\tt elapsedTime}, is the GPU time spent on the task. You can now print it any way you like. \newline
+\color{red}
+
+Note: only GPU elapsed time is measured, not CPU time. \newline
+
+GPU time and CPU time must be measured separately.
+\color{black}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf ASIDE: MEASURING CPU TIME}
+\end{center} $\quad$ \newline \huge
+
+
+\begin{lstlisting}[language = C]
+#include <stdio.h>
+#include <time.h>
+
+int main(){
+
+  clock_t start = clock();
+
+  // SOME CPU CODE YOU WANT TIMED HERE
+
+  float elapsedTime = ((double)clock() - start) / 
+                            CLOCKS_PER_SEC;
+
+  printf("CPU Time elapsed: %f\n", elapsedTime);
+}
+\end{lstlisting} 
+
+
 
 
 \newpage
 \Huge
 \begin{center}
-{\bf EXAMPLE: USING GLOBAL, SHARED, AND LOCAL MEMORY}
+{\bf TYPES OF MEMORY}
 \end{center} 
+
+
+\setkeys{Gin}{width=.95\textwidth} \includegraphics[scale=0.25,angle=0]{mem} 
+
+
+\newpage
+\huge
+\begin{center}
+{\bf THOUGHT EXPERIMENT: GLOBAL VS. SHARED VS. LOCAL MEMORY}
+\end{center}  $\quad$ \newline
 
  \LARGE
 Let's say we have a kernel: \newline

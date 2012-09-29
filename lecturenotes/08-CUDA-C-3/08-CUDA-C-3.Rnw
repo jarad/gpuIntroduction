@@ -25,8 +25,43 @@
 \usepackage{multirow}
 \usepackage{subfig}
 \usepackage{color}
-\usepackage{Sweave}
-\usepackage{SASnRdisplay}
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{white},  % the style that is used for the line-numbers
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=n,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+\captionsetup{labelformat=empty,labelsep=none}
+
 
 \providecommand{\beq}{\begin{equation*}}
 \providecommand{\eeq}{\end{equation*}}
@@ -107,7 +142,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf PERFORMANCE MEASUREMENT AND ATOMICS IN CUDA C}
+{\bf CUDA C: RACE CONDITIONS AND ATOMICS}
 \end{center} $\quad$ \newline
 
 \LARGE
@@ -121,11 +156,10 @@ Will Landau, Prof. Jarad Niemi
 \Huge
 \begin{center}
 {\bf OUTLINE}
-\end{center} $\quad$ \newline
+\end{center} $\quad$ \newline \Large
 
 \begin{itemize}
-\item  Events
-\item Race conditions and atomics
+\item Overview of race conditions and atomics
 \item CUDA C built-in atomic functions
 \item Locks and mutex
 \item Warps
@@ -134,92 +168,13 @@ Will Landau, Prof. Jarad Niemi
 Featured examples: \newline
 
 \begin{itemize}
-\item {\tt time.cu}
+\item {\tt dot\_product\_atomic\_builtin.cu}
+\item {\tt dot\_product\_atomic\_lock.cu}
 \item {\tt race\_condition.cu}
 \item {\tt blockCounter.cu}
-\end{itemize} $\quad$ \newline
+\end{itemize} 
 
 
-
-\newpage
-
-
-\Huge
-\begin{center}
-{\bf EVENTS: MEASURING PERFORMANCE ON THE GPU}
-\end{center} $\quad$ \newline
-
-{\bf Event}: a time stamp for the GPU. \newline
-
-Use events to measure the amount of time the GPU spends on a task. \newline
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf TEMPLATE: {\tt time.cu}}
-\end{center} 
-
-\Large
-
-\begin{verbatim}
-#include <stdlib.h>
-#include <stdio.h>
-#include <cuda.h>
-#include <cuda_runtime.h>
-
-int main(){
-  float   elapsedTime;
-  cudaEvent_t start, stop;
-  cudaEventCreate(&start);
-  cudaEventCreate(&stop);
-  cudaEventRecord( start, 0 );
-
-  // SOME GPU KERNEL YOU WANT TIMED HERE
-
-  cudaEventRecord( stop, 0 );
-  cudaEventSynchronize( stop );
-  cudaEventElapsedTime( &elapsedTime, start, stop );
-  cudaEventDestroy( start );
-  cudaEventDestroy( stop );
-  printf("GPU Time elapsed: %f\n", elapsedTime);
-}
-\end{verbatim}  \newpage
-
-\Huge
-
-The variable, {\tt elapsedTime}, is the GPU time spent on the task. You can now print it any way you like. \newline
-\color{red}
-
-Note: only GPU elapsed time is measured, not CPU time. \newline
-
-GPU time and CPU time must be measured separately.
-\color{black}
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf MEASURING CPU TIME}
-\end{center} $\quad$ \newline \huge
-
-
-\begin{verbatim}
-#include <stdio.h>
-#include <time.h>
-
-int main(){
-
-  clock_t start = clock();
-
-  // SOME CPU CODE YOU WANT TIMED HERE
-
-  float elapsedTime = ((double)clock() - start) / 
-                            CLOCKS_PER_SEC;
-
-  printf("CPU Time elapsed: %f\n", elapsedTime);
-}
-\end{verbatim} 
 
 \newpage
 
@@ -228,7 +183,7 @@ int main(){
 {\bf RACE CONDITIONS AND ATOMICS}
 \end{center} $\quad$ \newline
 
-Consider the following GPU operation on integer {\tt x}: \newline
+Consider the following GPU operation on integer {\tt x}, which is stored in global memory: \newline
 
 
 
@@ -269,7 +224,7 @@ but we might get: \newline
 {\bf EXAMPLE: race\_condition.cu}
 \end{center} $\quad$ \newline \large
 
-\begin{verbatim}
+\begin{lstlisting}[language = C]
 #include <stdio.h>
 #include <stdlib.h>
 #include <cuda.h>
@@ -294,7 +249,7 @@ int main(){
   cudaFree(a_d);
 
 }
-\end{verbatim} $\quad$ \newline
+\end{lstlisting} $\quad$ \newline
 
 \newpage
 
@@ -355,19 +310,95 @@ atomicCAS() \newline
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{14} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{15} \newpage
 
-\color{red}
 \Huge
+\begin{center}
+{\bf EXAMPLE: THE ATOMIC DOT PRODUCT}
+\end{center}  \LARGE
 
-NOTE: If you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} \newline
 
-Example: \newline
-\begin{verbatim}
-nvcc dot_product_atomic.cu -arch sm_20 
-     -o dot_product_atomic
-\end{verbatim}
+\begin{align*}
+(a_0, \ a_1, \ldots ,\  a_{15}) \bullet (b_0, \ b_1, \ldots , \ b_{15}) = a_0 b_0 + a_1 b_1 + \cdots + a_{15} b_{15}
+\end{align*} $\quad$ \newline
+The basic workflow is: \newline
+
+\begin{itemize}
+\item Pass vectors {\tt a} and {\tt b} to the GPU. \newline
+\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}, For example: 
+
+\begin{align*}
+\intertext{Block 0 works on:}
+&(a_0, \ a_1,\  \ldots,\  a_7) \\
+&(b_0, \ b_1,\  \ldots,\ b_7)
+\intertext{Block 1 works on:}
+&(a_8, \ a_9,\  \ldots,\  a_{15}) \\
+&(b_8, \ b_9,\  \ldots,\ b_{15})
+\end{align*}$\quad$ \newline
+
+\item Within each block, compute a vector of pairwise products:
+
+\begin{align*}
+\intertext{Block 0:}
+\text{\tt cache} &= (a_0 \cdot b_0, \ a_1 \cdot b_1, \ \ldots, \  a_7 \cdot b_7)
+\intertext{Block 1:}
+\text{\tt cache} &= (a_8 \cdot b_8, \ a_9 \cdot b_9, \ \ldots, \  a_{15} \cdot b_{15})
+\end{align*}
+
+where {\tt cache} is an array in shared memory. \newline
+\item Within each block, compute the pairwise sum of {\tt cache} and write it to {\tt cache[0]}. In our example: 
+\begin{align*}
+\intertext{Block 0:}
+\text{\tt cache[0]} &= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +  a_7 \cdot b_7
+\intertext{Block 1:}
+\text{\tt cache[0]} &= a_8 \cdot b_8 + a_9 \cdot b_9 + \cdots +  a_{15} \cdot b_{15}
+\end{align*} $\quad$ \newline
+\item \color{blue} Within {\tt dot()}, ATOMICALLY ADD each block's copy of {\tt cache[0]} to the integer {\tt c}. Then:
+
+\begin{align*}
+\text{\tt c }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
+\end{align*}
+
+\end{itemize}
+
+
+\color{black}
+\newpage
+
+\Huge
+\begin{center}
+{\bf dot\_product\_atomic\_builtin.cu}
+\end{center} 
+
+\lstinputlisting[language = C]{dot_product_atomic_builtin.cu}
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 dot_product_atomic_builtin]$ nvcc dot_product_atomic_builtin.cu -arch sm_20 -o dot
+[landau@impact1 dot_product_atomic_builtin]$ ./dot
+Does GPU value 2.76217e+22 = 2.76217e+22?
+[landau@impact1 dot_product_atomic_builtin]$ 
+\end{lstlisting} $\quad$ \newline
+
+
+
+NOTE: If you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. \newline
+
 \newpage
 
 \color{black}
+
+
+
+
+
+
+
+\newpage
+
 
 \Huge
 \begin{center}
@@ -419,13 +450,40 @@ __device__ void lock( void ) {
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop} \newpage
 
+\LARGE
+\begin{center}
+{\bf {\tt dot\_product\_atomic\_lock.cu}: THE ATOMIC DOT PRODUCT WITH LOCKS}
+\end{center} $\quad$ \newline
 
+\lstinputlisting[language = C]{dot_product_atomic_lock.cu}
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 dot_product_atomic_lock]$ nvcc dot_product_atomic_lock.cu -arch sm_20 -o dot
+[landau@impact1 dot_product_atomic_lock]$ ./dot
+Does GPU value 2.76217e+22 = 2.76217e+22?
+[landau@impact1 dot_product_atomic_lock]$ 
+\end{lstlisting} $\quad$ \newline
+
+NOTE: we still need {\tt -arch sm\_20} because the lock relies on built-in atomic functions.
+
+\newpage
 
 \LARGE
+\begin{center}
+{\bf ANOTHER EXAMPLE: COUNTING THE NUMBER OF BLOCKS}
+\end{center} 
+
+\Large
 Compare these two kernels, both of which attempt to count the number of spawned blocks: \newline
 
-\begin{verbatim}
+\begin{lstlisting}[language = C]
 __global__ void blockCounterUnlocked( int *nblocks ){
    if(threadIdx.x == 0){
     *nblocks = *nblocks + 1;
@@ -439,7 +497,7 @@ __global__ void blockCounter1( Lock lock, int *nblocks ){
     lock.unlock();
   }
 }
-\end{verbatim} $\quad$ \newline \color{blue}
+\end{lstlisting} $\quad$ \newline \color{blue}
 Which one gives us the correct answer? \newline
 Which one is faster?
 \color{black}
@@ -626,10 +684,9 @@ $\quad$ \newline
 \Huge
 \begin{center}
 {\bf OUTLINE}
-\end{center} $\quad$ \newline
+\end{center} $\quad$ \newline \Large
 
 \begin{itemize}
-\item  Events
 \item Race conditions and atomics
 \item CUDA C built-in atomic functions
 \item Locks and mutex
@@ -639,10 +696,11 @@ $\quad$ \newline
 Featured examples: \newline
 
 \begin{itemize}
-\item {\tt time.cu}
+\item {\tt dot\_product\_atomic\_builtin.cu}
+\item {\tt dot\_product\_atomic\_lock.cu}
 \item {\tt race\_condition.cu}
 \item {\tt blockCounter.cu}
-\end{itemize} $\quad$ \newline
+\end{itemize} 
 
 
 \newpage
