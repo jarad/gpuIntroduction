@@ -7,7 +7,7 @@ const int N = 33 * 1024;
 const int threadsPerBlock = 256; 
 const int blocksPerGrid = imin( 32, (N+threadsPerBlock-1) / threadsPerBlock );
 
-__global__ void dot( float *a, float *b, float *c ) { 
+__global__ void dot( float *a, float *b, float *partial_c ) { 
 
   __shared__ float cache[threadsPerBlock];
   int tid = threadIdx.x + blockIdx.x * blockDim.x; 
@@ -34,8 +34,9 @@ __global__ void dot( float *a, float *b, float *c ) {
   }
 
   if (cacheIndex == 0) 
-    c[blockIdx.x] = cache[0];
+    partial_c[blockIdx.x] = cache[0];
 }
+
 
 int main( void ) {
   float *a, *b, c, *partial_c;
@@ -72,7 +73,6 @@ int main( void ) {
   for (int i=0; i<blocksPerGrid; i++) {
     c += partial_c[i];
   }
-
 
   #define sum_squares(x)( x * (x + 1) * (2 * x + 1) / 6 )
  
