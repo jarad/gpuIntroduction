@@ -361,6 +361,21 @@ Now, {\tt partial\_c[0]} is the final answer.
 
 \Huge
 \begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 dot_product]$ nvcc dot_product.cu -o dot_product
+[landau@impact1 dot_product]$ ./dot_product
+Does GPU value 2.57236e+13 = 2.57236e+13?
+[landau@impact1 dot_product]$ 
+\end{lstlisting}
+
+
+\newpage
+\Huge
+\begin{center}
 {\bf OUTLINE} 
 \end{center} $\quad$ \newline \Large
 \begin{itemize}
@@ -375,6 +390,7 @@ Featured examples: \newline
 \end{itemize}
 
 \newpage
+
 
 \Huge
 \begin{center}
