@@ -1,0 +1,658 @@
+% !TEX TS-program = knitr
+\documentclass{article}
+
+\hoffset = 0pt
+\voffset = 0pt
+\footskip = 75pt
+
+\usepackage[landscape]{geometry}
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{color}
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+  language=C,                % the language of the code
+  basicstyle=\Large,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{white},  % the style that is used for the line-numbers
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=n,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+\captionsetup{labelformat=empty,labelsep=none}
+
+
+\providecommand{\beq}{\begin{equation*}}
+\providecommand{\eeq}{\end{equation*}}
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\all}{\ \forall \ }
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Qn}{\mathbb{Q}^n}
+\providecommand{\Rn}{\mathbb{R}^n}
+\providecommand{\Cn}{\mathbb{C}^n}
+\providecommand{\Zn}{\mathbb{Z}^n}
+\providecommand{\Qk}{\mathbb{Q}^k}
+\providecommand{\Rk}{\mathbb{R}^k}
+\providecommand{\Ck}{\mathbb{C}^k}
+\providecommand{\Zk}{\mathbb{Z}^k}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\lmu}[1]{\lim_{#1 \rightarrow \infty}}
+\providecommand{\lmd}[1]{\lim_{#1 \rightarrow -\infty}}
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\aut}[1]{\text{Aut}{ \ #1}}
+\providecommand{\inn}[1]{\text{Inn}{ \ #1}}
+\providecommand{\cj}[1]{\overline{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\p}{\newpage}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\providecommand{\pset}{1}   %PUT PROBLEM SET NUMBRER HERE
+\renewcommand{\labelenumi}{\alph{enumi}.} %controls enumerating style
+\renewcommand{\labelenumii}{\roman{enumii}.} 
+
+\setcounter{section}{\pset}
+
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+# this is equivalent to \SweaveOpts{...}
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+options(replace.assign=TRUE,width=50)
+@
+
+
+\begin{flushleft}
+
+\Huge
+\begin{center}
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+$\quad$ \newline
+{\bf THE CURAND LIBRARY VERSION 4.2}
+\end{center} $\quad$ \newline
+
+\LARGE
+
+\begin{center}
+Will Landau, Prof. Jarad Niemi
+\end{center}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{itemize}
+\item Using the host API
+\item Using the device API
+\item Rejection sampling on the GPU
+\end{itemize} \q
+
+Featured examples:
+
+\begin{itemize}
+\item {host\_api.cu}
+\item {device\_api.cu}
+\item Dr. Niemi's rejection sampling code at https://github.com/jarad/gpuRejectionSampling.
+\end{itemize}
+
+\newpage
+\huge
+
+\begin{description}
+\item[CURAND: ] A CUDA C library for generating pseudorandom and quasi-random numbers. \newline
+\item[Pseudorandom sequence: ] a sequence of numbers that is generated by a deterministic algorithm but that exhibits most of the properties of a truly random sequence. \newline
+\item[Quasi-random (low-discrepancy) sequence: ] a sequence of $n$-dimensional points generated by a deterministic sequence to appear random and to fill a region of $n$-dimensional space evenly.
+\end{description}
+\newpage
+
+\huge
+\begin{center}
+{\bf THE 2 PIECES OF CURAND}
+\end{center} \q \Large
+\begin{description}
+\item[Host API] $\quad$ \newline
+\begin{itemize}
+\item Include the header, {\tt curand.h}, and link with the {\tt -lcurand} flag at compilation.
+\item Calls to number generators happen on host.
+\item With each call, a predetermined number of random draws is generated and then stored for later use in a kernel call or a copy statement.
+\item Supports 3 pseudorandom generators and 4 quasirandom generators.
+\end{itemize} \q
+\item[Device API] $\quad$ \newline
+\begin{itemize}
+\item Include the header, {\tt curand\_kernel.h}, and link with the {\tt -lcurand} flag at compilation.
+\item Calls to number generators happen within kernels and other device functions. 
+\item Random numbers are generated and immediately consumed in real time on an as-need basis.
+\item Supports few generator algorithms.
+\end{itemize}
+\end{description}
+
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf USING THE HOST API}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{enumerate}[1. ]
+\item Create a new generator of the desired type with {\tt curandCreateGenerator()}.
+\item Set the generator options. For example, use {\tt curandSetPseudoRandomGeneratorSeed()} to set the seed.
+\item Allocate memory on the device with {\tt cudaMalloc()}.
+\item Generate random numbers with {\tt curandGenerate()} or another generation function.
+\item Use the results.
+\item If desired, generate more random numbers with more calls to {\tt curandGenerate()}.
+\item Clean up the generator with {\tt curandDestroyGenerator()}.
+\item Clean up other objects with {\tt free()} and {\tt cudaFree()}.
+\end{enumerate}
+\newpage
+
+\huge
+\begin{center}
+{\bf GENERATOR TYPES: {\tt curandCreateGenerator()}}
+\end{center} $\quad$ \newline \Large
+
+\begin{description}
+\item[Pseudorandom Number Generators:] $\quad$
+\begin{description}
+\item[CURAND\_RNG\_PSEUDO\_DEFAULT: ] currently XORWOW algorithm
+\item[CURAND\_RNG\_PSEUDO\_XORWOW: ]  XORWOW algorithm
+\item[CURAND\_RNG\_PSEUDO\_MRG32K3A: ] Combined Multiple Recursive family
+\item[CURAND\_RNG\_PSEUDO\_MTGP32: ] {\color{blue} Mersenne Twister} family
+\end{description} \q
+\item[Quasi-random Number Generators:] $\quad$
+\begin{description}
+\item[CURAND\_RNG\_QUASI\_DEFAULT: ] currently  Sobol, 32-bit sequences
+\item[CURAND\_RNG\_QUASI\_SOBOL32: ] Sobol, 32-bit sequences
+\item[CURAND\_RNG\_QUASI\_SOBOL64: ] Sobol, 64-bit sequences
+\item[CURAND\_RNG\_QUASI\_SCRAMBLED\_SOBOL32: ] Scrambled Sobol, 32-bit sequences
+\item[CURAND\_RNG\_QUASI\_SCRAMBLED\_SOBOL64: ] Scrambled Sobol, 64-bit sequences
+\end{description}
+\end{description}
+
+\newpage
+
+\huge
+\begin{center}
+{\bf GENERATOR OPTIONS}
+\end{center}  \LARGE
+\begin{description}
+\item[Seed: ] a 64-bit integer that initializes the starting state of a pseudorandom number generator
+\item[Offset: ] a parameter used to skip ahead in the sequence. If offset = 100, the first random number generated will be the 100th in the sequence. Not available for CURAND\_RNG\_PSEUDO\_MTGP32.
+\item[Order: ] a parameter specifying how the results are ordered in global memory. \q
+\begin{description}
+\item[Pseudorandom sequence order options ] $\quad$
+\begin{description}
+\item[CURAND\_ORDERING\_PSEUDO\_DEFAULT]
+\item[CURAND\_ORDERING\_PSEUDO\_BEST] currently implemented the same as the default
+\item[CURAND\_ORDERING\_PSEUDO\_SEEDED]
+\end{description} $\quad$
+\item[Quasi-random sequence order options] $\quad$
+\begin{description}
+\item[CURAND\_ORDERING\_QUASI\_DEFAULT]
+\end{description}
+\end{description}
+\end{description}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf GENERATOR FUNCTIONS}
+\end{center} $\quad$ \newline \LARGE
+
+Random bits:
+\begin{lstlisting}
+curandStatus_t curandGenerate(curandGenerator_t generator, 
+                              unsigned int *outputPtr, 
+                              size_t num)
+\end{lstlisting}
+
+Random Unif(0,1):
+\begin{lstlisting}
+curandStatus_t curandGenerateUniform(curandGenerator_t generator,                                     float *outputPtr, 
+                                     size_t num)
+                                     
+curandStatus_t curandGenerateUniformDouble(curandGenerator_t 
+                                       generator,                                     double *outputPtr, 
+                                     size_t num)
+\end{lstlisting}
+
+\p
+
+Random Normal:
+\begin{lstlisting}
+curandStatus_t curandGenerateNormal(curandGenerator_t generator,                                    float *outputPtr, 
+                                    size_t n,                                    float mean, 
+                                    float stddev)
+                                    
+curandStatus_t curandGenerateNormalDouble(curandGenerator_t 
+                                      generator,                                    double *outputPtr, 
+                                    size_t n,                                    double mean, 
+                                    double stddev)
+\end{lstlisting} \p
+
+Random Log-normal:
+\begin{lstlisting}
+curandStatus_t curandGenerateLogNormal(curandGenerator_t 
+                                         generator,                                       float *outputPtr, 
+                                       size_t n,                                       float mean,
+                                       float stddev)
+
+curandStatus_t curandGenerateLogNormalDouble(curandGenerator_t 
+                                         generator,                                       double *outputPtr, 
+                                       size_t n,                                       double mean,
+                                       double stddev)
+\end{lstlisting}
+
+\p
+
+\Huge
+\begin{center}
+{\bf HOST API EXAMPLE: {host\_api.cu}}
+\end{center} $\quad$ \newline
+
+\lstinputlisting{host_api.cu}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language=bash]
+[landau@impact1 host_api]$ make
+nvcc host_api.cu -lcurand -o host_api
+[landau@impact1 host_api]$ ./host_api
+Random Unif(0, 1) draws:
+  0.1455
+  0.8202
+  0.5504
+  0.2948
+  0.9147
+  0.8690
+  0.3219
+  0.7829
+  0.0113
+  0.2855
+
+[landau@impact1 host_api]$ 
+\end{lstlisting}
+\p
+
+\Huge
+\begin{center}
+{\bf USING THE DEVICE API}
+\end{center} $\quad$ \newline \huge
+
+\begin{enumerate}[1. ]
+\item Within a kernel, call {\tt curand\_init()} to initialize the ``state" of the random number generator.
+\item Within a separate kernel, call {\tt curand()} or one of its wrapper functions (such as {\tt curand\_uniform()} or {\tt curand\_normal()}) to generate pseudorandom or quasi-random numbers as needed.
+\end{enumerate} \q
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf RNG TYPES SUPPORTED}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{description}
+\item[Pseudorandom: ] $\quad$
+\begin{itemize}
+\item XORWOW 
+\end{itemize} 
+\item[Quasi-random: ] $\quad$
+\begin{itemize}
+\item 32-bit Sobol
+\item 32-bit scrambled Sobol
+\end{itemize}
+\end{description} \q
+
+Notes:
+\begin{itemize}
+\item  MRG32k3a (combined multiple recursive PRNG) is ostensibly available, but there is no documentation on how to access it.
+\item MTGP32 (Mersenne Twister PRNG) is ostensibly available, but the associated functions  mentioned in the documentation are undefined in the library.
+\end{itemize}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf XORWOW}
+\end{center} $\quad$ \newline \LARGE
+
+Initialize RNG with:
+\begin{lstlisting}
+__device__ void curand_init (unsigned long long seed, 
+                             unsigned long long sequence,                             unsigned long long offset, 
+                             curandState_t *state)
+\end{lstlisting} \q
+Then, output pseudorandom numbers with any of the following:
+\begin{lstlisting}
+__device__ unsigned int 
+curand (curandState_t *state) // RANDOM BITS
+
+__device__ floatcurand_uniform (curandState_t *state) // U(0,1)
+
+__device__ doublecurand_uniform_double (curandState_t *state) // U(0,1)
+
+__device__ floatcurand_normal (curandState_t *state) // N(0,1)
+
+__device__ doublecurand_normal_double (curandState_t *state) // N(0,1)
+
+__device__ float2curand_normal2 (curandState_t *state) // 2 N(0,1) draws
+__device__ float2curand_log_normal2 (curandState_t *state) // 2 N(0,1) draws
+
+__device__ floatcurand_log_normal (curandState_t *state, float mean, float stddev)
+
+__device__ doublecurand_log_normal_double (curandState_t *state, double mean, double stddev)
+
+__device__ double2curand_normal2_double (curandState_t *state) // 2 draws
+__device__ double2curand_log_normal2_double (curandState_t *state) // 2 draws
+\end{lstlisting} \p
+
+\Huge
+\begin{center}
+{\bf SOBOL}
+\end{center} \LARGE
+
+Initialize the QRNG with one of the following:
+\begin{lstlisting}
+__device__ voidcurand_init (    unsigned int *direction_vectors,    unsigned int offset,    curandStateSobol32_t *state) // Sobol 
+
+__device__ voidcurand_init (    unsigned int *direction_vectors,    unsigned int scramble_c,    unsigned int offset,    curandStateScrambledSobol32_t *state) // Scrambled Sobol
+\end{lstlisting} \q
+
+Then, generate quasi-random numbers with any of the following:
+\begin{lstlisting}
+__device__ unsigned intcurand (curandStateSobol32_t *state)
+__device__ floatcurand_uniform (curandStateSobol32_t *state)
+__device__ floatcurand_normal (curandStateSobol32_t *state)
+__device__ floatcurand_log_normal (    curandStateSobol32_t *state,    float mean,    float stddev)
+__device__ doublecurand_uniform_double (curandStateSobol32_t *state)
+__device__ doublecurand_normal_double (curandStateSobol32_t *state)
+__device__ doublecurand_log_normal_double (    curandStateSobol32_t *state,    double mean,    double stddev)
+\end{lstlisting} \p
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: {device\_api.cu}}
+\end{center} $\quad$ \newline
+
+\lstinputlisting{device_api.cu}
+
+
+\p
+
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 device_api]$ make
+nvcc device_api.cu -lcurand -o device_api
+ptxas /tmp/tmpxft_000020d0_00000000-2_device_api.ptx, line 501; warning : Double is not supported. Demoting to float
+[landau@impact1 device_api]$ ./device_api
+Fraction odd was 0.4999966323376
+[landau@impact1 device_api]$ 
+\end{lstlisting}
+
+\p
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: REJECTION SAMPLING}
+\end{center} $\quad$ \newline
+
+Dr. Niemi's rejection sampling code is available at https://github.com/jarad/gpuRejectionSampling. \newline
+
+Rejection sampling:
+\begin{enumerate}[1. ]
+\item Draw a pseudorandom number, $x$.
+\item If $x$ is too big, throw out $x$ and return to step 1.
+\item Return $x$ if $x$ is small enough.
+\end{enumerate}
+
+\p
+
+\Huge
+\begin{center}
+{\bf {cpu\_runif.c}}
+\end{center} $\quad$ \newline
+
+\lstinputlisting{cpu_runif.c}
+
+\p
+
+\Huge
+\begin{center}
+{\bf {gpu\_runif.cu}}
+\end{center} $\quad$ \newline
+
+\lstinputlisting{gpu_runif.cu}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf {\tt my.runif.r}}
+\end{center} $\quad$ \newline \Large
+
+<<eval=F>>=
+
+my.runif = function(n, ub, ni=1, nd=1, engine="R", seed=1)
+{
+    engine = pmatch(engine, c("R","C","GPU"))
+
+    switch(engine,
+    {
+        # R implementation
+        u = rep(Inf,n)
+        count = rep(0,n)
+        set.seed(seed)
+        for (i in 1:n) while( (u[i] <- runif(1))>ub ) 
+        {
+            count[i] = count[i]+1
+            a = 0
+            b = 1
+            for (j in 1:ni) a = a + 1
+            for (j in 1:nd) b = b * 1.00001
+        }
+        return(list(u=u,count=count))
+    },
+    {
+        # C implementation
+        set.seed(seed)
+        out = .C("cpu_runif_wrap", as.integer(n), as.double(ub), 
+                              as.integer(ni), as.integer(nd),
+                              u=double(n), count=integer(n))
+        return(list(u=out$u,count=out$count))
+    },
+    {
+        # GPU implementation
+        out = .C("gpu_runif", as.integer(n), as.double(ub), 
+                              as.integer(ni), as.integer(nd),
+                              as.double(seed),
+                              u=double(n), count=integer(n))
+        return(list(u=out$u,count=out$count))
+    })
+}
+@ \q
+
+\p
+
+\Huge
+\begin{center}
+{\bf HOW TO RUN THE EXAMPLE}
+\end{center} $\quad$ \newline \LARGE
+
+The files, {\tt comparison.r} and {\tt comparison-analysis.r}, compare the performances of the R, C, and GPU rejection samplers. \newline
+
+Here is the workflow:
+\begin{lstlisting}[language = bash]
+
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf OUTLINE}
+\end{center} $\quad$ \newline \LARGE
+
+\begin{itemize}
+\item Using the host API
+\item Using the device API
+\item Rejection sampling on the GPU
+\end{itemize} \q
+
+Featured examples:
+
+\begin{itemize}
+\item {host\_api.cu}
+\item {device\_api.cu}
+\item Dr. Niemi's rejection sampling code at https://github.com/jarad/gpuRejectionSampling.
+\end{itemize}
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf GPU SERIES MATERIALS}
+\end{center} $\quad$ \newline
+\huge
+These slides, a tentative syllabus for the whole series, and code are available at: \newline
+
+\begin{center}
+ https://github.com/wlandau/gpu. 
+\end{center} $\quad$ \newline
+
+
+After logging into you home directory on impact1, type: \newline
+
+\begin{verbatim}
+        git clone https://github.com/wlandau/gpu
+\end{verbatim} $\quad$ \newline
+
+into the command line to download all the materials.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf REFERENCES}
+\end{center} $\quad$ \newline \Large
+
+
+``CUDA Toolkit 4.2 CURAND Guide". NVIDIA. http://developer.download.nvidia.com/
+compute/DevZone/docs/html/CUDALibraries/doc/CURAND\_Library.pdf \newline
+
+Niemi, Jarad. ``gpuRejectionSampling". https://github.com/jarad/gpuRejectionSampling
+
+
+
+
+ 
+
+\end{flushleft}
+\end{document}
