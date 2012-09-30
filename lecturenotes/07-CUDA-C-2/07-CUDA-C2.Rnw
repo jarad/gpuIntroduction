@@ -252,6 +252,31 @@ int main(){
 }
 \end{lstlisting} 
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf EXAMPLE: {\tt pairwise\_sum\_timed.cu}}
+\end{center} 
+
+\lstinputlisting[language = C]{pairwise_sum_timed.cu}
+
+\newpage
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 pairwise_sum_timed]$ make
+nvcc pairwise_sum_timed.cu -o pairwise_sum_timed
+[landau@impact1 pairwise_sum_timed]$ ./pairwise_sum_timed
+Linear Sum = 518.913, CPU Time elapsed: 0.000000
+Pairwise Sum = 518.913, GPU Time elapsed: 0.036640
+[landau@impact1 pairwise_sum_timed]$ 
+\end{lstlisting}
+
+
 
 
 
