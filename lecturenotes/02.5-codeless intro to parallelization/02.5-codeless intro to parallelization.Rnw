@@ -25,8 +25,6 @@
 \usepackage{multirow}
 \usepackage{subfig}
 \usepackage{color}
-\usepackage{Sweave}
-\usepackage{SASnRdisplay}
 
 \providecommand{\beq}{\begin{equation*}}
 \providecommand{\eeq}{\end{equation*}}
@@ -507,8 +505,6 @@ into the command line to download all the materials.
 \begin{center}
 {\bf REFERENCES}
 \end{center} $\quad$ \newline
-
-Lay, David C. {\emph Linear Algebra and Its Applications}. 3rd Ed. Addison Wesley, 2006. \newline
 
 J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. \newline
 
