@@ -294,11 +294,13 @@ curandStatus_t curandGenerate(curandGenerator_t generator,
 
 Random Unif(0,1):
 \begin{lstlisting}
-curandStatus_t curandGenerateUniform(curandGenerator_t generator,                                     float *outputPtr, 
+curandStatus_t curandGenerateUniform(curandGenerator_t generator,
+                                     float *outputPtr, 
                                      size_t num)
                                      
 curandStatus_t curandGenerateUniformDouble(curandGenerator_t 
-                                       generator,                                     double *outputPtr, 
+                                       generator,
+                                     double *outputPtr, 
                                      size_t num)
 \end{lstlisting}
 
@@ -306,26 +308,34 @@ curandStatus_t curandGenerateUniformDouble(curandGenerator_t
 
 Random Normal:
 \begin{lstlisting}
-curandStatus_t curandGenerateNormal(curandGenerator_t generator,                                    float *outputPtr, 
-                                    size_t n,                                    float mean, 
+curandStatus_t curandGenerateNormal(curandGenerator_t generator,
+                                    float *outputPtr, 
+                                    size_t n,
+                                    float mean, 
                                     float stddev)
                                     
 curandStatus_t curandGenerateNormalDouble(curandGenerator_t 
-                                      generator,                                    double *outputPtr, 
-                                    size_t n,                                    double mean, 
+                                      generator,
+                                    double *outputPtr, 
+                                    size_t n,
+                                    double mean, 
                                     double stddev)
 \end{lstlisting} \p
 
 Random Log-normal:
 \begin{lstlisting}
 curandStatus_t curandGenerateLogNormal(curandGenerator_t 
-                                         generator,                                       float *outputPtr, 
-                                       size_t n,                                       float mean,
+                                         generator,
+                                       float *outputPtr, 
+                                       size_t n,
+                                       float mean,
                                        float stddev)
 
 curandStatus_t curandGenerateLogNormalDouble(curandGenerator_t 
-                                         generator,                                       double *outputPtr, 
-                                       size_t n,                                       double mean,
+                                         generator,
+                                       double *outputPtr, 
+                                       size_t n,
+                                       double mean,
                                        double stddev)
 \end{lstlisting}
 
@@ -350,16 +360,16 @@ curandStatus_t curandGenerateLogNormalDouble(curandGenerator_t
 nvcc host_api.cu -lcurand -o host_api
 [landau@impact1 host_api]$ ./host_api
 Random Unif(0, 1) draws:
-  0.1455
-  0.8202
-  0.5504
-  0.2948
-  0.9147
-  0.8690
-  0.3219
-  0.7829
-  0.0113
-  0.2855
+  0.5823
+  0.4636
+  0.6156
+  0.9964
+  0.1182
+  0.2672
+  0.9241
+  0.7161
+  0.2309
+  0.4075
 
 [landau@impact1 host_api]$ 
 \end{lstlisting}
@@ -410,7 +420,8 @@ Notes:
 Initialize RNG with:
 \begin{lstlisting}
 __device__ void curand_init (unsigned long long seed, 
-                             unsigned long long sequence,                             unsigned long long offset, 
+                             unsigned long long sequence,
+                             unsigned long long offset, 
                              curandState_t *state)
 \end{lstlisting} \q
 Then, output pseudorandom numbers with any of the following:
@@ -418,23 +429,35 @@ Then, output pseudorandom numbers with any of the following:
 __device__ unsigned int 
 curand (curandState_t *state) // RANDOM BITS
 
-__device__ floatcurand_uniform (curandState_t *state) // U(0,1)
+__device__ float
+curand_uniform (curandState_t *state) // U(0,1)
 
-__device__ doublecurand_uniform_double (curandState_t *state) // U(0,1)
+__device__ double
+curand_uniform_double (curandState_t *state) // U(0,1)
 
-__device__ floatcurand_normal (curandState_t *state) // N(0,1)
+__device__ float
+curand_normal (curandState_t *state) // N(0,1)
 
-__device__ doublecurand_normal_double (curandState_t *state) // N(0,1)
+__device__ double
+curand_normal_double (curandState_t *state) // N(0,1)
 
-__device__ float2curand_normal2 (curandState_t *state) // 2 N(0,1) draws
-__device__ float2curand_log_normal2 (curandState_t *state) // 2 N(0,1) draws
+__device__ float2
+curand_normal2 (curandState_t *state) // 2 N(0,1) draws
 
-__device__ floatcurand_log_normal (curandState_t *state, float mean, float stddev)
+__device__ float2
+curand_log_normal2 (curandState_t *state) // 2 N(0,1) draws
 
-__device__ doublecurand_log_normal_double (curandState_t *state, double mean, double stddev)
+__device__ float
+curand_log_normal (curandState_t *state, float mean, float stddev)
 
-__device__ double2curand_normal2_double (curandState_t *state) // 2 draws
-__device__ double2curand_log_normal2_double (curandState_t *state) // 2 draws
+__device__ double
+curand_log_normal_double (curandState_t *state, double mean, double stddev)
+
+__device__ double2
+curand_normal2_double (curandState_t *state) // 2 draws
+
+__device__ double2
+curand_log_normal2_double (curandState_t *state) // 2 draws
 \end{lstlisting} \p
 
 \Huge
@@ -444,20 +467,48 @@ __device__ double2curand_normal2_double (curandState_t *state) // 2 draws
 
 Initialize the QRNG with one of the following:
 \begin{lstlisting}
-__device__ voidcurand_init (    unsigned int *direction_vectors,    unsigned int offset,    curandStateSobol32_t *state) // Sobol 
+__device__ void
+curand_init (
+    unsigned int *direction_vectors,
+    unsigned int offset,
+    curandStateSobol32_t *state) // Sobol 
 
-__device__ voidcurand_init (    unsigned int *direction_vectors,    unsigned int scramble_c,    unsigned int offset,    curandStateScrambledSobol32_t *state) // Scrambled Sobol
+__device__ void
+curand_init (
+    unsigned int *direction_vectors,
+    unsigned int scramble_c,
+    unsigned int offset,
+    curandStateScrambledSobol32_t *state) // Scrambled Sobol
 \end{lstlisting} \q
 
 Then, generate quasi-random numbers with any of the following:
 \begin{lstlisting}
-__device__ unsigned intcurand (curandStateSobol32_t *state)
-__device__ floatcurand_uniform (curandStateSobol32_t *state)
-__device__ floatcurand_normal (curandStateSobol32_t *state)
-__device__ floatcurand_log_normal (    curandStateSobol32_t *state,    float mean,    float stddev)
-__device__ doublecurand_uniform_double (curandStateSobol32_t *state)
-__device__ doublecurand_normal_double (curandStateSobol32_t *state)
-__device__ doublecurand_log_normal_double (    curandStateSobol32_t *state,    double mean,    double stddev)
+__device__ unsigned int
+curand (curandStateSobol32_t *state)
+
+__device__ float
+curand_uniform (curandStateSobol32_t *state)
+
+__device__ float
+curand_normal (curandStateSobol32_t *state)
+
+__device__ float
+curand_log_normal (
+    curandStateSobol32_t *state,
+    float mean,
+    float stddev)
+
+__device__ double
+curand_uniform_double (curandStateSobol32_t *state)
+
+__device__ double
+curand_normal_double (curandStateSobol32_t *state)
+
+__device__ double
+curand_log_normal_double (
+    curandStateSobol32_t *state,
+    double mean,
+    double stddev)
 \end{lstlisting} \p
 
 \Huge

@@ -19,8 +19,8 @@ int main(int argc, char *argv[]){
   /* Allocate n floats on device */ 
   cudaMalloc((void **) &devData, n*sizeof(float));
 
-  /* Create pseudo -random number generator */ 
-  curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_DEFAULT);
+  /* Create a Mersenne Twister pseudorandom number generator */ 
+  curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_MTGP32);
 
   /* Set seed */ 
   curandSetPseudoRandomGeneratorSeed(gen, 1234ULL);
