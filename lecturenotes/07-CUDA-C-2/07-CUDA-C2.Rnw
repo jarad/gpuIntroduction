@@ -169,6 +169,7 @@ Will Landau, Prof. Jarad Niemi
 Featured examples: \newline
 \begin{itemize}
 \item {\tt time.cu}
+\item {\tt pairwise\_sum\_timed.cu}
 \item {\tt dot\_product.cu}
 \end{itemize}
 % JBN: Last time we discussed providing pseudo-C-code. Perhaps it would make sense to included pseudo-C-code for the dot-product since you are going to be using it in this lecture. 
@@ -486,21 +487,23 @@ Does GPU value 2.57236e+13 = 2.57236e+13?
 
 
 \newpage
+
 \Huge
 \begin{center}
 {\bf OUTLINE} 
-\end{center} $\quad$ \newline \Large
+\end{center} $\quad$ \newline 
 \begin{itemize}
-\item Respecting the SIMD paradigm
-\item Shared memory
+\item Measuring GPU performance
+\item Global vs. local vs. shared memory
 \item Implementing the dot product
 \end{itemize} $\quad$ \newline
 
 Featured examples: \newline
 \begin{itemize}
+\item {\tt time.cu}
+\item {\tt pairwise\_sum\_timed.cu}
 \item {\tt dot\_product.cu}
 \end{itemize}
-
 \newpage
 
 
