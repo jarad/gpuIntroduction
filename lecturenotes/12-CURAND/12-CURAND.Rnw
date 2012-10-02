@@ -628,22 +628,34 @@ The files, {\tt comparison.r} and {\tt comparison-analysis.r}, compare the perfo
 
 Here is the workflow:
 \begin{lstlisting}[language = bash]
-
+[landau@impact1 gpuRejectionSampling]$ ls
+demo  inst  R  README.md  src
+[landau@impact1 gpuRejectionSampling]$ cd src
+[landau@impact1 src]$ make
+/usr/local/cuda/bin/nvcc -arch=sm_20  -c -I. -I/usr/local/include -I/usr/local/cuda/include -I/apps/lib64/R/include -I/usr/local/NVIDIA_GPU_Computing_SDK/C/common/inc -Xcompiler -fpic -DRPRINT -DNDEBUG cpu_runif.c -o cpu_runif.o
+/usr/local/cuda/bin/nvcc -arch=sm_20  -c -I. -I/usr/local/include -I/usr/local/cuda/include -I/apps/lib64/R/include -I/usr/local/NVIDIA_GPU_Computing_SDK/C/common/inc -Xcompiler -fpic -DRPRINT -DNDEBUG gpu_runif.cu -o gpu_runif.o
+/usr/local/cuda/bin/nvcc -arch=sm_20  -shared -Xlinker -L/usr/local/lib64   -L/usr/local/cuda/lib64  -lcublas -lRlapack -L/apps/lib64/R/lib -lRblas -lgfortran -lm -L/usr/local/NVIDIA_GPU_Computing_SDK/C/common/lib/linux    cpu_runif.o gpu_runif.o  -o runif.so
+[landau@impact1 src]$ cd ..
+[landau@impact1 gpuRejectionSampling]$ ls
+demo  inst  R  README.md  src
+[landau@impact1 gpuRejectionSampling]$ cd demo
+[landau@impact1 demo]$ ls
+comparison.R     comparison-analysis.R     segfault.R
+[landau@impact1 demo]$ R CMD BATCH comparison.R & # do this using screen: it takes a couple days unless you modify comparison.R
+[landau@impact1 demo]$ R CMD BATCH comparison-analysis.R
+[landau@impact1 demo]$ ls
+comparison-analysis.R     comparison.csv  comparison.Rout  rejection.pdf  segfault.R
+comparison-analysis.Rout  comparison.R    comparison.tex   Rplots.pdf     sm.tex
 \end{lstlisting}
 
+\p
 
+\LARGE
+\begin{center}
+{\bf PERFORMANCE: RATIOS OF CPU TIME TO GPU TIME}
+\end{center} 
 
-
-
-
-
-
-
-
-
-
-
-
+\setkeys{Gin}{width=.7\textwidth} \includegraphics{rejection}
 
 \newpage
 \Huge
