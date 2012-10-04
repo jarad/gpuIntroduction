@@ -11,7 +11,7 @@
  * vector v using the pairwise (cascading) sum algorithm.
  */
 
-#define N 1024 // length of vector v. MUST BE A POWER OF 2.
+#define N 1024 // length of vector v. MUST BE A POWER OF 2!!!
 
 // Fill the vector v with n random floating point numbers.
 void vfill(float* v, int n){
@@ -56,11 +56,6 @@ float lsum(float *v, int len){
 
 
 int main (void){ 
-  if(N % 2){
-    printf("\nERROR: N is not a power of 2. Exiting.\n");
-    exit(1);
-  }
-
   float *v_h, *v_d; // host and device copies of our vector, respectively
   
   // dynamically allocate memory on the host for v_h
