@@ -309,7 +309,7 @@ Notice: $\sum_{i = 1}^n x_{(0,i)} = x_{(m, 0)}$
 \Huge
 \begin{center}
 {\bf PARALLELIZING THE PAIRWISE SUM}
-\end{center} $\quad$ \newline
+\end{center} $\quad$ \newline \huge
 
 Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with $i = 1$, do the following: \newline
 
@@ -319,8 +319,8 @@ Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with 
 \begin{align*}
 x_{(i,j)} = x_{(i-1, \ j)} + x_{(i-1,\  j + \text{offset})}
 \end{align*} for $j = 0, 2, \cdots, \text{offset} - 1$.
-\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 2.
-\item Integer divide offset by 2. Repeat if offset $> 0$.  
+\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 2 (i.e., {\bf synchronize} the threads).
+\item Integer divide offset by 2. Return to step 2 if offset $> 0$.  
 \end{enumerate}
 
 
