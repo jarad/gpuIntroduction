@@ -554,7 +554,7 @@ Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with 
 x_{(i,j)} = x_{(i-1, \ j)} + x_{(i-1,\  j + \text{offset})}
 \end{align*} for $j = 0, 2, \cdots, \text{offset} - 1$.
 \item Synchronize threads.
-\item Integer divide offset by 2. Repeat if offset $> 0$.  
+\item Integer divide offset by 2. Return to step 2 if offset $> 0$.  
 \end{enumerate}
 
 
@@ -578,7 +578,7 @@ x_{(i,j)} = x_{(i-1, \ j)} + x_{(i-1,\  j + \text{offset})}
  * vector v using the pairwise (cascading) sum algorithm.
  */
 
-#define N 8 // length of vector v. MUST BE A POWER OF 2.
+#define N 8 // length of vector v. MUST BE A POWER OF 2!!!
 
 // Fill the vector v with n random floating point numbers.
 void vfill(float* v, int n){
@@ -612,11 +612,6 @@ __global__ void psum(float* v){
 }
 
 int main (void){ 
-  if(N % 2){
-    printf("\nERROR: N is not a power of 2. Exiting.\n");
-    exit(1);
-  }
-
   float *v_h, *v_d; // host and device copies of our vector, respectively
   
   // dynamically allocate memory on the host for v_h
@@ -650,6 +645,9 @@ int main (void){
   cudaFree(&v_d);
 }
 \end{verbatim} $\quad$ \newpage
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{psumrun}
+
 
 \newpage
 
