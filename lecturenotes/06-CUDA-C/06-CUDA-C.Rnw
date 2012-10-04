@@ -494,6 +494,8 @@ Within a kernel call, whenever you need to synchronize all the threads in the cu
 __syncthreads();
 \end{verbatim} $\quad$ \newline
 
+No thread moves beyond a call to {\tt \_\_syncthreads();} until the rest of the threads in its block catch up.
+
 
 \newpage
 
@@ -551,7 +553,7 @@ Spawn one grid with a single block and $n/2$ threads ($n = 2^m$). Starting with 
 \begin{align*}
 x_{(i,j)} = x_{(i-1, \ j)} + x_{(i-1,\  j + \text{offset})}
 \end{align*} for $j = 0, 2, \cdots, \text{offset} - 1$.
-\item Wait until all the above $\frac{n}{2^i}$ threads have completed step 2.
+\item Synchronize threads.
 \item Integer divide offset by 2. Repeat if offset $> 0$.  
 \end{enumerate}
 
