@@ -10,7 +10,7 @@ int main(){
   cudaEventCreate(&stop);
   cudaEventRecord( start, 0 );
 
-  // SOME GPU KERNEL YOU WANT TIMED HERE
+  // SOME GPU WORK YOU WANT TIMED HERE
 
   cudaEventRecord( stop, 0 );
   cudaEventSynchronize( stop );
