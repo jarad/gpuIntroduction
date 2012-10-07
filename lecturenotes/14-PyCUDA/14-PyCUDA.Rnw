@@ -1,0 +1,300 @@
+% !TEX TS-program = knitr
+\documentclass{beamer}
+\usetheme{Marburg}
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\inserttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\hypersetup{colorlinks,linkcolor=,urlcolor=blue}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=python,                % the language of the code
+  basicstyle= \scriptsize,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  %title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+%\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+%For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+ \captionsetup{labelformat = empty, labelsep = none}
+ \lstset{frame = single}
+
+<<echo = F>>=
+options(width = 50) # R output width
+@
+
+\title{The PyCUDA Module}
+\author{Will Landau \\ Prof. Jarad Niemi}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+ \end{frame}
+ 
+ \AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\section{Getting Started}
+
+\begin{frame}[allowframebreaks]
+\frametitle{\tt hello\_gpu.py}
+\lstinputlisting{hello_gpu.py}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\tt demo.py}
+Import and initialize PyCUDA:
+\begin{lstlisting}
+import pycuda.driver as cuda
+import pycuda.autoinit
+from pycuda.compiler import SourceModule
+\end{lstlisting}
+Initial data: a 4 $\times$ 4 array of numbers:
+\begin{lstlisting}
+import numpy
+a = numpy.random.randn(4,4)
+\end{lstlisting}
+Apparently, most NVIDIA cards only support single precision:
+\begin{lstlisting}
+a = a.astype(numpy.float32)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\tt demo.py}
+Allocate device memory:
+\begin{lstlisting}
+a_gpu = cuda.mem_alloc(a.nbytes)
+\end{lstlisting}
+Send data to the device: 
+\begin{lstlisting}
+cuda.memcpy_htod(a_gpu, a)
+\end{lstlisting}
+Define a kernel to multiply each array entry by 2:
+\begin{lstlisting}
+mod = SourceModule("""
+  __global__ void doublify(float *a)
+  {
+    int idx = threadIdx.x + threadIdx.y*4;
+    a[idx] *= 2;
+  }
+  """)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\tt demo.py}
+Turn our CUDA C kernel into a callable Python function:
+\begin{lstlisting}
+func = mod.get_function("doublify")
+\end{lstlisting}
+Call the kernel with:
+\begin{itemize}
+\item 1 grid
+\item 1 block
+\item 4 threads in the x direction
+\item 4 threads in the y direction
+\item 1 thread in the z direction
+\end{itemize}
+\begin{lstlisting}
+func(a_gpu, block=(4,4,1))
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\tt demo.py}
+Make a NumPy array to store the results:
+\begin{lstlisting}
+a_doubled = numpy.empty_like(a)
+\end{lstlisting}
+Copy the results to the host:
+\begin{lstlisting}
+cuda.memcpy_dtoh(a_doubled, a_gpu)
+\end{lstlisting}
+Print arrays:
+\begin{lstlisting}
+print a_doubled
+print a
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example output}
+\begin{lstlisting}
+[landau@impact1 PyCUDA_sandbox]$ python demo.py
+[[-1.29063177  0.82264316  0.02254304  2.0740006 ]
+ [ 1.40431428  1.95245779 -1.84627843 -1.5800966 ]
+ [-2.77298713  0.99803442  1.85154581  0.63633269]
+ [ 0.55860651 -0.50091052 -1.465307    4.12601614]]
+[[-0.64531589  0.41132158  0.01127152  1.0370003 ]
+ [ 0.70215714  0.97622889 -0.92313921 -0.7900483 ]
+ [-1.38649356  0.49901721  0.92577291  0.31816635]
+ [ 0.27930325 -0.25045526 -0.7326535   2.06300807]]
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Simplifying memory transfer}
+There are three function argument handlers that take care of memory transfer for the user:
+\begin{itemize}
+\item {\tt pycuda.driver.In}
+\item {\tt pycuda.driver.Out}
+\item {\tt pycuda.driver.InOut}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{\tt demohandler.py}
+\lstinputlisting{demohandler.py}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Example output}
+\begin{lstlisting}
+[landau@impact1 PyCUDA_sandbox]$ python demohandler.py
+Original array:
+[[-0.35754886 -0.08118289  1.42489266  0.6799224 ]
+ [ 0.54355925 -2.00721192 -0.6814152  -0.88118494]
+ [ 1.29756403  1.37618589  0.78046876 -0.93179333]
+ [-0.96092844  0.5301944  -0.36968505  1.54017532]]
+Doubled array:
+[[-0.71509773 -0.16236578  2.84978533  1.3598448 ]
+ [ 1.08711851 -4.01442385 -1.3628304  -1.76236987]
+ [ 2.59512806  2.75237179  1.56093752 -1.86358666]
+ [-1.92185688  1.0603888  -0.73937011  3.08035064]]
+[landau@impact1 PyCUDA_sandbox]$ 
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{\tt demoshort.py}
+Use a {\tt pycuda.gpuarray.GPUArray} to shorten the code even more:
+\lstinputlisting{demoshort.py}
+The output is analogous.
+\end{frame}
+
+
+\section{More Examples}
+\begin{frame}[allowframebreaks, fragile]
+\frametitle{\tt functiontemplates.py}
+Let's try something a little more complicated:
+\lstinputlisting{functiontemplates.py}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Example output:}
+\begin{lstlisting}
+[landau@impact1 PyCUDA_sandbox]$ python functiontemplates.py 
+x:        [ 0.79577702  0.73002166  0.19413722  0.30437419  0.24752268]
+incr(x):  [ 1.79577708  1.73002172  1.19413722  1.30437422  1.24752271]
+[landau@impact1 PyCUDA_sandbox]$ 
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{\tt pycurand.py}
+We can use CURAND with PyCUDA:
+\lstinputlisting{pycurand.py}
+\end{frame}
+
+\begin{frame}
+\frametitle{\tt DumpProperties.py}
+PyCUDA can extract hardware information:
+\lstinputlisting{DumpProperties.py}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks]
+\frametitle{\tt MatmulSimple.py}
+\lstinputlisting{MatmulSimple.py}
+\end{frame}
+
+\begin{frame}
+\frametitle{Example output:}
+\lstinputlisting{MatmulSimple.txt}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Measuring performance:}
+\lstinputlisting{MeasureGpuarraySpeedRandom.py}
+\end{frame}
+
+\begin{frame}
+\frametitle{Sources}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{14-PyCUDA}
+\end{frame}
+
+\end{document}
