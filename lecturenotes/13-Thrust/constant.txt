@@ -1,0 +1,4 @@
+#include <thrust/iterator/constant_iterator.h>...// create iteratorsthrust::constant_iterator <int> first(10); 
+thrust::constant_iterator <int> last = first + 3;
+first[0]; // returns 10first[1]; // returns 10 
+first[100]; // returns 10// sum of [first , last)thrust::reduce(first, last); // returns 30 (i.e. 3 * 10)

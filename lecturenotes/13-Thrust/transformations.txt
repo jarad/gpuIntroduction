@@ -1,0 +1,14 @@
+[landau@impact1 transformations]$ make
+nvcc transformations.cu -o transformations
+[landau@impact1 transformations]$ ./transformations
+0
+10
+0
+10
+0
+10
+0
+10
+0
+10
+[landau@impact1 transformations]$ 

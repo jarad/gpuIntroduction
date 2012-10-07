@@ -1,0 +1,7 @@
+#include <thrust/sort.h>
+#include <thrust/functional.h>
+...
+const int N = 6;
+int A[N] = {1, 4, 2, 8, 5, 7};
+thrust::stable_sort(A, A + N, thrust::greater<int>());
+// A is now {8, 7, 5, 4, 2, 1}

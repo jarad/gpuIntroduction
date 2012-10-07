@@ -1,0 +1,389 @@
+% !TEX TS-program = knitr
+\documentclass{beamer}
+\usetheme{Marburg}
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\inserttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{url}
+
+\providecommand{\all}{\ \forall \ }
+\providecommand{\bs}{\backslash}
+\providecommand{\e}{\varepsilon}
+\providecommand{\E}{\ \exists \ }
+\providecommand{\lm}[2]{\lim_{#1 \rightarrow #2}}
+\providecommand{\m}[1]{\mathbb{#1}}
+\providecommand{\nv}{{}^{-1}}
+\providecommand{\ov}[1]{\overline{#1}}
+\providecommand{\p}{\newpage}
+\providecommand{\q}{$\quad$ \newline}
+\providecommand{\rt}{\rightarrow}
+\providecommand{\Rt}{\Rightarrow}
+\providecommand{\vc}[1]{\boldsymbol{#1}}
+\providecommand{\wh}[1]{\widehat{#1}}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ 
+  language=C,                % the language of the code
+  basicstyle= \footnotesize,           % the size of the fonts that are used for the code
+  numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. 
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=lrb,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text 
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=t,                   % sets the caption-position 
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  %title=\lstname,                   % show the filename of files included with \lstinputlisting;
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{gray},       % comment style
+  stringstyle=\color{dkgreen},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*, ...},               % if you want to add more keywords to the set
+  xleftmargin=0.053in, % left horizontal offset of caption box
+  xrightmargin=-.03in % right horizontal offset of caption box
+}
+
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-0.05in}}
+%\captionsetup[lstlisting]{format = listing, labelfont = white, textfont = white}
+%For caption-free listings, comment out the 3 lines above and uncomment the 2 lines below.
+ \captionsetup{labelformat = empty, labelsep = none}
+ \lstset{frame = single}
+
+<<echo = F>>=
+options(width = 50) # R output width
+@
+
+\title{The Thrust Library}
+\author{Will Landau \\ Prof. Jarad Niemi}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+ \end{frame}
+ 
+ \AtBeginSection[]
+{
+   \begin{frame}
+       \frametitle{Outline}
+       \tableofcontents[currentsection]
+   \end{frame}
+}
+
+\section{Getting Started}
+
+\begin{frame}
+Thrust is the CUDA analog of the Standard Template Library (STL) of C++. It comes with any installation of CUDA 4.2 and above and features:
+
+\begin{itemize}
+\item Dynamic data structures
+\item An encapsulation of GPU/CPU communication, memory management, and other low-level tasks.
+\item High-performance GPU-accelerated algorithms such as sorting and reduction
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{{\tt vector1.cu}}
+\lstinputlisting{vector1.cu}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Output of {\tt vector1.cu}}
+\lstinputlisting{vector1.txt}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Thrust takes care of {\tt malloc(), cudaMalloc(), free(), and cudaFree()} for you without sacrificing performance.
+\item The ``=" operator does a {cudaMemcpy()} if one vector is on the host and one is on the device.
+\item {\tt thrust::} and {\tt std::} clarify the \emph{namespace} of the function after the double colon. For example, we need to distinguish between {\tt thrust::copy()} and {\tt std::copy()}. 
+\item The ``<<" operator sends a value to an output stream, an alternative to {\tt printf()}. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{{\tt vector2.cu}}
+\lstinputlisting{vector2.cu}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{{\tt Output of vector2.cu}}
+\lstinputlisting{vector2.txt}
+\end{frame}
+
+\begin{frame}
+\frametitle{Assignment}
+\begin{itemize}
+\item  {\tt thrust::copy()} copies a section of one vector into a section of another.
+\item {\tt thrust::fill()} sets a range of elements to some fixed value. 
+\item {\tt thrust::sequence()} assigns equally-spaced values to a section of a vector.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The Vector Template Classes}
+
+\begin{itemize}
+\item Declaring vectors:
+\begin{itemize}
+\item {\tt thrust::device\_vector<T> D;} creates a vector {\tt D} with entries of data type {\tt T} on the device.
+\item The analogous declaration for host vectors is {\tt thrust:: host\_vector<T> H;}.
+\end{itemize}
+\item An object {\tt D}of the vector template class includes the following features:
+\begin{itemize}
+\item A dynamic linear array of elements of type {\tt T}.
+\item Two \emph{iterators}:
+\begin{itemize}
+\item {\tt D.begin()}
+\item {\tt D.end()}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\section{Iterators}
+
+\subsection{Basic iterators}
+\begin{frame}
+An iterator is a pointer with a C++ wrapper around it. The wrapper contains additional information, such as whether the vector is stored on the host or the device. \q
+\lstinputlisting{iter.txt}
+\begin{center}
+\setkeys{Gin}{width=.4\textwidth} \includegraphics{iter.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterators act like pointers.}
+\lstinputlisting{iter2.txt}
+\begin{center}
+\setkeys{Gin}{width=.4\textwidth} \includegraphics{iter2.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\lstinputlisting{iter3.txt}
+\end{frame}
+
+\begin{frame}
+\frametitle{Wrap pointers to make iterators.}
+\lstinputlisting{wrap.txt}
+\end{frame}
+
+\begin{frame}
+\frametitle{Unwrap iterators to extract pointers.}
+\lstinputlisting{unwrap.txt}
+\end{frame}
+
+\subsection{\tt constant\_iterator}
+\begin{frame}
+\frametitle{\tt constant\_iterator}
+
+A {\tt constant\_iterator} is a pointer with some constant value associated with it. \q
+\lstinputlisting{constant.txt}
+\end{frame}
+
+\subsection{\tt counting\_iterator}
+\begin{frame}
+\frametitle{\tt counting\_iterator}
+A {\tt counting\_iterator} is a pointer with the value {\tt <some constant> + <offset>} associated with it. \q
+\lstinputlisting{counting.txt}
+\end{frame}
+
+\subsection{\tt transform\_iterator}
+\begin{frame}[allowframebreaks]
+\frametitle{\tt transform\_iterator}
+A {\tt transform\_iterator} is a pointer with the value {\tt <some function>(<vector entry>)} associated with it. \q
+\lstinputlisting{transform.txt}
+\end{frame}
+
+\subsection{\tt permutation\_iterator}
+\begin{frame}[allowframebreaks]
+\frametitle{\tt permutation\_iterator}
+A {\tt permutation\_iterator} is a pointer associated with a permuted vector. 
+\lstset{basicstyle = \tiny}
+\lstinputlisting{permutation.txt}
+\lstset{basicstyle = \footnotesize}
+\end{frame}
+
+\subsection{\tt zip\_iterator}
+\begin{frame}[allowframebreaks]
+\frametitle{\tt zip\_iterator}
+A {\tt zip\_iterator} is a pointer associated with a vector of tuples. \q
+\lstinputlisting{zip.txt}
+\end{frame}
+
+
+\section{Containers}
+
+\begin{frame}
+A container one of the following template classes in the C++ Standard Template Library (STL):
+\begin{itemize}
+\item {\tt vector}
+\item {\tt deque}
+\item {\tt list}
+\item {\tt tack}
+\item {\tt queue}
+\item {\tt priority\_queue}
+\item {\tt set}
+\item {\tt multiset}
+\item {\tt map}
+\item {\tt multimap}
+\item {\tt biset}
+\end{itemize} 
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{\tt container.cu}
+Thrust only implements vectors, but it's still compatible with the rest of STL's template classes:
+\lstinputlisting{container1.cu}
+Output:
+\lstinputlisting{container1.txt}
+\end{frame}
+
+
+\section{Algorithms}
+
+\subsection{Transformations}
+\begin{frame}
+\begin{itemize}
+\frametitle{Transformations}
+\item A transformation is the application of a function to each element within a range of elements in a vector. The results are stored as a range of elements in another vector.
+\item Examples:
+\begin{itemize}
+\item {\tt thrust::fill()}
+\item {\tt thrust::sequence()}
+\item {\tt thrust::replace()}
+\item {\tt thrust::transform()}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{\tt transformations.cu}
+\lstinputlisting{transformations.cu}
+Output:
+\lstinputlisting{transformations.txt}
+\end{frame}
+
+\subsection{Reductions}
+
+\begin{frame}
+\frametitle{Reductions}
+A reduction algorithm uses a binary operation to reduce an input vector to a single value. For example, here are equivalent ways to code the pairwise sum: \q
+\lstinputlisting{psum.txt}
+\begin{itemize}
+\item The third argument is the starting value of the reduction.
+\item The fourth argument is the binary operation that defines the kind of reduction.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Counting}
+Another reduction: use {\tt thrust::count()} to count the number of times a value appears in a vector
+\lstinputlisting{count.txt}
+\end{frame}
+
+\subsection{Scans}
+\begin{frame}
+\frametitle{Scans}
+A scan, also called a prefix-sum, applies a function to multiple sub-ranges of a vector and returns the result in a vector of the same size. The default function is addition. \q
+
+\lstinputlisting{inscan.txt}
+\end{frame}
+
+\begin{frame}
+There are \emph{exclusive scans} in addition to \emph{inclusive scans}:
+\frametitle{Scans}
+\lstinputlisting{exscan.txt}
+\end{frame}
+
+
+\subsection{Reordering}
+
+\begin{frame}
+\frametitle{Reordering}
+The ``Reordering" utilities provides subletting and partitioning tools:
+\begin{itemize}
+\item {\tt thrust::copy\_if()}: copy the elements that make some logical function return true.
+\item {\tt thrust::partition()}; reorder a vector such that values returning true precede values returning false.
+\item {\tt thrust::remove()} and {\tt remove\_if()}: remove elements that return false.
+\item {\tt thrust::unique()}: remove duplicates in a vector.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{}
+\lstinputlisting{partition.txt}
+\end{frame}
+
+\subsection{Sorting}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Sorting}
+{\tt thrust::sort()}:
+\lstinputlisting{sort1.txt}
+{\tt thrust::sort\_by\_key()}:
+\lstinputlisting{sort2.txt}
+{\tt thrust::stable\_sort()}:
+\lstinputlisting{sort2.txt}
+\end{frame}
+
+\begin{frame}
+\frametitle{Materials}
+These slides, a tentative syllabus for the whole lecture series, and all example code are available at \url{https://github.com/wlandau/gpu}. \newline
+
+After logging into you home directory on impact1, type: \newline
+
+\lstinputlisting{git.txt}
+
+into the command line to download all the materials.
+\end{frame}
+
+\begin{frame}
+\frametitle{Sources}
+
+\begin{enumerate}[1. ]
+\item Bell N. and Hoberock J. Thrust. \url{http://developer.download.nvidia.com/CUDA/training/webinarthrust1.mp4}
+\item Savitch W. \underline{Absolute C++}. Ed. Hirsch M. 3rd Ed. Pearson, 2008. 
+\item CUDA Toolkit 4.2 Thrust Quick Start Guide. March 2012. \url{http://developer.download.nvidia.com/compute/DevZone/docs/html/CUDALibraries/doc/Thrust\_Quick\_Start\_Guide.pdf}
+\end{enumerate}
+
+\end{frame}
+
+
+\end{document}

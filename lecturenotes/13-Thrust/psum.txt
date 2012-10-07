@@ -1,0 +1,6 @@
+int sum = thrust::reduce(D.begin(), D.end(), 
+  (int) 0, thrust::plus<int>());
+int sum = thrust::reduce(D.begin(), D.end(), 
+  (int) 0); 
+
+int sum = thrust::reduce(D.begin(), D.end())

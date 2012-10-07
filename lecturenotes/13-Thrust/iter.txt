@@ -1,0 +1,4 @@
+// allocate device vectorthrust::device_vector<int> d_vec(4);
+d_vec.begin(); // returns iterator at first element of d_vecd_vec.end(); // returns iterator one past the last element of d_vec 
+
+// [begin, end) pair defines a sequence of 4 elements

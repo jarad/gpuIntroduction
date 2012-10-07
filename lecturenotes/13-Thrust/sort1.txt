@@ -1,0 +1,2 @@
+#include <thrust/sort.h> 
+...const int N = 6;int A[N] = {1, 4, 2, 8, 5, 7};thrust::sort(A, A + N);// A is now {1, 2, 4, 5, 7, 8}

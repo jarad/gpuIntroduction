@@ -1,0 +1,3 @@
+#include <thrust/iterator/counting_iterator.h> 
+...// create iteratorsthrust::counting_iterator <int> first(10);thrust::counting_iterator <int> last = first + 3;first[0]; // returns 10 
+first[1]; // returns 11first[100]; // returns 110// sum of [first , last)thrust::reduce(first, last); // returns 33 (i.e. 10 + 11 + 12)
