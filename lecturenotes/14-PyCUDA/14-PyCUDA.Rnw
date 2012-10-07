@@ -244,7 +244,7 @@ The output is analogous.
 \end{frame}
 
 
-\section{More Examples}
+\section{Short Examples}
 \begin{frame}[allowframebreaks, fragile]
 \frametitle{\tt functiontemplates.py}
 Let's try something a little more complicated:
@@ -290,8 +290,50 @@ PyCUDA can extract hardware information:
 \lstinputlisting{MeasureGpuarraySpeedRandom.py}
 \end{frame}
 
+\section{A Glimpse of ABC-SysBio}
+
+\begin{frame}
+\frametitle{ABC-SysBio: a PyCUDA-implemented toolkit}
+GPU-accelerated approximate Bayesian for parameter estimation in dynamical systems
+\setkeys{Gin}{width=1\textwidth} \includegraphics{1}
+\end{frame}
+
+\begin{frame}
+Methods:
+\begin{itemize}
+\item ABC rejection sampler
+\item ABC SMC for parameter inference 
+\item ABC SMC for model selection
+\end{itemize}
+\setkeys{Gin}{width=1\textwidth} \includegraphics{2}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{}
+\begin{itemize}
+
+\item ABC-SysBio is ready to use on impact1.
+\begin{itemize}
+\item {\tt import abcsysbio} (Python script)
+\item {\tt  abc-sysbio-sbml-sum} (command line)
+\item {\tt run-abc-sysbio} (command line)
+\end{itemize}
+\item For more information, visit:
+\begin{itemize}
+\item {\scriptsize \url{http://www.theosysbio.bio.ic.ac.uk/resources/abc-sysbio}}
+\item {\scriptsize \url{http://bioinformatics.oxfordjournals.org/content/26/14/1797.full?keytype=ref\&ijkey=AVSfAhR7XFxjrMj}}
+\end{itemize}
+\item For the input files in the online examples, visit:
+\begin{itemize}
+\item {\scriptsize \url{https://github.com/wlandau/gpu/tree/master/Code/Python/ABC-SysBio}}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
 \begin{frame}
 \frametitle{Sources}
+\scriptsize
 \nocite{*}
 \bibliographystyle{plain}
 \bibliography{14-PyCUDA}
