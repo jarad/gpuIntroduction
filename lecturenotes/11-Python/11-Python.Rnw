@@ -546,6 +546,7 @@ I can append and remove list elements:
 4
 >>> word
 'thousand'
+>>> keys =["name", "status", "ID"]
 >>> values = ["Joe", "approved", 23425]
 >>> z = zip(keys, values)
 >>> z
@@ -592,8 +593,10 @@ There are many ways to iterate:
 
 <<eval = F>>=
 # a.py
-a = "Hello World"# Print out the individual characters in a 
-for c in a:  print c
+a = "Hello World"
+# Print out the individual characters in a 
+for c in a:
+  print c
 @
 
 <<eval = F>>=
@@ -616,7 +619,8 @@ d
 # a.py
 b = ["Dave","Mark","Ann","Phil"] 
 # Print out the members of a list 
-for name in b:  print name
+for name in b:
+  print name
 @
 
 <<eval = F>>=
@@ -631,7 +635,9 @@ Phil
 <<eval = F>>=
 # a.py
 c = { 'GOOG' : 490.10, 'IBM' : 91.50, 'AAPL' : 123.15 } 
-# Print out all of the members of a dictionaryfor key in c:  print key, c[key]
+# Print out all of the members of a dictionary
+for key in c:
+  print key, c[key]
 @
 
 <<eval = F>>=
@@ -644,7 +650,8 @@ IBM 91.5
 
 <<eval = F>>=
 # a.py
-for n in [0, 1,2,3,4,5,6,7,8,9]:  print("2 to the %d power is %d" % (n, 2**n))
+for n in [0, 1,2,3,4,5,6,7,8,9]:
+  print("2 to the %d power is %d" % (n, 2**n))
 @
 
 <<eval = F>>=
@@ -769,17 +776,15 @@ Counting down!
 (7, 'b'), (7, 'c'), (8, 'a'), (8, 'b'), (8, 'c')]
 >>> [(1,2), (3,4), (5,6)]
 [(1, 2), (3, 4), (5, 6)]
->>> import math
->>> [math.sqrt(x*x+y*y)
-... for x,y in f]
-[2.23606797749979, 5.0, 7.810249675906654]
 @ $\quad$ \newline \newline
 
 General syntax:
 
 \begin{verbatim}
 [expression for item1 in iterable1 if condition1 
-                      for item2 in iterable2 if condition2                      ...                      for itemN in iterableN if conditionN ]
+                      for item2 in iterable2 if condition2
+                      ...
+                      for itemN in iterableN if conditionN ]
 \end{verbatim} $\quad$ \newline
 
 \newpage
