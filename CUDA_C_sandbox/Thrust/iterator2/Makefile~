@@ -1,0 +1,5 @@
+all:
+	nvcc vector4.cu -o vector4
+
+clean:
+	rm vector4

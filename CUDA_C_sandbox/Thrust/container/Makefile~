@@ -1,0 +1,5 @@
+all:
+	nvcc container1.cu -o container1
+
+clean:
+	rm container1

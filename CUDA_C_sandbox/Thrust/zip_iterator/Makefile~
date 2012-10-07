@@ -1,0 +1,5 @@
+all:
+	nvcc zip_iterator.cu -o zip_iterator
+
+all:
+	rm zip_iterator
