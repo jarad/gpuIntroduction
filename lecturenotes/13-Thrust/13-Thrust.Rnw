@@ -270,9 +270,9 @@ A container one of the following template classes in the C++ Standard Template L
 \begin{frame}[allowframebreaks]
 \frametitle{\tt container.cu}
 Thrust only implements vectors, but it's still compatible with the rest of STL's template classes:
-\lstinputlisting{container1.cu}
+\lstinputlisting{container.cu}
 Output:
-\lstinputlisting{container1.txt}
+\lstinputlisting{container.txt}
 \end{frame}
 
 
