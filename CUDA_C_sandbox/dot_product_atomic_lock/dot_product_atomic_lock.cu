@@ -6,7 +6,7 @@
 // NOTE: COMPILE LIKE THIS:
 //nvcc dot_product_atomic.cu -arch sm_20 -o dot_product_atomic
 
-const int N = 33 * 1024 * 1024; 
+const int N = 32 * 1024 * 1024; 
 const int threadsPerBlock = 256; 
 const int blocksPerGrid =
   imin( 32, (N+threadsPerBlock-1) / threadsPerBlock );
