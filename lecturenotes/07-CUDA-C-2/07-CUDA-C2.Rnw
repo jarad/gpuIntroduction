@@ -159,10 +159,10 @@ Will Landau, Prof. Jarad Niemi
 \Huge
 \begin{center}
 {\bf OUTLINE} 
-\end{center} $\quad$ \newline 
+\end{center}  
 \begin{itemize}
 \item Measuring GPU performance
-\item Global vs. local vs. shared memory
+\item Global memory vs. shared memory vs. local memory and registers
 \item Implementing the dot product
 \end{itemize} $\quad$ \newline
 
@@ -292,9 +292,9 @@ Pairwise Sum = 518.913, GPU Time elapsed: 0.036640
 
 
 \newpage
-\huge
+\LARGE
 \begin{center}
-{\bf THOUGHT EXPERIMENT: GLOBAL VS. SHARED VS. LOCAL MEMORY}
+{\bf THOUGHT EXPERIMENT: GLOBAL MEMORY VS. SHARED MEMORY VS. LOCAL MEMORY AND REGISTERS}
 \end{center}  $\quad$ \newline
 
  \LARGE
@@ -314,7 +314,7 @@ What are *a, b, and c after a call to {\tt kernel<<<3, 2>>>(a)}?
 
 \begin{description}
 \item[{\tt *a}: ] There is one copy of {\tt*a} in GLOBAL MEMORY common to all threads and blocks. Hence, the value of {\tt*a} depends on which thread finishes last. \newline
-\item[{\tt b}: ] There are 3$\cdot$2 = 6 copies of {\tt b} in LOCAL MEMORY, one for each of the six threads. The values of {\tt b} will be: \newline
+\item[{\tt b}: ] There are 3$\cdot$2 = 6 copies of {\tt b}, each in either LOCAL MEMORY or REGISTERS, one for each of the six threads. The values of {\tt b} will be: \newline
 
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
@@ -491,20 +491,12 @@ Does GPU value 2.57236e+13 = 2.57236e+13?
 \Huge
 \begin{center}
 {\bf OUTLINE} 
-\end{center} $\quad$ \newline 
+\end{center}  
 \begin{itemize}
 \item Measuring GPU performance
-\item Global vs. local vs. shared memory
+\item Global memory vs. shared memory vs. local memory and registers
 \item Implementing the dot product
-\end{itemize} $\quad$ \newline
-
-Featured examples: \newline
-\begin{itemize}
-\item {\tt time.cu}
-\item {\tt pairwise\_sum\_timed.cu}
-\item {\tt dot\_product.cu}
-\end{itemize}
-\newpage
+\end{itemize} $\quad$ \newpage
 
 
 \Huge
