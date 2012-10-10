@@ -950,6 +950,105 @@ Or better yet:
 >>> 
 @
 
+\newpage
+
+\Huge
+\begin{center}
+{\bf FINDING OUT WHERE MODULES ARE LOCATED}
+\end{center} \Large
+
+<<eval = F>>=
+>>> import math
+>>> math.__file__
+'/usr/lib64/python2.6/lib-dynload/mathmodule.so'
+>>> 
+@
+
+...though this doesn't work with every module. {\tt sys.\_\_path\_\_} doesn't exist.
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf INSTALLING MODULES LOCALLY ON IMPACT1}
+\end{center} \Large
+
+Sadly, we don't have permission to install modules ourselves in {\tt /usr/}. We have to either bother the administrator, Dean Lin, or install our package locally. \newline
+
+Suppose I want to install the SQLAlchemy module. To download it into my home directory, I work from linux command line on impact1:
+
+<<eval = F>>=
+[landau@impact1 ~]$ cd ~
+[landau@impact1 ~]$ pwd
+/home/landau
+[landau@impact1 ~]$ ls
+gpuIntroduction  gpuRejectionSampling  Ideas  Masters_Project  Python  R
+[landau@impact1 ~]$ wget http://prdownloads.sourceforge.net/sqlalchemy/SQLAlchemy-0.7.9.tar.gz?download
+# output of wget ...
+[landau@impact1 ~]$ ls
+gpuIntroduction  gpuRejectionSampling  Ideas  Masters_Project  Python  R  SQLAlchemy-0.7.9.tar.gz
+[landau@impact1 ~]$ tar -zxvf SQLAlchemy-0.7.9.tar.gz 
+# output of tar...
+[landau@impact1 ~]$ cd SQLAlchemy-0.7.9
+[landau@impact1 SQLAlchemy-0.7.9]$ ls
+CHANGES              doc          lib          PKG-INFO     README.unittests  setup.py
+CHANGES_PRE_06       examples     LICENSE      README.py3k  sa2to3.py         sqla_nose.py
+distribute_setup.py  ez_setup.py  MANIFEST.in  README.rst   setup.cfg         test
+[landau@impact1 SQLAlchemy-0.7.9]$ python setup.py build
+# output of python...
+[landau@impact1 SQLAlchemy-0.7.9]$ python setup.py install --user
+# output of python...
+Installed /home/landau/.local/lib/python2.6/site-packages/SQLAlchemy-0.7.9-py2.6-linux-x86_64.egg
+Processing dependencies for SQLAlchemy==0.7.9
+Finished processing dependencies for SQLAlchemy==0.7.9
+@
+
+IMPORTANT: take note that SQLAlchemy was installed in the directory, {\tt /home/landau/.local/lib/python2.6/site-packages/}. I must ``export" this path in my {\tt .bashrc} file so that Python knows where my new module lives. \newline
+
+I move to my home directory and open {\tt .bashrc}:
+
+<<eval = F>>=
+[landau@impact1 SQLAlchemy-0.7.9]$ cd ~
+[landau@impact1 ~]$ emacs .bashrc
+@
+
+The file itself currently looks like this:
+
+<<eval = F>>=
+# .bashrc                                                                                                             
+
+# Source global definitions                                                                                           
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific aliases and functions
+@
+
+I need it to look like this:
+
+<<eval = F>>=
+# .bashrc                                                                                                             
+
+# Source global definitions                                                                                           
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific aliases and functions                                                                                 
+
+export PYTHONPATH=$HOME/.local/lib/python2.6/site-packages:$PYTHONPATH
+export PATH=$HOME/.local/bin:$PATH
+@
+
+Once I've made the changes and I log out and in so that the changes take effect, I'm ready to import SQLAlchemy:
+
+<<eval = F>>=
+>>> import sqlalchemy
+>>>
+@
+
+NOTE: USE LOWER CASE LETTERS IN THE IMPORT STATEMENT!!!
 
 \newpage
 
@@ -980,6 +1079,7 @@ a.py
 3!
 ~/Desktop> 
 @
+
 
 \newpage
 
