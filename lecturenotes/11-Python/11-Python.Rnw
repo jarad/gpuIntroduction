@@ -982,18 +982,14 @@ Suppose I want to install the SQLAlchemy module. To download it into my home dir
 [landau@impact1 ~]$ pwd
 /home/landau
 [landau@impact1 ~]$ ls
-gpuIntroduction  gpuRejectionSampling  Ideas  Masters_Project  Python  R
+# stuff
 [landau@impact1 ~]$ wget http://prdownloads.sourceforge.net/sqlalchemy/SQLAlchemy-0.7.9.tar.gz?download
 # output of wget ...
 [landau@impact1 ~]$ ls
-gpuIntroduction  gpuRejectionSampling  Ideas  Masters_Project  Python  R  SQLAlchemy-0.7.9.tar.gz
+# stuff + SQLAlchemy-0.7.9.tar.gz
 [landau@impact1 ~]$ tar -zxvf SQLAlchemy-0.7.9.tar.gz 
 # output of tar...
 [landau@impact1 ~]$ cd SQLAlchemy-0.7.9
-[landau@impact1 SQLAlchemy-0.7.9]$ ls
-CHANGES              doc          lib          PKG-INFO     README.unittests  setup.py
-CHANGES_PRE_06       examples     LICENSE      README.py3k  sa2to3.py         sqla_nose.py
-distribute_setup.py  ez_setup.py  MANIFEST.in  README.rst   setup.cfg         test
 [landau@impact1 SQLAlchemy-0.7.9]$ python setup.py build
 # output of python...
 [landau@impact1 SQLAlchemy-0.7.9]$ python setup.py install --user
@@ -1001,6 +997,7 @@ distribute_setup.py  ez_setup.py  MANIFEST.in  README.rst   setup.cfg         te
 Installed /home/landau/.local/lib/python2.6/site-packages/SQLAlchemy-0.7.9-py2.6-linux-x86_64.egg
 Processing dependencies for SQLAlchemy==0.7.9
 Finished processing dependencies for SQLAlchemy==0.7.9
+[landau@impact1 SQLAlchemy-0.7.9]$ 
 @
 
 IMPORTANT: take note that SQLAlchemy was installed in the directory, {\tt /home/landau/.local/lib/python2.6/site-packages/}. I must ``export" this path in my {\tt .bashrc} file so that Python knows where my new module lives. \newline
