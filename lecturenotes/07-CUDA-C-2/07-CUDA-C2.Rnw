@@ -347,7 +347,10 @@ The basic workflow is: \newline
 
 \begin{itemize}
 \item Pass vectors {\tt a} and {\tt b} to the GPU. \newline
-\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}, For example: 
+\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}. 
+
+For the case of 16-element vectors, let there be 2 blocks and 4 threads per block.
+
 \newpage \LARGE
 \begin{align*}
 \intertext{Block 0 works on:}
