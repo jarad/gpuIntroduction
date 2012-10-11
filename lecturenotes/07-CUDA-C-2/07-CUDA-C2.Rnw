@@ -379,10 +379,10 @@ where {\tt cache} is an array in shared memory. \newline
 \begin{align*}
 \text{ \tt partial\_c} = (\text{\tt block 0 cache[0]}, \ \text{\tt block 1 cache[0]})
 \end{align*} $\quad$ \newline
-\item Return to the CPU and compute the linear sum of \text{ \tt partial\_c} and write it to {\tt partial\_sum[0]}. Then:
+\item Return to the CPU and compute the linear sum of \text{ \tt partial\_c} and write it to {\tt partial\_c[0]}. Then:
 
 \begin{align*}
-\text{\tt partial\_sum[0] }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
+\text{\tt partial\_c[0] }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
 \end{align*}
 
 \end{itemize}
