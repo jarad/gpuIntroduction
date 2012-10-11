@@ -79,7 +79,7 @@ int main (void){
   float s = lsum(v_h, N);
   
   float elapsedTime = ((float) clock() - start) / CLOCKS_PER_SEC;
-  printf("Linear Sum = %7.3f, CPU Time elapsed: %f\n", s, elapsedTime);
+  printf("Linear Sum = %7.3f, CPU Time elapsed: %f seconds\n", s, elapsedTime);
  
   // Compute the pairwise sum of the elements of v_d and store the result in v_d[0].
   // Also, time the computation.
@@ -102,7 +102,7 @@ int main (void){
   cudaMemcpy(v_h, v_d, sizeof(float), cudaMemcpyDeviceToHost );
   
   // Print the pairwise sum.
-  printf("Pairwise Sum = %7.3f, GPU Time elapsed: %f\n", v_h[0], gpuElapsedTime);
+  printf("Pairwise Sum = %7.3f, GPU Time elapsed: %f seconds\n", v_h[0], gpuElapsedTime/1000.0);
    
   // Free dynamically-allocated host memory
   free(v_h);

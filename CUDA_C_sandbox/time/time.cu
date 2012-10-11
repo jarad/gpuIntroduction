@@ -17,5 +17,5 @@ int main(){
   cudaEventElapsedTime( &elapsedTime, start, stop );
   cudaEventDestroy( start );
   cudaEventDestroy( stop );
-  printf("GPU Time elapsed: %f\n", elapsedTime);
+  printf("GPU Time elapsed: %f milliseconds\n", elapsedTime);
 }
