@@ -276,6 +276,8 @@ To avoid the race condition in our example, we atomically add 1 to x: \newline
 
 instead of using {\tt x++;}
 
+% JBN: It would really be nice to have exactly the same code you showed before, but with the atomic add, showing that it works.
+
 \newpage
 
 \Huge
@@ -293,6 +295,9 @@ atomicExch() \newline
 atomicCAS() \newline
 
 \newpage
+
+% JBN: These functions both return and store the value at the address. Why?
+% JBN: Point to the documentation for these functions, i.e. where do you find the documentation.
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{3}  \newpage
 
@@ -315,6 +320,7 @@ atomicCAS() \newline
 {\bf EXAMPLE: THE ATOMIC DOT PRODUCT}
 \end{center}  \LARGE
 
+% JBN: make clear this is contrast to performing the final summation on the CPU
 
 \begin{align*}
 (a_0, \ a_1, \ldots ,\  a_{15}) \bullet (b_0, \ b_1, \ldots , \ b_{15}) = a_0 b_0 + a_1 b_1 + \cdots + a_{15} b_{15}
@@ -383,7 +389,7 @@ Does GPU value 2.76217e+22 = 2.76217e+22?
 [landau@impact1 dot_product_atomic_builtin]$ 
 \end{lstlisting} $\quad$ \newline
 
-
+% JBN: so atomics are new to compute capability 2.0? 
 
 NOTE: If you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. \newline
 
@@ -603,6 +609,8 @@ int main(){
 {\bf WITH MORE THAN 1 THREAD PER BLOCK, THIS KERNEL WILL MAKE YOUR PROGRAM STALL OUT}
 \end{center} $\quad$ \newline
  
+% JBN: by stall do you mean stop running or run really slowly?
+
  \huge
 \begin{verbatim}
 __global__ void blockCounter2( Lock lock, int *nblocks ){
@@ -678,6 +686,8 @@ $\quad$ \newline
 $\quad$ \newline
 {\bf BEWARE THE CATCH-22!}
 \end{center} $\quad$ \newline
+
+% JBN: I think the last point that should be made is that an attempt should be made to eliminate locks and atomics in designing parallel algorithms. The point of this talk is to use them when they are absolutely necessary.
 
 \newpage
 
