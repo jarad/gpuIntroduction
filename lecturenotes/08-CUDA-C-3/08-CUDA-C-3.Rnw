@@ -174,6 +174,7 @@ Will Landau, Prof. Jarad Niemi
 \item CUDA C built-in atomic functions
 \item Locks and mutex
 \item Warps
+\item Appendix: the atomic dot product
 \end{itemize} $\quad$ \newline
 
 Featured examples: \newline
@@ -304,6 +305,10 @@ instead of using {\tt *a\_d += 1;}
 
 \newpage
 
+\Huge
+\begin{center}
+{\bf EXAMPLE: race\_condition\_fixed.cu}
+\end{center} $\quad$ \newline \large
 
 \begin{lstlisting}[language = C]
 #include <stdio.h>
@@ -349,6 +354,7 @@ int main(){
 
 \setkeys{Gin}{width=1\textwidth} \includegraphics{race2.png} \newline \newline
 
+\huge
 We got the right answer, but the execution time was 100 times longer? Why?
 
 \newpage
@@ -400,124 +406,6 @@ For documentation, refer to the CUDA C Programming Guide (\url{http://developer.
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{14} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{15} \newpage
 
-\Huge
-\begin{center}
-{\bf EXAMPLE: THE ATOMIC DOT PRODUCT}
-\end{center}  \LARGE
-
-
-\begin{align*}
-(a_0, \ a_1, \ldots ,\  a_{15}) \bullet (b_0, \ b_1, \ldots , \ b_{15}) = a_0 b_0 + a_1 b_1 + \cdots + a_{15} b_{15}
-\end{align*} $\quad$ \newline
-The basic workflow is: \newline
-
-\begin{itemize}
-\item Pass vectors {\tt a} and {\tt b} to the GPU. \newline
-\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}. 
-
-For the case of 16-element vectors, let there be 2 blocks and 4 threads per block.
-
-\newpage \LARGE
-\begin{align*}
-\intertext{Block 0 works on:}
-&(a_0, a_1, a_2, a_3, \ a_{8}, a_{9}, a_{10}, a_{11}) \\
-&(b_0, b_1, b_2, b_3, \ b_{8}, b_{9}, b_{10}, b_{11}) \\
-\intertext{Block 1 works on:}
-&(a_4,  a_5, a_6, a_7, \ a_{12}, a_{13}, a_{14}, a_{15}) \\
-&(b_4,  b_5, b_6, b_7,\  b_{12}, b_{13}, b_{14}, b_{15}) \\
-\end{align*}
-
-\item Within each block, compute a vector of partial sums of pairwise products:
-
-\begin{align*}
-\intertext{Block 0:}
-\text{\tt cache} &= (a_0 \cdot b_0 + a_8 \cdot b_8, \ a_1 \cdot b_1 + a_9 \cdot b_9\ \ldots, \  a_3 \cdot b_3 + a_{11} \cdot b_{11})
-\intertext{Block 1:}
-\text{\tt cache} &= (a_4 \cdot b_4 + a_{12} \cdot b_{12}, \ a_5 \cdot b_5 + a_{13} \cdot b_{13},\ \ldots, \  a_7 \cdot b_7 + a_{15} \cdot b_{15})
-\end{align*}
-
-where {\tt cache} is an array in shared memory. \newline
-\item Within each block, compute the pairwise sum of {\tt cache} and write it to {\tt cache[0]}. In our example: 
-\begin{align*}
-\intertext{Block 0:}
-\text{\tt cache[0]} &= a_0 \cdot b_0 + \cdots + a_3 \cdot b_3 + a_8 \cdot b_8 + \cdots +  a_{11} \cdot b_{11}
-\intertext{Block 1:}
-\text{\tt cache[0]} &= a_4 \cdot b_4 +\cdots +  a_{7} \cdot b_7 + a_{12} \cdot b_{12} + \cdots +  a_{15} \cdot b_{15}
-\end{align*} $\quad$ \newpage
-
-
-\Huge
-\begin{center}
-{\bf SKIP THESE STEPS:}
-\end{center} $\quad \newline$
-
-
-\color{gray}
-
-\item Fill a new vector in global memory, {\tt partial\_c}, with these partial dot products: 
-\begin{align*}
-\text{ \tt partial\_c} = (\text{\tt block 0 cache[0]}, \ \text{\tt block 1 cache[0]})
-\end{align*} $\quad$ \newline
-\item Return to the CPU and compute the linear sum of \text{ \tt partial\_c} and write it to {\tt partial\_c[0]}. Then:
-
-\begin{align*}
-\text{\tt partial\_c[0] }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
-\end{align*}
-\newpage
-
-\Huge
-\begin{center}
-{\bf \color{black} INSTEAD:}
-\end{center} \quad $\newline$
-
-
-
-\item \color{blue} Within {\tt dot()}, ATOMICALLY ADD each block's copy of {\tt cache[0]} to the integer {\tt c}. Then:
-
-\begin{align*}
-\text{\tt c }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
-\end{align*}
-
-
-
-
-\end{itemize}
-
-\color{black}
-
-
-
-
-\color{black}
-\newpage
-
-\Huge
-\begin{center}
-{\bf dot\_product\_atomic\_builtin.cu}
-\end{center} 
-
-\lstinputlisting[language = C]{dot_product_atomic_builtin.cu}
-\newpage
-
-\Huge
-\begin{center}
-{\bf OUTPUT}
-\end{center} $\quad$ \newline
-
-\begin{lstlisting}[language = bash]
-[landau@impact1 dot_product_atomic_builtin]$ nvcc dot_product_atomic_builtin.cu -arch sm_20 -o dot
-[landau@impact1 dot_product_atomic_builtin]$ ./dot
-Does GPU value 2.76217e+22 = 2.76217e+22?
-[landau@impact1 dot_product_atomic_builtin]$ 
-\end{lstlisting} $\quad$ \newline
-
-Again, if you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. 
-
-\newpage
-
-\color{black}
-
-
 
 
 
@@ -531,9 +419,37 @@ Again, if you're using any of the above functions in your code, compile with the
 {\bf LOCKS}
 \end{center} $\quad$ \newline
 
-{\bf Lock}: a mechanism in parallel computing that forces a block of code to be executed atomically.  \newline
+{\bf Lock}: a mechanism in parallel computing that forces an entire segment of code to be executed atomically.  \newline
 
 {\bf mutex}: short for ``mutual exclusion", the idea behind locks: while a thread is running code inside a lock, it blocks all other threads from running the code.
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf THE CONCEPT}
+\end{center} $\quad$ \newline
+
+
+\begin{lstlisting}
+__global__ void someKernel( void ){
+
+  // some parallel code
+
+   Lock mylock;   
+   mylock.lock();
+   
+   // some sequential code
+   
+   mylock.unlock();
+   
+   // some parallel code
+}
+\end{lstlisting}
+
+
+
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop} \newpage
 
 \newpage \Large
 lock.h: \newline
@@ -574,36 +490,9 @@ __device__ void lock( void ) {
 \end{verbatim} $\quad$ \newpage
 
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop} \newpage
-
 \LARGE
 \begin{center}
-{\bf {\tt dot\_product\_atomic\_lock.cu}: THE ATOMIC DOT PRODUCT WITH LOCKS}
-\end{center} $\quad$ \newline
-
-\lstinputlisting[language = C]{dot_product_atomic_lock.cu}
-
-\newpage
-
-\Huge
-\begin{center}
-{\bf OUTPUT}
-\end{center} $\quad$ \newline
-
-\begin{lstlisting}[language = bash]
-[landau@impact1 dot_product_atomic_lock]$ nvcc dot_product_atomic_lock.cu -arch sm_20 -o dot
-[landau@impact1 dot_product_atomic_lock]$ ./dot
-Does GPU value 2.76217e+22 = 2.76217e+22?
-[landau@impact1 dot_product_atomic_lock]$ 
-\end{lstlisting} $\quad$ \newline
-
-NOTE: we still need {\tt -arch sm\_20} because the lock relies on built-in atomic functions.
-
-\newpage
-
-\LARGE
-\begin{center}
-{\bf ANOTHER EXAMPLE: COUNTING THE NUMBER OF BLOCKS}
+{\bf EXAMPLE: COUNTING THE NUMBER OF BLOCKS}
 \end{center} 
 
 \Large
@@ -819,6 +708,7 @@ __device__ void lock( void ) {
 \item CUDA C built-in atomic functions
 \item Locks and mutex
 \item Warps
+\item Appendix: the atomic dot product
 \end{itemize} $\quad$ \newline
 
 Featured examples: \newline
@@ -855,7 +745,6 @@ After logging into you home directory on impact1, type: \newline
 into the command line to download all the course materials.
 
 
-
 \newpage
 \Huge
 \begin{center}
@@ -865,6 +754,149 @@ into the command line to download all the course materials.
 NVIDIA CUDA C Programming Guide. Version 3.2. 2010.  \newline
 
 J. Sanders and E. Kandrot. {\it CUDA by Example}. Addison-Wesley, 2010. 
+
+
+\newpage
+\Huge
+\begin{center}
+{\bf APPENDIX: THE ATOMIC DOT PRODUCT}
+\end{center}  \LARGE
+
+
+\begin{align*}
+(a_0, \ a_1, \ldots ,\  a_{15}) \bullet (b_0, \ b_1, \ldots , \ b_{15}) = a_0 b_0 + a_1 b_1 + \cdots + a_{15} b_{15}
+\end{align*} $\quad$ \newline
+The basic workflow is: \newline
+
+\begin{itemize}
+\item Pass vectors {\tt a} and {\tt b} to the GPU. \newline
+\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}. 
+
+For the case of 16-element vectors, let there be 2 blocks and 4 threads per block.
+
+\newpage \LARGE
+\begin{align*}
+\intertext{Block 0 works on:}
+&(a_0, a_1, a_2, a_3, \ a_{8}, a_{9}, a_{10}, a_{11}) \\
+&(b_0, b_1, b_2, b_3, \ b_{8}, b_{9}, b_{10}, b_{11}) \\
+\intertext{Block 1 works on:}
+&(a_4,  a_5, a_6, a_7, \ a_{12}, a_{13}, a_{14}, a_{15}) \\
+&(b_4,  b_5, b_6, b_7,\  b_{12}, b_{13}, b_{14}, b_{15}) \\
+\end{align*}
+
+\item Within each block, compute a vector of partial sums of pairwise products:
+
+\begin{align*}
+\intertext{Block 0:}
+\text{\tt cache} &= (a_0 \cdot b_0 + a_8 \cdot b_8, \ a_1 \cdot b_1 + a_9 \cdot b_9\ \ldots, \  a_3 \cdot b_3 + a_{11} \cdot b_{11})
+\intertext{Block 1:}
+\text{\tt cache} &= (a_4 \cdot b_4 + a_{12} \cdot b_{12}, \ a_5 \cdot b_5 + a_{13} \cdot b_{13},\ \ldots, \  a_7 \cdot b_7 + a_{15} \cdot b_{15})
+\end{align*}
+
+where {\tt cache} is an array in shared memory. \newline
+\item Within each block, compute the pairwise sum of {\tt cache} and write it to {\tt cache[0]}. In our example: 
+\begin{align*}
+\intertext{Block 0:}
+\text{\tt cache[0]} &= a_0 \cdot b_0 + \cdots + a_3 \cdot b_3 + a_8 \cdot b_8 + \cdots +  a_{11} \cdot b_{11}
+\intertext{Block 1:}
+\text{\tt cache[0]} &= a_4 \cdot b_4 +\cdots +  a_{7} \cdot b_7 + a_{12} \cdot b_{12} + \cdots +  a_{15} \cdot b_{15}
+\end{align*} $\quad$ \newpage
+
+
+\Huge
+\begin{center}
+{\bf SKIP THESE STEPS:}
+\end{center} $\quad \newline$
+
+
+\color{gray}
+
+\item Fill a new vector in global memory, {\tt partial\_c}, with these partial dot products: 
+\begin{align*}
+\text{ \tt partial\_c} = (\text{\tt block 0 cache[0]}, \ \text{\tt block 1 cache[0]})
+\end{align*} $\quad$ \newline
+\item Return to the CPU and compute the linear sum of \text{ \tt partial\_c} and write it to {\tt partial\_c[0]}. Then:
+
+\begin{align*}
+\text{\tt partial\_c[0] }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
+\end{align*}
+\newpage
+
+\Huge
+\begin{center}
+{\bf \color{black} INSTEAD:}
+\end{center} \quad $\newline$
+
+
+
+\item \color{blue} Within {\tt dot()}, ATOMICALLY ADD each block's copy of {\tt cache[0]} to the integer {\tt c}. Then:
+
+\begin{align*}
+\text{\tt c }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
+\end{align*}
+
+
+
+
+\end{itemize}
+
+\color{black}
+
+
+
+
+\color{black}
+\newpage
+
+\Huge
+\begin{center}
+{\bf dot\_product\_atomic\_builtin.cu}
+\end{center} 
+
+\lstinputlisting[language = C]{dot_product_atomic_builtin.cu}
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 dot_product_atomic_builtin]$ nvcc dot_product_atomic_builtin.cu -arch sm_20 -o dot
+[landau@impact1 dot_product_atomic_builtin]$ ./dot
+Does GPU value 2.76217e+22 = 2.76217e+22?
+[landau@impact1 dot_product_atomic_builtin]$ 
+\end{lstlisting} $\quad$ \newline
+
+Again, if you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. 
+
+\newpage
+
+\color{black}
+
+
+\LARGE
+\begin{center}
+{\bf {\tt dot\_product\_atomic\_lock.cu}: THE ATOMIC DOT PRODUCT WITH LOCKS}
+\end{center} $\quad$ \newline
+
+\lstinputlisting[language = C]{dot_product_atomic_lock.cu}
+
+\newpage
+
+\Huge
+\begin{center}
+{\bf OUTPUT}
+\end{center} $\quad$ \newline
+
+\begin{lstlisting}[language = bash]
+[landau@impact1 dot_product_atomic_lock]$ nvcc dot_product_atomic_lock.cu -arch sm_20 -o dot
+[landau@impact1 dot_product_atomic_lock]$ ./dot
+Does GPU value 2.76217e+22 = 2.76217e+22?
+[landau@impact1 dot_product_atomic_lock]$ 
+\end{lstlisting} $\quad$ \newline
+
+NOTE: we still need {\tt -arch sm\_20} because the lock relies on built-in atomic functions.
 
 
 \end{flushleft}
