@@ -21,6 +21,8 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{url}
+\usepackage{hyperref}
 \usepackage{wrapfig}
 \usepackage{multirow}
 \usepackage{subfig}
@@ -28,6 +30,15 @@
 
 \usepackage{listings}
 \usepackage{color}
+ 
+ \hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
  
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -171,6 +182,7 @@ Featured examples: \newline
 \item {\tt dot\_product\_atomic\_builtin.cu}
 \item {\tt dot\_product\_atomic\_lock.cu}
 \item {\tt race\_condition.cu}
+\item {\tt race\_condition\_fixed.cu}
 \item {\tt blockCounter.cu}
 \end{itemize} 
 
@@ -241,7 +253,21 @@ int main(){
   cudaMalloc((void**) &a_d, sizeof(int));
   cudaMemcpy(a_d, &a, sizeof(int), cudaMemcpyHostToDevice);
 
+  float   elapsedTime;
+  cudaEvent_t start, stop;
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord( start, 0 );
+
   colonel<<<1000,1000>>>(a_d); 
+  
+  cudaEventRecord( stop, 0 );
+  cudaEventSynchronize( stop );
+  cudaEventElapsedTime( &elapsedTime, start, stop );
+  cudaEventDestroy( start );
+  cudaEventDestroy( stop );
+  printf("GPU Time elapsed: %f seconds\n", elapsedTime/1000.0);
+  
   
   cudaMemcpy(&a, a_d, sizeof(int), cudaMemcpyDeviceToHost);
 
@@ -253,7 +279,7 @@ int main(){
 
 \newpage
 
-\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{race} \newline \newline
+\setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{race.png} \newline \newline
 
 \Huge
 
@@ -268,22 +294,80 @@ Since we started with {\tt a} at 0, we should have gotten {\tt a} = $1000 \cdot 
 
 {\bf Atomic Operation:} A command that is executed one thread at a time, thus avoiding a race condition. \newline
 
-To avoid the race condition in our example, we atomically add 1 to x: \newline
+To avoid the race condition in our example, we atomically add 1 to {\tt *a\_d}: \newline
 
 \begin{verbatim}
-               atomicAdd( &x, 1 );
+               atomicAdd( a_d, 1 );
 \end{verbatim} $\quad$ \newline
 
-instead of using {\tt x++;}
+instead of using {\tt *a\_d += 1;}
 
-% JBN: It would really be nice to have exactly the same code you showed before, but with the atomic add, showing that it works.
+\newpage
+
+
+\begin{lstlisting}[language = C]
+#include <stdio.h>
+#include <stdlib.h>
+#include <cuda.h>
+#include <cuda_runtime.h> 
+
+__global__ void colonel(int *a_d){
+  atomicAdd( a_d, 1 );
+}
+
+int main(){
+
+  int a = 0, *a_d;
+  
+  cudaMalloc((void**) &a_d, sizeof(int));
+  cudaMemcpy(a_d, &a, sizeof(int), cudaMemcpyHostToDevice);
+
+  float   elapsedTime;
+  cudaEvent_t start, stop;
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord( start, 0 );
+
+  colonel<<<1000,1000>>>(a_d); 
+  
+  cudaEventRecord( stop, 0 );
+  cudaEventSynchronize( stop );
+  cudaEventElapsedTime( &elapsedTime, start, stop );
+  cudaEventDestroy( start );
+  cudaEventDestroy( stop );
+  printf("GPU Time elapsed: %f seconds\n", elapsedTime/1000.0);
+  
+  
+  cudaMemcpy(&a, a_d, sizeof(int), cudaMemcpyDeviceToHost);
+
+  printf("a = %d\n", a);
+  cudaFree(a_d);
+
+}
+\end{lstlisting} $\quad$ \newline
+
+
+\setkeys{Gin}{width=1\textwidth} \includegraphics{race2.png} \newline \newline
+
+We got the right answer, but the execution time was 100 times longer? Why?
 
 \newpage
 
 \Huge
 \begin{center}
-{\bf LIST OF CUDA C BUILT-IN ATOMIC FUNCTIONS}
+{\bf THINGS TO NOTE}
 \end{center} $\quad$ \newline
+
+\begin{itemize}
+\item The code slowed down because that the additions happened sequentially instead of simultaneously. 
+\item If you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. (Atomics support floating point operations only for  CUDA ``compute capability" 2.0. and above.) 
+\end{itemize}
+\newpage
+
+\huge
+\begin{center}
+{\bf LIST OF CUDA C BUILT-IN ATOMIC FUNCTIONS}
+\end{center} $\quad$ \newline \LARGE
 
 atomicAdd() \newline
 atomicSub()  \newline
@@ -294,10 +378,11 @@ atomicDec() \newline
 atomicExch() \newline
 atomicCAS() \newline
 
+For documentation, refer to the CUDA C Programming Guide (\url{http://developer.download.nvidia.com/compute/DevZone/docs/html/C/doc/CUDA_C_Programming_Guide.pdf}).  
+
 \newpage
 
 % JBN: These functions both return and store the value at the address. Why?
-% JBN: Point to the documentation for these functions, i.e. where do you find the documentation.
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{3}  \newpage
 
@@ -320,7 +405,6 @@ atomicCAS() \newline
 {\bf EXAMPLE: THE ATOMIC DOT PRODUCT}
 \end{center}  \LARGE
 
-% JBN: make clear this is contrast to performing the final summation on the CPU
 
 \begin{align*}
 (a_0, \ a_1, \ldots ,\  a_{15}) \bullet (b_0, \ b_1, \ldots , \ b_{15}) = a_0 b_0 + a_1 b_1 + \cdots + a_{15} b_{15}
@@ -329,41 +413,79 @@ The basic workflow is: \newline
 
 \begin{itemize}
 \item Pass vectors {\tt a} and {\tt b} to the GPU. \newline
-\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}, For example: 
+\item Give each block a sub vector of {\tt a} and the analogous subvector of {\tt b}. 
 
+For the case of 16-element vectors, let there be 2 blocks and 4 threads per block.
+
+\newpage \LARGE
 \begin{align*}
 \intertext{Block 0 works on:}
-&(a_0, \ a_1,\  \ldots,\  a_7) \\
-&(b_0, \ b_1,\  \ldots,\ b_7)
+&(a_0, a_1, a_2, a_3, \ a_{8}, a_{9}, a_{10}, a_{11}) \\
+&(b_0, b_1, b_2, b_3, \ b_{8}, b_{9}, b_{10}, b_{11}) \\
 \intertext{Block 1 works on:}
-&(a_8, \ a_9,\  \ldots,\  a_{15}) \\
-&(b_8, \ b_9,\  \ldots,\ b_{15})
-\end{align*}$\quad$ \newline
+&(a_4,  a_5, a_6, a_7, \ a_{12}, a_{13}, a_{14}, a_{15}) \\
+&(b_4,  b_5, b_6, b_7,\  b_{12}, b_{13}, b_{14}, b_{15}) \\
+\end{align*}
 
-\item Within each block, compute a vector of pairwise products:
+\item Within each block, compute a vector of partial sums of pairwise products:
 
 \begin{align*}
 \intertext{Block 0:}
-\text{\tt cache} &= (a_0 \cdot b_0, \ a_1 \cdot b_1, \ \ldots, \  a_7 \cdot b_7)
+\text{\tt cache} &= (a_0 \cdot b_0 + a_8 \cdot b_8, \ a_1 \cdot b_1 + a_9 \cdot b_9\ \ldots, \  a_3 \cdot b_3 + a_{11} \cdot b_{11})
 \intertext{Block 1:}
-\text{\tt cache} &= (a_8 \cdot b_8, \ a_9 \cdot b_9, \ \ldots, \  a_{15} \cdot b_{15})
+\text{\tt cache} &= (a_4 \cdot b_4 + a_{12} \cdot b_{12}, \ a_5 \cdot b_5 + a_{13} \cdot b_{13},\ \ldots, \  a_7 \cdot b_7 + a_{15} \cdot b_{15})
 \end{align*}
 
 where {\tt cache} is an array in shared memory. \newline
 \item Within each block, compute the pairwise sum of {\tt cache} and write it to {\tt cache[0]}. In our example: 
 \begin{align*}
 \intertext{Block 0:}
-\text{\tt cache[0]} &= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +  a_7 \cdot b_7
+\text{\tt cache[0]} &= a_0 \cdot b_0 + \cdots + a_3 \cdot b_3 + a_8 \cdot b_8 + \cdots +  a_{11} \cdot b_{11}
 \intertext{Block 1:}
-\text{\tt cache[0]} &= a_8 \cdot b_8 + a_9 \cdot b_9 + \cdots +  a_{15} \cdot b_{15}
+\text{\tt cache[0]} &= a_4 \cdot b_4 +\cdots +  a_{7} \cdot b_7 + a_{12} \cdot b_{12} + \cdots +  a_{15} \cdot b_{15}
+\end{align*} $\quad$ \newpage
+
+
+\Huge
+\begin{center}
+{\bf SKIP THESE STEPS:}
+\end{center} $\quad \newline$
+
+
+\color{gray}
+
+\item Fill a new vector in global memory, {\tt partial\_c}, with these partial dot products: 
+\begin{align*}
+\text{ \tt partial\_c} = (\text{\tt block 0 cache[0]}, \ \text{\tt block 1 cache[0]})
 \end{align*} $\quad$ \newline
+\item Return to the CPU and compute the linear sum of \text{ \tt partial\_c} and write it to {\tt partial\_c[0]}. Then:
+
+\begin{align*}
+\text{\tt partial\_c[0] }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
+\end{align*}
+\newpage
+
+\Huge
+\begin{center}
+{\bf \color{black} INSTEAD:}
+\end{center} \quad $\newline$
+
+
+
 \item \color{blue} Within {\tt dot()}, ATOMICALLY ADD each block's copy of {\tt cache[0]} to the integer {\tt c}. Then:
 
 \begin{align*}
 \text{\tt c }= a_0 \cdot b_0 + a_1 \cdot b_1 + \cdots +    a_{15} \cdot b_{15}
 \end{align*}
 
+
+
+
 \end{itemize}
+
+\color{black}
+
+
 
 
 \color{black}
@@ -389,9 +511,7 @@ Does GPU value 2.76217e+22 = 2.76217e+22?
 [landau@impact1 dot_product_atomic_builtin]$ 
 \end{lstlisting} $\quad$ \newline
 
-% JBN: so atomics are new to compute capability 2.0? 
-
-NOTE: If you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. \newline
+Again, if you're using any of the above functions in your code, compile with the flag, {\tt -arch sm\_20} as above. 
 
 \newpage
 
@@ -604,12 +724,10 @@ int main(){
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{locks} \newpage
 
-\Huge
+\huge
 \begin{center}
-{\bf WITH MORE THAN 1 THREAD PER BLOCK, THIS KERNEL WILL MAKE YOUR PROGRAM STALL OUT}
+{\bf WITH MORE THAN 1 THREAD PER BLOCK, THIS KERNEL WILL MAKE YOUR PROGRAM PAUSE INDEFINITELY}
 \end{center} $\quad$ \newline
- 
-% JBN: by stall do you mean stop running or run really slowly?
 
  \huge
 \begin{verbatim}
@@ -678,14 +796,14 @@ __device__ void lock( void ) {
 
 \Huge
 \begin{center}
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-$\quad$ \newline
-{\bf BEWARE THE CATCH-22!}
+{\bf KEEP TO THE SINGLE INSTRUCTION MULTIPLE DATA PARADIGM AS MUCH AS POSSIBLE}
 \end{center} $\quad$ \newline
+
+\begin{itemize}
+\item Race conditions are difficult to debug.
+\item Atomics are sequential, and therefore slow.
+\item Locks are tricky, and may cause your programs to pause indefinitely.
+\end{itemize} $\quad$ \newline
 
 % JBN: I think the last point that should be made is that an attempt should be made to eliminate locks and atomics in designing parallel algorithms. The point of this talk is to use them when they are absolutely necessary.
 
@@ -709,6 +827,7 @@ Featured examples: \newline
 \item {\tt dot\_product\_atomic\_builtin.cu}
 \item {\tt dot\_product\_atomic\_lock.cu}
 \item {\tt race\_condition.cu}
+\item {\tt race\_condition\_fixed.cu}
 \item {\tt blockCounter.cu}
 \end{itemize} 
 
