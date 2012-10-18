@@ -355,7 +355,7 @@ int main(){
 \setkeys{Gin}{width=1\textwidth} \includegraphics{race2.png} \newline \newline
 
 \huge
-We got the right answer, but the execution time was 100 times longer? Why?
+We got the right answer, but the execution time was far longer? Why?
 
 \newpage
 
@@ -646,40 +646,6 @@ Each block is divided into groups of 32 threads called warps. \newline
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{diffwarp} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{samewarp} \newpage
-\large
-Now, let's look at the lock function again:
-
-\begin{verbatim}
-__device__ void lock( void ) {
-    while( atomicCAS( mutex, 0, 1 ) != 0 );
-}
-\end{verbatim} $\quad$ \newline
-
-In pseudo-code:
-
-\begin{verbatim}
-__device__ void lock( void ) {
-  repeat{
-    do atomically{
-      
-      if(mutex == 0){
-        mutex = 1;
-        return_value = 0;
-      }
-      
-      else if(mutex == 1){
-        return_value = 1;
-      }
-      
-    } // do atomically
-    
-    if(return_value = 0)
-      exit loop;
-    
-  } // repeat
-}// lock
-\end{verbatim} $\quad$ \newpage
-
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop1} \newpage
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{lockloop2}  \newpage
 
