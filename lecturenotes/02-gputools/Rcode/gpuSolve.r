@@ -26,12 +26,12 @@ cpu_function = solve
 gpu_function = gpuSolve
 
 # global runtime parameters. MUST HAVE length(nrows) == length(ncols) !!!
-nrows = floor(10^(c(seq(from = .5, to = 3.5, by = .5), 3.75)))
+nrows = 10^(1:4) # nrows of each matrix arg
 ncols = nrows # use square matrices here
 sizes = nrows * ncols
 xs = log(nrows, base = 10) # plotted on horizontal axis
 ys = list() # plotted on vertical axis
-xlab = "Base 10 Log of Number of Rows (all matrices are square)"
+xlab = "Base 10 log number of rows (all matrices are square)"
 title = "solve() vs gpuSolve()"
 plot.name = "performance_gpuSolve"
 cols = list(cpu = "blue", gpu = "green", outlier.gpu = "black")
@@ -46,7 +46,7 @@ for(i in 1:nargs){
   progress = paste("calculating arg ", i, " of ", nargs, sep = "")
   print(progress)
 
-  args[[i]] = matrix(rpois(nrows[i]^2, lambda = 5), nrow = nrows[i])
+  args[[i]] = matrix(rnorm(sizes[i]), nrow = nrows[i])
 }
 
 print("done.")
@@ -195,8 +195,8 @@ for(time in c("user", "syst", "total")){
        pch= ".",
        col="white",
        xlab = xlab,
-       ylab = paste(c(time, "scheduled runtime (seconds)", collapse = " ")),
-       main = paste(c(time, "scheduled runtime (seconds):", title, collapse = " ")))  
+       ylab = paste(c(time, "scheduled runtime", collapse = " ")),
+       main = paste(c(time, "scheduled runtime:", title, collapse = " ")))  
 
   for(dev in c("cpu", "gpu")){
     points(xs[1], ys[[time]]$outlier.gpu, col=cols$outlier.gpu)

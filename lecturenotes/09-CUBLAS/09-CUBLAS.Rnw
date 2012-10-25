@@ -808,7 +808,7 @@ matrices $A$, $B$, $C$ & float & double & cuComplex & cuDoubleComplex \\ \hline
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{8} \newpage
 \setkeys{Gin}{width=1.25\textwidth} \includegraphics[scale=0.25,angle=0]{9} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{10} \newpage
-
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{simpleCUBLAS.png} \newpage
 
 \Huge
 \begin{center}
@@ -889,6 +889,7 @@ To go from matrix coordinates to the corresponding memory array index. \footnote
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{1} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{2} \newpage
 \setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{3} \newpage
+\setkeys{Gin}{width=1.15\textwidth} \includegraphics[scale=0.25,angle=0]{Example2.png} \newpage
 
 \Huge
 \begin{center}

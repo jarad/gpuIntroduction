@@ -11,7 +11,7 @@
  * vector v using the pairwise (cascading) sum algorithm.
  */
 
-#define N 1024 // length of vector v. MUST BE A POWER OF 2.
+#define N 1024 // length of vector v. MUST BE A POWER OF 2!!!
 
 // Fill the vector v with n random floating point numbers.
 void vfill(float* v, int n){
@@ -56,11 +56,6 @@ float lsum(float *v, int len){
 
 
 int main (void){ 
-  if(N % 2){
-    printf("\nERROR: N is not a power of 2. Exiting.\n");
-    exit(1);
-  }
-
   float *v_h, *v_d; // host and device copies of our vector, respectively
   
   // dynamically allocate memory on the host for v_h
@@ -84,7 +79,7 @@ int main (void){
   float s = lsum(v_h, N);
   
   float elapsedTime = ((float) clock() - start) / CLOCKS_PER_SEC;
-  printf("Linear Sum = %7.3f, CPU Time elapsed: %f\n", s, elapsedTime);
+  printf("Linear Sum = %7.3f, CPU Time elapsed: %f seconds\n", s, elapsedTime);
  
   // Compute the pairwise sum of the elements of v_d and store the result in v_d[0].
   // Also, time the computation.
@@ -107,7 +102,7 @@ int main (void){
   cudaMemcpy(v_h, v_d, sizeof(float), cudaMemcpyDeviceToHost );
   
   // Print the pairwise sum.
-  printf("Pairwise Sum = %7.3f, GPU Time elapsed: %f\n", v_h[0], gpuElapsedTime);
+  printf("Pairwise Sum = %7.3f, GPU Time elapsed: %f seconds\n", v_h[0], gpuElapsedTime/1000.0);
    
   // Free dynamically-allocated host memory
   free(v_h);

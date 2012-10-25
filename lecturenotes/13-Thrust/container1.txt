@@ -1,4 +1,0 @@
-[landau@impact1 container1]$ make
-nvcc container1.cu -o container1
-[landau@impact1 container1]$ ./container1
-[landau@impact1 container1]$ 
