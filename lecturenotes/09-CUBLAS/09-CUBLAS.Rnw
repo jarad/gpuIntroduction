@@ -168,7 +168,7 @@ Things on the new API but not the old:
 
 \begin{enumerate}[1. ]
 \item Include either ``cublas\_v2.h" or ``cublas.h" in your source.
-\item Compile with: {\tt \bf mvcc -lcublas your\_source.cu -o your\_binary}
+\item Compile with: {\tt \bf nvcc -lcublas your\_source.cu -o your\_binary}
 \end{enumerate} $\quad$ \newline
 Example: \newline
 
@@ -280,14 +280,14 @@ Streams provide a way to run multiple \emph{ kernels} simultaneously on the GPU.
 
 For more information, look up the following functions: \newline
 
-{\tt cudaStreamCreate()} \newline
+{\tt cublasStreamCreate()} \newline
 {\tt cublasSetStream()}
  \newpage
 
 \Huge
 \begin{center}
 {\bf CUBLAS HELPER FUNCTIONS}
-\end{center} $\quad$ \newline \Large
+\end{center} $\quad$ \newline 
 
 
 \begin{verbatim}
@@ -299,7 +299,7 @@ cublasGetMatrix()
 
 
 \newpage
-
+\Large
 \begin{verbatim}
 cublasStatus_t cublasSetVector(int n, int elemSize,
                                const void *x, int incx, void *devicePtr, int incy)
@@ -918,7 +918,7 @@ into the command line to download all the materials.
 {\bf REFERENCES}
 \end{center} $\quad$ \newline \large
 
-"CULA Programmer's Guide". CULA Tools. http://www.culatools.com/cula\_dense\_programmers\_guide/
+"CUDA Toolkit 4.2 CUBLAS Library". http://developer.download.nvidia.com/compute/DevZone/docs/html/CUDALibraries/doc/CUBLAS\_Library.pdf
 
 
 
