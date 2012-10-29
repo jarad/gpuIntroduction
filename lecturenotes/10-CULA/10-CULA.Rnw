@@ -115,7 +115,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf THE CUBLAS LIBRARY: VERSION R15}
+{\bf THE CULA LIBRARY: VERSION R15}
 \end{center} $\quad$ \newline
 
 \LARGE
@@ -127,7 +127,7 @@ Will Landau, Prof. Jarad Niemi
 
 \Huge
 \begin{center}
-{\bf WHAT IS CULA}
+{\bf WHAT IS  }
 \end{center} $\quad$ \newline \Large
 
 CULA is another set of gpu-accelerated linear algebra libraries. Essentially, it's the CUDA equivalent of LAPACK. \newline
@@ -167,7 +167,7 @@ Its routines include:
 There's also a ``convenience header" called ``cula.h", which includes both ``cula\_lapack.h and ``cula\_lapack\_device.h". \newline
 
 \Huge
-{\color{red} Note: although convenient, the standard interface is often slow because every single function writes back and forth between the CPU and the GPU.}
+{\color{red} Note: although convenient, the standard interface is slower than the device interface for multiple kernels because every single CULA function writes back and forth between the CPU and the GPU.}
 \newpage
 
 
