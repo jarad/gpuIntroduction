@@ -127,7 +127,7 @@ Will Landau, Prof. Jarad Niemi
 
 \Huge
 \begin{center}
-{\bf WHAT IS  }
+{\bf WHAT IS CULA?}
 \end{center} $\quad$ \newline \Large
 
 CULA is another set of gpu-accelerated linear algebra libraries. Essentially, it's the CUDA equivalent of LAPACK. \newline
@@ -167,7 +167,7 @@ Its routines include:
 There's also a ``convenience header" called ``cula.h", which includes both ``cula\_lapack.h and ``cula\_lapack\_device.h". \newline
 
 \Huge
-{\color{red} Note: although convenient, the standard interface is slower than the device interface for multiple kernels because every single CULA function writes back and forth between the CPU and the GPU.}
+{\color{red} Note: although convenient, the standard interface is slower than the device interface for multiple kernels because every single standard interface CULA function writes back and forth between the CPU and the GPU.}
 \newpage
 
 
@@ -317,7 +317,7 @@ parameters. \\ \hline
 \newpage
 \Huge
 \begin{center}
-{\bf AUXILIARY FUNCTIONS}
+{\bf BASIC FUNCTIONS}
 \end{center} $\quad$ \newline 
 
 \setkeys{Gin}{width=1.1\textwidth} \includegraphics[scale=0.25,angle=0]{auxiliary} \newpage
@@ -410,7 +410,7 @@ Compile and run: \newline
 {\bf EXAMPLE: CATCHING ARGUMENT ERRORS}
 \end{center} 
 
-\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{ae_s} \newpage
+\setkeys{Gin}{width=.9\textwidth} \includegraphics[scale=0.25,angle=0]{ae_s.png} \newpage
 
 Compile and run: \newline
 
