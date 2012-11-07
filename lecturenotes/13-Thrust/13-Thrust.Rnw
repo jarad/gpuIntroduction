@@ -86,6 +86,10 @@
 options(width = 50) # R output width
 @
 
+% JBN: is there a way to make all code smaller? It would be nice if it wasn't split onto multiple 
+%      slides and if the lines weren't wrapped.
+
+
 \title{The Thrust Library}
 \author{Will Landau \\ Prof. Jarad Niemi}
 \date{\today}
@@ -131,7 +135,7 @@ Thrust is the CUDA analog of the Standard Template Library (STL) of C++. It come
 \item Thrust takes care of {\tt malloc(), cudaMalloc(), free(), and cudaFree()} for you without sacrificing performance.
 \item The ``=" operator does a {cudaMemcpy()} if one vector is on the host and one is on the device.
 \item {\tt thrust::} and {\tt std::} clarify the \emph{namespace} of the function after the double colon. For example, we need to distinguish between {\tt thrust::copy()} and {\tt std::copy()}. 
-\item The ``<<" operator sends a value to an output stream, an alternative to {\tt printf()}. 
+\item The ``$<<$" operator sends a value to an output stream, an alternative to {\tt printf()}. 
 \end{itemize}
 \end{frame}
 
@@ -199,10 +203,14 @@ An iterator is a pointer with a C++ wrapper around it. The wrapper contains addi
 \lstinputlisting{iter3.txt}
 \end{frame}
 
+% JBN: why is *begin=25 the same as d_vec[1]=25 rather than d_vec[0]=25?
+
 \begin{frame}
 \frametitle{Wrap pointers to make iterators.}
 \lstinputlisting{wrap.txt}
 \end{frame}
+
+% JBN: I don't get this wrapping and unwrapping but perhaps it will be clear during the `lecture'
 
 \begin{frame}
 \frametitle{Unwrap iterators to extract pointers.}
@@ -252,6 +260,7 @@ A {\tt zip\_iterator} is a pointer associated with a vector of tuples. \q
 
 \begin{frame}
 A container one of the following template classes in the C++ Standard Template Library (STL):
+% JBN: the sentence above doesn't make any sense
 \begin{itemize}
 \item {\tt vector}
 \item {\tt deque}
@@ -301,6 +310,8 @@ Output:
 \end{frame}
 
 \subsection{Reductions}
+
+% JBN: so sum is the default reduction? and 0 is the default starting value?
 
 \begin{frame}
 \frametitle{Reductions}
@@ -353,6 +364,8 @@ The ``Reordering" utilities provides subletting and partitioning tools:
 
 \subsection{Sorting}
 
+% JBN: so this sorting happens on the GPU? Or is thrust smart enough to know when it should use the GPU?
+
 \begin{frame}[allowframebreaks]
 \frametitle{Sorting}
 {\tt thrust::sort()}:
@@ -385,5 +398,7 @@ into the command line to download all the materials.
 
 \end{frame}
 
+% JBN: sorry I couldn't give you more feedback, but a lot of this is new to me. 
+%      With that being said, it looks incredibly useful and I'm very interested to hear the topic.
 
 \end{document}
