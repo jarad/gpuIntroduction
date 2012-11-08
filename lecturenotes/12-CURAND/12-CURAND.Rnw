@@ -150,7 +150,7 @@ $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
 $\quad$ \newline
-{\bf THE CURAND LIBRARY VERSION 4.2}
+{\bf THE CURAND LIBRARY FOR CUDA VERSION 4.2}
 \end{center} $\quad$ \newline
 
 \LARGE
