@@ -259,7 +259,7 @@ A {\tt zip\_iterator} is a pointer associated with a vector of tuples. \q
 \section{Containers}
 
 \begin{frame}
-A container one of the following template classes in the C++ Standard Template Library (STL):
+A container is any of the following template classes in the C++ Standard Template Library (STL):
 % JBN: the sentence above doesn't make any sense
 \begin{itemize}
 \item {\tt vector}
