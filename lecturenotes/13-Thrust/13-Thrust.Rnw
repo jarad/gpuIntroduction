@@ -51,7 +51,7 @@
 
 \lstset{ 
   language=C,                % the language of the code
-  basicstyle= \footnotesize,           % the size of the fonts that are used for the code
+  basicstyle= \tiny,           % the size of the fonts that are used for the code
   numberstyle= \tiny \color{white},  % the style that is used for the line-numbers
   stepnumber=2,                   % the step between two line-numbers. 
   numbersep=5pt,                  % how far the line-numbers are from the code
@@ -88,7 +88,7 @@ options(width = 50) # R output width
 
 % JBN: is there a way to make all code smaller? It would be nice if it wasn't split onto multiple 
 %      slides and if the lines weren't wrapped.
-
+% WML: Just set the code listings to be \tiny, the smallest I could get.
 
 \title{The Thrust Library}
 \author{Will Landau \\ Prof. Jarad Niemi}
@@ -118,6 +118,12 @@ Thrust is the CUDA analog of the Standard Template Library (STL) of C++. It come
 \item An encapsulation of GPU/CPU communication, memory management, and other low-level tasks.
 \item High-performance GPU-accelerated algorithms such as sorting and reduction
 \end{itemize}
+
+\begin{itemize}
+\item Emerged from Komrade (deprecated) in 2009
+\item Maintained primarily by Jared Hoberock and Nathan Bell of NVIDIA.
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[allowframebreaks]
@@ -204,6 +210,7 @@ An iterator is a pointer with a C++ wrapper around it. The wrapper contains addi
 \end{frame}
 
 % JBN: why is *begin=25 the same as d_vec[1]=25 rather than d_vec[0]=25?
+% WML: That's because I incremented the pointer in the previous line.
 
 \begin{frame}
 \frametitle{Wrap pointers to make iterators.}
@@ -211,6 +218,11 @@ An iterator is a pointer with a C++ wrapper around it. The wrapper contains addi
 \end{frame}
 
 % JBN: I don't get this wrapping and unwrapping but perhaps it will be clear during the `lecture'
+% WML: I cleared up the variable names and comments, so hopefully it'll make more sense.
+%            Wrapping creates an iterator out of a pointer. You can think of wrapping as taking a pointer
+%            and putting it inside a class or struct with a bunch of other information. Among that information
+%            is whether the pointer points to something on the host or something on the device. I'll explain 
+%            more in lecture too. 
 
 \begin{frame}
 \frametitle{Unwrap iterators to extract pointers.}
@@ -259,8 +271,9 @@ A {\tt zip\_iterator} is a pointer associated with a vector of tuples. \q
 \section{Containers}
 
 \begin{frame}
-A container is any of the following template classes in the C++ Standard Template Library (STL):
+Containers are fancy data storage classes used in the Standard Template Library (STL), the CPU C++ analogue of Thrust. Examples of containers include:
 % JBN: the sentence above doesn't make any sense
+% WML: Hopefully the new sentence makes more sense.
 \begin{itemize}
 \item {\tt vector}
 \item {\tt deque}
@@ -312,6 +325,7 @@ Output:
 \subsection{Reductions}
 
 % JBN: so sum is the default reduction? and 0 is the default starting value?
+% WML: Correct.
 
 \begin{frame}
 \frametitle{Reductions}
@@ -365,6 +379,10 @@ The ``Reordering" utilities provides subletting and partitioning tools:
 \subsection{Sorting}
 
 % JBN: so this sorting happens on the GPU? Or is thrust smart enough to know when it should use the GPU?
+% WML: I believe so, although I haven't read so explicitly. I do know that STL has its own separate version of
+%            sort, which Thrust would presumably use if it were doing sort exclusively on the CPU. I don't know if 
+%            Thrust is smart enough to know when to use the GPU vs. the CPU, but I do know that Thrust does 
+%            CPU-GPU copying efficiently. 
 
 \begin{frame}[allowframebreaks]
 \frametitle{Sorting}
@@ -400,5 +418,6 @@ into the command line to download all the materials.
 
 % JBN: sorry I couldn't give you more feedback, but a lot of this is new to me. 
 %      With that being said, it looks incredibly useful and I'm very interested to hear the topic.
+% WML: No worries, I'm glad it looks useful. 
 
 \end{document}
