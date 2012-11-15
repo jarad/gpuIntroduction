@@ -4,7 +4,7 @@
 #include <cuda_runtime.h> 
 
 __global__ void colonel(int *a_d){
-  *a_d += 1;
+  atomicAdd( a_d, 1 );
 }
 
 int main(){
