@@ -119,6 +119,7 @@ Thrust is the CUDA analog of the Standard Template Library (STL) of C++. It come
 \item High-performance GPU-accelerated algorithms such as sorting and reduction
 \end{itemize}
 
+Brief history:
 \begin{itemize}
 \item Emerged from Komrade (deprecated) in 2009
 \item Maintained primarily by Jared Hoberock and Nathan Bell of NVIDIA.
@@ -173,7 +174,7 @@ Thrust is the CUDA analog of the Standard Template Library (STL) of C++. It come
 \item {\tt thrust::device\_vector<T> D;} creates a vector {\tt D} with entries of data type {\tt T} on the device.
 \item The analogous declaration for host vectors is {\tt thrust:: host\_vector<T> H;}.
 \end{itemize}
-\item An object {\tt D}of the vector template class includes the following features:
+\item An object {\tt D} of the vector template class includes the following features:
 \begin{itemize}
 \item A dynamic linear array of elements of type {\tt T}.
 \item Two \emph{iterators}:
@@ -240,14 +241,14 @@ A {\tt constant\_iterator} is a pointer with some constant value associated with
 \subsection{\tt counting\_iterator}
 \begin{frame}
 \frametitle{\tt counting\_iterator}
-A {\tt counting\_iterator} is a pointer with the value {\tt <some constant> + <offset>} associated with it. \q
+A {\tt counting\_iterator} is a pointer with the value {\tt some\_constant + offset} associated with it. \q
 \lstinputlisting{counting.txt}
 \end{frame}
 
 \subsection{\tt transform\_iterator}
 \begin{frame}[allowframebreaks]
 \frametitle{\tt transform\_iterator}
-A {\tt transform\_iterator} is a pointer with the value {\tt <some function>(<vector entry>)} associated with it. \q
+A {\tt transform\_iterator} is a pointer with the value {\tt some\_function(vector\_entry)} associated with it. \q
 \lstinputlisting{transform.txt}
 \end{frame}
 
@@ -293,8 +294,8 @@ Containers are fancy data storage classes used in the Standard Template Library 
 \frametitle{\tt container.cu}
 Thrust only implements vectors, but it's still compatible with the rest of STL's template classes:
 \lstinputlisting{container.cu}
-Output:
-\lstinputlisting{container.txt}
+%Output:
+%\lstinputlisting{container.txt}
 \end{frame}
 
 
@@ -390,6 +391,8 @@ The ``Reordering" utilities provides subletting and partitioning tools:
 \lstinputlisting{sort1.txt}
 {\tt thrust::sort\_by\_key()}:
 \lstinputlisting{sort2.txt}
+\end{frame}
+\begin{frame}[fragile]
 {\tt thrust::stable\_sort()}:
 \lstinputlisting{sort2.txt}
 \end{frame}
